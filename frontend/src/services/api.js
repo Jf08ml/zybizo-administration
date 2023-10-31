@@ -16,15 +16,15 @@ const createAxiosInstance = (baseURL) => {
   return api;
 };
 
-const apiProduct = createAxiosInstance(
-  "https://zybizo-administration-backend.vercel.app/product"
-);
-const apiProductSale = createAxiosInstance(
-  "https://zybizo-administration-backend.vercel.app/productSale"
-);
-// const apiProduct = createAxiosInstance("http://localhost:5000/api/product");
-// const apiProductSale = createAxiosInstance(
-//   "http://localhost:5000/api/productSale"
+// const apiProduct = createAxiosInstance(
+//   "https://zybizo-administration-backend.vercel.app/api/product"
 // );
+// const apiProductSale = createAxiosInstance(
+//   "https://zybizo-administration-backend.vercel.app/api/productSale"
+// );
+const apiProduct = createAxiosInstance("http://localhost:5000/api/product");
+const apiProductSale = createAxiosInstance(
+  "http://localhost:5000/api/productSale"
+);
 
 export { apiProduct, apiProductSale };

@@ -6,7 +6,14 @@ import productRoutes from "./routes/product.js";
 import productSaleRoutes from "./routes/productSale.js";
 const app = express();
 
-app.use(cors({ origin: "*" }));
+app.use(
+  cors({
+    origin:
+      process.env.NODE_ENV === "development"
+        ? "*"
+        : "http://localhost:9000/",
+  })
+);
 app.use(morgan("dev"));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));

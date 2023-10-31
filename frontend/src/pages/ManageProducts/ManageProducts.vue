@@ -1,48 +1,56 @@
 <template>
   <q-page class="q-pa-md">
     <div class="q-mb-md">
-      <q-card>
-        <q-card-section>
-          <div class="text-h6 q-mb-sm">Add Product</div>
-
-          <q-input
-            outlined
-            v-model="product.name"
-            label="Name"
-            class="q-mb-md"
-          />
-          <q-input
-            outlined
-            v-model="product.quantity"
-            type="number"
-            label="Quantity"
-            class="q-mb-md"
-          />
-          <q-input
-            outlined
-            v-model="product.batch"
-            type="number"
-            label="Batch"
-            class="q-mb-md"
-          />
-          <q-input
-            outlined
-            v-model="product.basePrice"
-            type="number"
-            label="Base price"
-            class="q-mb-md"
-          />
-          <q-input
-            outlined
-            v-model="product.salePrice"
-            type="number"
-            label="Sale price"
-            class="q-mb-md"
-          />
-
-          <q-btn label="Add" @click="addProduct" :loading="loadingAdd" />
-        </q-card-section>
-      </q-card>
+      <q-expansion-item label="Add Product" icon="add" default-closed>
+        <q-card>
+          <q-card-section>
+            <q-input
+              outlined
+              v-model="product.name"
+              label="Name"
+              class="q-mb-md"
+            />
+            <q-input
+              outlined
+              v-model="product.quantity"
+              type="number"
+              label="Quantity"
+              class="q-mb-md"
+            />
+            <q-input
+              outlined
+              v-model="product.batch"
+              type="number"
+              label="Batch"
+              class="q-mb-md"
+            />
+            <q-input
+              outlined
+              v-model="product.basePrice"
+              type="number"
+              label="Base price"
+              class="q-mb-md"
+            />
+            <q-input
+              outlined
+              v-model="product.salePrice"
+              type="number"
+              label="Sale price"
+              class="q-mb-md"
+            />
+          </q-card-section>
+          <q-card-actions vertical align="center">
+            <q-btn
+              size="md"
+              style="width: 100px"
+              label="Add"
+              @click="addProduct"
+              :loading="loadingAdd"
+            />
+          </q-card-actions>
+        </q-card>
+        <q-separator />
+      </q-expansion-item>
     </div>
 
     <!-- Visualización de productos en tarjetas -->
@@ -105,7 +113,7 @@
 
 <script setup>
 import { ref, onBeforeMount } from "vue";
-import { formatPrice  } from "../../utils/utilsFunctions.js";
+import { formatPrice } from "../../utils/utilsFunctions.js";
 import { createProduct, getProducts } from "../../services/productService.js";
 import { createProductSale } from "../../services/productSaleService.js";
 
