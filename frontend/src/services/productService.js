@@ -27,3 +27,15 @@ export async function getProducts() {
     return await Promise.reject(error.response.data);
   }
 }
+
+export async function deleteProduct(id) {
+  try {
+    const response = await apiProduct.get("/deleteProducts", {
+      headers: { "Cache-Control": "no-cache" },
+    });
+
+    return response.data;
+  } catch (error) {
+    return await Promise.reject(error.response.data);
+  }
+}

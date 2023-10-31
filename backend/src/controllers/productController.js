@@ -26,4 +26,19 @@ async function getProducts(req, res) {
   }
 }
 
-export { createProduct, getProducts };
+async function deleteProduct(req, res) {
+  try {
+    const productId = req.params.id;
+
+    await Product.findByIdAndDelete(productId);
+
+    res
+      .status(200)
+      .json({ result: "success", message: "Producto eliminado exitosamente" });
+  } catch (error) {
+    console.error("Error al eliminar el producto:", error);
+    res.status(500).json({ message: "Error al eliminar el producto" });
+  }
+}
+
+export { createProduct, getProducts, deleteProduct };

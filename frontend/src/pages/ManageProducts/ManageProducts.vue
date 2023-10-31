@@ -51,29 +51,46 @@
         </q-card>
         <q-separator />
       </q-expansion-item>
+      <q-separator />
     </div>
 
     <!-- Visualización de productos en tarjetas -->
-    <div class="q-gutter-md row">
-      <q-card v-for="item in products" :key="item.id" style="width: 200px">
+    <div v-if="loadingProducts" align="center">
+      <q-spinner-puff color="primary" size="5em" />
+    </div>
+    <div class="q-gutter-md row flex-center">
+      <q-card v-for="item in products" :key="item.id" style="width: 300px">
         <q-card-section>
-          <div class="text-h6">{{ item.name }}</div>
-          <div class="text-subtitle2 q-mt-sm">
-            Quantity: {{ item.quantity }}
+          <div class="text-h6">
+            {{ item.name }}
+            <q-icon v-if="item.stock > 0" color="green" name="check_circle" />
+            <q-icon v-else color="red" name="new_releases" />
           </div>
-          <div>Sold: {{ item.quantitiesSold }}</div>
-          <div>Stock: {{ item.stock }}</div>
-          <div>Batch: {{ item.batch }}</div>
-          <div>Base price: {{ formatPrice(item.basePrice) }}</div>
-          <div>Price sale: {{ formatPrice(item.salePrice) }}</div>
+          <q-separator />
+          <div class="text-caption">Quantity: {{ item.quantity }}</div>
+          <div class="text-caption">
+            Sold: {{ item.quantitiesSold }}
+          </div>
+          <div class="text-caption text-weight-bold">Stock: {{ item.stock }}</div>
+          <div class="text-caption">Batch: {{ item.batch }}</div>
+          <q-separator />
+          <div class="text-caption">
+            Base price: {{ formatPrice(item.basePrice) }}
+          </div>
+          <div class="text-caption text-weight-bold">
+            Price sale: {{ formatPrice(item.salePrice) }}
+          </div>
+          <q-separator />
         </q-card-section>
-        <q-card-actions>
+        <q-card-actions align="center">
           <q-btn
             @click="ConfirmSellProduct(item)"
             label="Sell"
             :loading="loadingSell"
+            :disabled="item.stock == 0"
           />
-          <q-btn @click="deleteProduct(item)" label="Delete" />
+          <q-btn v-if="item.sold" @click="deleteProduct(item)" label="Delete" />
+          <q-btn v-if="item.stock == 0" @click="closeBatch(item)" label="Close batch" />
         </q-card-actions>
       </q-card>
     </div>
@@ -138,6 +155,7 @@ const products = ref([]);
 const loadingAdd = ref(false);
 const loadingSell = ref(false);
 const sellDialog = ref(false);
+const loadingProducts = ref(false);
 
 onBeforeMount(async () => {
   await getAllProducts();
@@ -192,12 +210,23 @@ const saleProduct = async () => {
   loadingSell.value = false;
 };
 
+const deleteProduct = async () => {
+
+};
+
+const closeBatch = async () => {
+
+};
+
 const getAllProducts = async () => {
   try {
+    loadingProducts.value = true;
     const response = await getProducts();
     products.value = response.products;
   } catch (error) {
     console.error(error);
+  } finally {
+    loadingProducts.value = false;
   }
 };
 </script>
