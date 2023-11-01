@@ -16,18 +16,21 @@ const createAxiosInstance = (baseURL) => {
   return api;
 };
 
-// const apiProduct = createAxiosInstance(
-//   "https://zybizo-administration-backend-d2ngwsnq3-jf08ml.vercel.app/api/product"
-// );
-// const apiProductSale = createAxiosInstance(
-//   "https://zybizo-administration-backend-d2ngwsnq3-jf08ml.vercel.app/api/productSale"
-// );
-const apiProduct = createAxiosInstance("http://localhost:5000/api/product");
+const apiProduct = createAxiosInstance(
+  "https://zybizo-administration-backend-h58ggv3qj-jf08ml.vercel.app/api/product"
+);
 const apiProductSale = createAxiosInstance(
-  "http://localhost:5000/api/productSale"
+  "https://zybizo-administration-backend-h58ggv3qj-jf08ml.vercel.app/api/productSale"
 );
 const apiExpense = createAxiosInstance(
-  "http://localhost:5000/api/expense"
+  "https://zybizo-administration-backend-h58ggv3qj-jf08ml.vercel.app/api/expense"
 );
+// const apiProduct = createAxiosInstance("http://localhost:5000/api/product");
+// const apiProductSale = createAxiosInstance(
+//   "http://localhost:5000/api/productSale"
+// );
+// const apiExpense = createAxiosInstance(
+//   "http://localhost:5000/api/expense"
+// );
 
 export { apiProduct, apiProductSale, apiExpense };
