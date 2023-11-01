@@ -18,7 +18,7 @@ export async function createProduct(product) {
 
 export async function getProducts() {
   try {
-    const response = await apiProduct.get("/getProducts", {
+    const response = await apiProduct.get("/products", {
       headers: { "Cache-Control": "no-cache" },
     });
 
@@ -28,11 +28,19 @@ export async function getProducts() {
   }
 }
 
+export async function updateProduct(id, updatedFields) {
+  try {
+    const response = await apiProduct.put(`/products/${id}`, updatedFields);
+
+    return response.data;
+  } catch (error) {
+    return await Promise.reject(error.response.data);
+  }
+}
+
 export async function deleteProduct(id) {
   try {
-    const response = await apiProduct.get("/deleteProducts", {
-      headers: { "Cache-Control": "no-cache" },
-    });
+    const response = await apiProduct.delete(`/sales/${id}/return`);
 
     return response.data;
   } catch (error) {

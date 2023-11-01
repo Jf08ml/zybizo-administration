@@ -26,5 +26,8 @@ const apiProduct = createAxiosInstance("http://localhost:5000/api/product");
 const apiProductSale = createAxiosInstance(
   "http://localhost:5000/api/productSale"
 );
+const apiExpense = createAxiosInstance(
+  "http://localhost:5000/api/expense"
+);
 
-export { apiProduct, apiProductSale };
+export { apiProduct, apiProductSale, apiExpense };

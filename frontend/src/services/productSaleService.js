@@ -27,3 +27,16 @@ export async function getProductsSale() {
     return await Promise.reject(error.response.data);
   }
 }
+
+export async function handleReturn(saleId, status, returnReason, exchangeProductId) {
+  try {
+    const response = await apiProductSale.put(`/sales/${saleId}/return`, {
+      status: status,
+      returnReason: returnReason,
+      exchangeProductId: exchangeProductId,
+    });
+    return response.data;
+  } catch (error) {
+    return await Promise.reject(error.response.data);
+  }
+}

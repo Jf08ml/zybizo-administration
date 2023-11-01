@@ -4,6 +4,7 @@ import morgan from "morgan";
 import cors from "cors";
 import productRoutes from "./routes/product.js";
 import productSaleRoutes from "./routes/productSale.js";
+import expenseRoutes from "./routes/expense.js";
 const app = express();
 
 app.use(cors({ origin: "*" }));
@@ -16,6 +17,7 @@ app.use(express.urlencoded({ extended: true }));
 
 app.use("/api/product", productRoutes);
 app.use("/api/productSale", productSaleRoutes);
+app.use("/api/expense", expenseRoutes);
 
 app.get("/", (req, res) => {
   res.send("API zybizo");

@@ -68,10 +68,10 @@
           </div>
           <q-separator />
           <div class="text-caption">Quantity: {{ item.quantity }}</div>
-          <div class="text-caption">
-            Sold: {{ item.quantitiesSold }}
+          <div class="text-caption">Sold: {{ item.quantitiesSold }}</div>
+          <div class="text-caption text-weight-bold">
+            Stock: {{ item.stock }}
           </div>
-          <div class="text-caption text-weight-bold">Stock: {{ item.stock }}</div>
           <div class="text-caption">Batch: {{ item.batch }}</div>
           <q-separator />
           <div class="text-caption">
@@ -89,8 +89,16 @@
             :loading="loadingSell"
             :disabled="item.stock == 0"
           />
-          <q-btn v-if="item.sold" @click="deleteProduct(item)" label="Delete" />
-          <q-btn v-if="item.stock == 0" @click="closeBatch(item)" label="Close batch" />
+          <q-btn
+            v-if="item.quantitiesSold == 0"
+            @click="deleteItem(item)"
+            label="Delete"
+          />
+          <q-btn
+            v-if="item.stock == 0"
+            @click="dialogAddStock(item)"
+            label="Add stock"
+          />
         </q-card-actions>
       </q-card>
     </div>
@@ -98,7 +106,10 @@
       <q-dialog v-model="sellDialog" persistent>
         <q-card style="min-width: 350px">
           <q-card-section>
-            <div class="text-h6">Confirm sale {{ productSale.name }}</div>
+            <div class="text-h6">
+              Confirm sale
+              <span class="text-positive">{{ productSale.name }}</span>
+            </div>
           </q-card-section>
 
           <q-card-section class="q-pt-none">
@@ -125,13 +136,50 @@
         </q-card>
       </q-dialog>
     </div>
+    <div>
+      <q-dialog v-model="addItemStock" persistent>
+        <q-card style="min-width: 350px">
+          <q-card-section>
+            <div class="text-h6">
+              Add stock
+              <span class="text-positive">{{ productUpdate.name }}</span>
+            </div>
+          </q-card-section>
+
+          <q-card-section class="q-pt-none">
+            <q-input
+              dense
+              v-model="productUpdate.stock"
+              label="Stock"
+              autofocus
+              @keyup.enter="prompt = false"
+            />
+          </q-card-section>
+
+          <q-card-actions align="right" class="text-primary">
+            <q-btn flat label="Cancel" v-close-popup />
+            <q-btn
+              flat
+              label="Confirm"
+              v-close-popup
+              @click="sendUpdateProduct"
+            />
+          </q-card-actions>
+        </q-card>
+      </q-dialog>
+    </div>
   </q-page>
 </template>
 
 <script setup>
 import { ref, onBeforeMount } from "vue";
 import { formatPrice } from "../../utils/utilsFunctions.js";
-import { createProduct, getProducts } from "../../services/productService.js";
+import {
+  createProduct,
+  getProducts,
+  updateProduct,
+  deleteProduct,
+} from "../../services/productService.js";
 import { createProductSale } from "../../services/productSaleService.js";
 
 const product = ref({
@@ -150,12 +198,15 @@ const productSale = ref({
   productId: null,
 });
 
+const productUpdate = ref({});
+
 const products = ref([]);
 
 const loadingAdd = ref(false);
 const loadingSell = ref(false);
 const sellDialog = ref(false);
 const loadingProducts = ref(false);
+const addItemStock = ref(false);
 
 onBeforeMount(async () => {
   await getAllProducts();
@@ -210,12 +261,19 @@ const saleProduct = async () => {
   loadingSell.value = false;
 };
 
-const deleteProduct = async () => {
-
+const deleteItem = async (product) => {
+  await deleteProduct(product._id);
+  await getAllProducts();
 };
 
-const closeBatch = async () => {
+const dialogAddStock = async (product) => {
+  productUpdate.value = { ...product };
+  addItemStock.value = true;
+};
 
+const sendUpdateProduct = async () => {
+  await updateProduct(productUpdate.value._id, productUpdate.value);
+  await getAllProducts();
 };
 
 const getAllProducts = async () => {

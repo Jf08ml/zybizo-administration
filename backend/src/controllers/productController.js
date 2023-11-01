@@ -26,6 +26,24 @@ async function getProducts(req, res) {
   }
 }
 
+async function updateProduct(req, res) {
+  try {
+    const productId = req.params.id;
+    const updatedFields = req.body;
+
+    const updatedProduct = await Product.findByIdAndUpdate(productId, updatedFields, { new: true });
+    
+    if (!updatedProduct) {
+      return res.status(404).json({ result: "error", message: "Producto no encontrado" });
+    }
+
+    res.status(200).json({ result: "success", product: updatedProduct });
+  } catch (error) {
+    console.error("Error al actualizar el producto:", error);
+    res.status(500).json({ message: "Error al actualizar el producto" });
+  }
+}
+
 async function deleteProduct(req, res) {
   try {
     const productId = req.params.id;
@@ -41,4 +59,4 @@ async function deleteProduct(req, res) {
   }
 }
 
-export { createProduct, getProducts, deleteProduct };
+export { createProduct, getProducts, updateProduct, deleteProduct };

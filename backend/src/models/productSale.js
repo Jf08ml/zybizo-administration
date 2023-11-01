@@ -24,6 +24,28 @@ const productSchema = new Schema({
     default: 0,
     required: true,
   },
+  status: {
+    type: String,
+    enum: ["Done", "Refund"],
+    default: "Done",
+  },
+  returnReason: {
+    type: String,
+    enum: ["Product exchange", "Defective product", "N/A"],
+    default: "N/A",
+  },
+  refundAmount: {
+    type: Number,
+    default: 0,
+  },
+  exchangeProductId: {
+    type: Schema.Types.ObjectId,
+    ref: "Product",
+  },
+  exchangeProductPrice: {
+    type: Number,
+  },
+
   productId: {
     type: Schema.Types.ObjectId,
     ref: "Product",
