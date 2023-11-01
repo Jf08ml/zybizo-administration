@@ -17,13 +17,13 @@ const createAxiosInstance = (baseURL) => {
 };
 
 const apiProduct = createAxiosInstance(
-  "https://zybizo-administration-backend-h58ggv3qj-jf08ml.vercel.app/api/product"
+  "https://zybizo-administration-backend-ksc13n7na-jf08ml.vercel.app/api/product"
 );
 const apiProductSale = createAxiosInstance(
-  "https://zybizo-administration-backend-h58ggv3qj-jf08ml.vercel.app/api/productSale"
+  "https://zybizo-administration-backend-ksc13n7na-jf08ml.vercel.app/api/productSale"
 );
 const apiExpense = createAxiosInstance(
-  "https://zybizo-administration-backend-h58ggv3qj-jf08ml.vercel.app/api/expense"
+  "https://zybizo-administration-backend-ksc13n7na-jf08ml.vercel.app/api/expense"
 );
 // const apiProduct = createAxiosInstance("http://localhost:5000/api/product");
 // const apiProductSale = createAxiosInstance(
