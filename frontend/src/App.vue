@@ -1,5 +1,8 @@
 <template>
   <router-view />
+  <loading />
 </template>
 
-<script setup></script>
+<script setup>
+import Loading from './components/LoadingView.vue';
+</script>

@@ -22,6 +22,10 @@ const routes = [
         component: () =>
           import("pages/ExpenseManagement/ExpenseManagement.vue"),
       },
+      {
+        path: "/catalogozybizo",
+        component: () => import("pages/Catalogue/ProductCatalog.vue"),
+      },
     ],
   },
   {

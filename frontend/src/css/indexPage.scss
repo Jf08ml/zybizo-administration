@@ -1,0 +1,85 @@
+.my-picture {
+    max-width: 600px;
+    width: 90%;
+    height: auto;
+    object-fit: contain;
+    filter: grayscale(50%) sepia(25%) contrast(1.2);
+    position: relative;
+    overflow: hidden;
+}
+
+.text-shadow-long {
+    text-shadow: 4px 4px 10px rgba(0, 0, 0, 0.2);
+}
+
+.clandestine-text {
+    font-family: "Courier New", Courier, monospace;
+    color: #3e454f;
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid #3e454f;
+    padding: 10px;
+    border-radius: 5px;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.5);
+}
+
+.clandestine-neon {
+    text-shadow: 0 0 5px #fff, 0 0 10px #fff, 0 0 15px $info, 0 0 10px $info,
+        0 0 10px $info, 0 0 10px $info, 0 0 10px $info, 0 0 10px $info;
+    animation: neon-flicker 1.5s infinite alternate ease-in-out;
+    z-index: 1;
+}
+
+@keyframes neon-flicker {
+    from {
+        text-shadow: 0 0 5px #fff, 0 0 10px #fff, 0 0 15px $info, 0 0 20px $info,
+            0 0 10px $info, 0 0 10px $info, 0 0 15px $info, 0 0 25px $info;
+        color: $info;
+    }
+
+    to {
+        text-shadow: 0 0 5px $info, 0 0 10px $info, 0 0 15px $info,
+            0 0 10px $info, 0 0 10px $info, 0 0 15px $info, 0 0 20px $info,
+            0 0 75px $info;
+        color: #fff;
+    }
+}
+
+.description-text {
+    text-align: center;
+    max-width: 800px;
+    font-size: 1rem;
+    color: #3e454f;
+    margin-bottom: 20px;
+}
+
+.social-links {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+    color: $accent
+}
+
+.social-button:hover {
+    transform: translateY(-5px);
+    transition: transform 0.3s;
+}
+
+@media (max-width: 768px) {
+    .my-picture {
+        max-width: 600px;
+    }
+}
+
+@media (max-width: 450px) {
+    .my-picture {
+        max-width: 500px;
+    }
+
+    .clandestine-neon {
+        font-size: 1.8rem;
+    }
+
+    .description-text {
+        padding: 0 20px;
+    }
+}
