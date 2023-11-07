@@ -44,6 +44,12 @@ const leftDrawerOpen = ref(false);
 
 const linksList = [
   {
+    title: "Catálogo",
+    caption: "",
+    icon: "shopping_cart_checkout",
+    link: "/catalogozybizo"
+  },
+  {
     title: "Manage products",
     caption: "",
     icon: "fact_check",
