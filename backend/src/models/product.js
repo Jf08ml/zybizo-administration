@@ -29,6 +29,11 @@ const productSchema = new Schema({
     default: 0,
     required: true,
   },
+  isActiveInCatalog: {
+    type: Boolean,
+    default: false,
+    required: false,
+  },
   basePrice: {
     type: Number,
     default: 0,

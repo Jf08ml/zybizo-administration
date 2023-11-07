@@ -15,7 +15,7 @@ async function createProductSale(req, res) {
     }
 
     product.quantitiesSold = product.quantitiesSold + 1;
-    product.stock = product.stock - 1;
+    product.stock = product.stock - productSale.quantity;
     await product.save();
 
     return res

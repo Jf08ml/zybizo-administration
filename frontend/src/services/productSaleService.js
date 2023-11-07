@@ -1,7 +1,10 @@
 import { apiProductSale } from "./api.js";
+import { showLoading, hideLoading } from "../stores/loadingStore.js";
 
 export async function createProductSale(productSale) {
   try {
+    showLoading();
+
     const response = await apiProductSale.post(
       "/addProductSale",
       { productSale },
@@ -13,11 +16,15 @@ export async function createProductSale(productSale) {
     return response.data;
   } catch (error) {
     return await Promise.reject(error.response.data);
+  } finally {
+    hideLoading();
   }
 }
 
 export async function getProductsSale() {
   try {
+    showLoading();
+
     const response = await apiProductSale.get("/getProductsSale", {
       headers: { "Cache-Control": "no-cache" },
     });
@@ -25,11 +32,20 @@ export async function getProductsSale() {
     return response.data;
   } catch (error) {
     return await Promise.reject(error.response.data);
+  } finally {
+    hideLoading();
   }
 }
 
-export async function handleReturn(saleId, status, returnReason, exchangeProductId) {
+export async function handleReturn(
+  saleId,
+  status,
+  returnReason,
+  exchangeProductId
+) {
   try {
+    showLoading();
+
     const response = await apiProductSale.put(`/sales/${saleId}/return`, {
       status: status,
       returnReason: returnReason,
@@ -38,5 +54,7 @@ export async function handleReturn(saleId, status, returnReason, exchangeProduct
     return response.data;
   } catch (error) {
     return await Promise.reject(error.response.data);
+  } finally {
+    hideLoading();
   }
 }

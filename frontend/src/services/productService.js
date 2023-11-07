@@ -1,7 +1,9 @@
 import { apiProduct } from "./api.js";
+import { showLoading, hideLoading } from "../stores/loadingStore.js";
 
 export async function createProduct(product) {
   try {
+    showLoading();
     const response = await apiProduct.post(
       "/addProduct",
       { product },
@@ -13,11 +15,14 @@ export async function createProduct(product) {
     return response.data;
   } catch (error) {
     return await Promise.reject(error.response.data);
+  } finally {
+    hideLoading();
   }
 }
 
 export async function getProducts() {
   try {
+    showLoading();
     const response = await apiProduct.get("/products", {
       headers: { "Cache-Control": "no-cache" },
     });
@@ -25,25 +30,34 @@ export async function getProducts() {
     return response.data;
   } catch (error) {
     return await Promise.reject(error.response.data);
+  } finally {
+    hideLoading();
   }
 }
 
 export async function updateProduct(id, updatedFields) {
   try {
+    showLoading();
     const response = await apiProduct.put(`/products/${id}`, updatedFields);
 
     return response.data;
   } catch (error) {
     return await Promise.reject(error.response.data);
+  } finally {
+    hideLoading();
   }
 }
 
 export async function deleteProduct(id) {
   try {
-    const response = await apiProduct.delete(`/sales/${id}/return`);
+    showLoading();
+
+    const response = await apiProduct.delete(`/productRemove/${id}`);
 
     return response.data;
   } catch (error) {
     return await Promise.reject(error.response.data);
+  } finally {
+    hideLoading();
   }
 }

@@ -1,8 +1,50 @@
 <template>
-  <q-page class="flex flex-center column items-center justify-center" style="height: 90vh;">
-    <q-title class="text-center q-my-md">Bienvenido a:</q-title>
-    <q-img alt="Zybizo Bazar" src="~assets/fondo.jpeg" style="width: 100%; height: 81vh; object-fit: cover;" />
+  <q-page
+    class="flex flex-center column items-center justify-center q-pa-md"
+    style="min-height: 90vh; background: white"
+  >
+    <div
+      class="text-h3 text-weight-bold q-my-md text-center clandestine-neon"
+      style="color: #3e454f"
+    >
+      Bienvenido a la tienda clandestina
+    </div>
+
+    <div class="q-pa-md description-text">
+      En nuestra tienda, ofrecemos productos garantizados de alta calidad a
+      precios competitivos. ¡Explora nuestro catálogo y descubre los mejores
+      precios!
+    </div>
+
+    <q-img alt="Zybizo Bazar" src="~assets/fondo.jpeg" class="my-picture" />
+
+    <div class="social-links q-mt-lg">
+      <q-btn
+        flat
+        round
+        @click="redirectToWhatsApp"
+        class="q-ma-md social-button"
+      >
+        <img src="/icons/whatsapp.svg" class="social-icon" alt="WhatsApp" />
+      </q-btn>
+      <q-btn
+        flat
+        round
+        @click="redirectToInstagram"
+        class="q-ma-md social-button"
+      >
+        <img src="/icons/instagram.svg" class="social-icon" alt="Instagram" />
+      </q-btn>
+    </div>
   </q-page>
 </template>
 
-<script setup></script>
+<script setup>
+const redirectToWhatsApp = () => {
+  window.open("https://wa.me/+573229095375", "_blank");
+};
+
+const redirectToInstagram = () => {
+  window.open("https://www.instagram.com/zybizobazar", "_blank");
+};
+</script>

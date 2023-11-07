@@ -1,0 +1,28 @@
+@import "./quasar.variables.scss";
+
+::-webkit-scrollbar {
+    width: 5px;
+    height: 10px;
+}
+
+::-webkit-scrollbar-track {
+    background: $secondary;
+    border-radius: 5px;
+}
+
+::-webkit-scrollbar-thumb {
+    background: $primary;
+    border-radius: 5px;
+
+    &:hover {
+        background: darken($primary, 10%);
+    }
+}
+
+::-webkit-scrollbar-thumb:active {
+    background: darken($primary, 20%);
+}
+
+::-webkit-scrollbar-corner {
+    background: $dark;
+}
