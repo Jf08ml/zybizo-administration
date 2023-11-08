@@ -26,7 +26,7 @@
 
 <script setup>
 const redirectToWhatsApp = () => {
-  window.open("https://wa.me/+573229095375", "_blank");
+  window.open("https://wa.me/+573165892611", "_blank");
 };
 
 const redirectToInstagram = () => {

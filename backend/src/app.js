@@ -2,6 +2,7 @@ import "./config/db.js";
 import express from "express";
 import morgan from "morgan";
 import cors from "cors";
+import authRoutes from "./routes/auth";
 import productRoutes from "./routes/product.js";
 import productSaleRoutes from "./routes/productSale.js";
 import expenseRoutes from "./routes/expense.js";
@@ -14,7 +15,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 // Rutas
-
+app.use("/api/auth", authRoutes);
 app.use("/api/product", productRoutes);
 app.use("/api/productSale", productSaleRoutes);
 app.use("/api/expense", expenseRoutes);

@@ -26,14 +26,30 @@ async function getProducts(req, res) {
   }
 }
 
+async function getProductsCatalog(req, res) {
+  try {
+    const productsCatalog = await Product.find({isActiveInCatalog: true});
+    res.status(200).json({ result: "success", products: productsCatalog });
+  } catch (error) {
+    console.error("Error al obtener los productos:", error);
+    res.status(500).json({ message: "Error al obtener los productos" });
+  }
+}
+
 async function updateProduct(req, res) {
   try {
     const productId = req.params.id;
     const updatedFields = req.body;
-    const updatedProduct = await Product.findByIdAndUpdate(productId, updatedFields, { new: true });
-    
+    const updatedProduct = await Product.findByIdAndUpdate(
+      productId,
+      updatedFields,
+      { new: true }
+    );
+
     if (!updatedProduct) {
-      return res.status(404).json({ result: "error", message: "Producto no encontrado" });
+      return res
+        .status(404)
+        .json({ result: "error", message: "Producto no encontrado" });
     }
 
     res.status(200).json({ result: "success", product: updatedProduct });
@@ -58,4 +74,4 @@ async function deleteProduct(req, res) {
   }
 }
 
-export { createProduct, getProducts, updateProduct, deleteProduct };
+export { createProduct, getProducts, getProductsCatalog, updateProduct, deleteProduct };

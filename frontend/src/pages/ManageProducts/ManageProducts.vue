@@ -223,7 +223,7 @@ const createCatalogProduct = async () => {
     if (Object.keys(changes).length > 0) {
       await updateProduct(productOfCatalog.value._id, changes);
     }
-    
+    productOfCatalog.value.isActiveInCatalog = !productOfCatalog.value.isActiveInCatalog;
     await updateProduct(productOfCatalog.value._id, productOfCatalog.value);
 
     showFormCatalog.value = false;
