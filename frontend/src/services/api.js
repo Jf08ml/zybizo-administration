@@ -32,20 +32,23 @@ const createAxiosInstance = (baseURL) => {
   return api;
 };
 
-// const apiProduct = createAxiosInstance(
-//   "https://zybizo-administration-backend-ksc13n7na-jf08ml.vercel.app/api/product"
-// );
-// const apiProductSale = createAxiosInstance(
-//   "https://zybizo-administration-backend-ksc13n7na-jf08ml.vercel.app/api/productSale"
-// );
-// const apiExpense = createAxiosInstance(
-//   "https://zybizo-administration-backend-ksc13n7na-jf08ml.vercel.app/api/expense"
-// );
-const apiAuth = createAxiosInstance("http://localhost:5000/api/auth");
-const apiProduct = createAxiosInstance("http://localhost:5000/api/product");
-const apiProductSale = createAxiosInstance(
-  "http://localhost:5000/api/productSale"
+const apiAuth = createAxiosInstance(
+  "https://zybizo-bazar-services-hkz8uduac-jf08ml.vercel.app/api/auth"
 );
-const apiExpense = createAxiosInstance("http://localhost:5000/api/expense");
+const apiProduct = createAxiosInstance(
+  "https://zybizo-bazar-services-hkz8uduac-jf08ml.vercel.app/api/product"
+);
+const apiProductSale = createAxiosInstance(
+  "https://zybizo-bazar-services-hkz8uduac-jf08ml.vercel.app/api/productSale"
+);
+const apiExpense = createAxiosInstance(
+  "https://zybizo-bazar-services-hkz8uduac-jf08ml.vercel.app/api/expense"
+);
+// const apiAuth = createAxiosInstance("http://localhost:5000/api/auth");
+// const apiProduct = createAxiosInstance("http://localhost:5000/api/product");
+// const apiProductSale = createAxiosInstance(
+//   "http://localhost:5000/api/productSale"
+// );
+// c
 
 export { apiAuth, apiProduct, apiProductSale, apiExpense };
