@@ -9,6 +9,11 @@ const productSchema = new Schema({
     type: String,
     required: true,
   },
+  namePublic: {
+    type: String,
+    default: "",
+    required: false,
+  },
   quantity: {
     type: Number,
     default: 0,
@@ -32,6 +37,16 @@ const productSchema = new Schema({
   isActiveInCatalog: {
     type: Boolean,
     default: false,
+    required: false,
+  },
+  images: {
+    type: Array,
+    default: [],
+    required: false,
+  },
+  characteristics: {
+    type: String,
+    default: "",
     required: false,
   },
   basePrice: {

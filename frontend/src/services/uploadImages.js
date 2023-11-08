@@ -1,4 +1,5 @@
 import axios from "axios";
+import { showLoading, hideLoading } from "../stores/loadingStore.js";
 
 async function base64ToBlob(base64) {
   const response = await fetch(base64);
@@ -29,6 +30,8 @@ export async function uploadImagesBase64(base64String) {
 
 export async function uploadImagesFile(file) {
   try {
+    showLoading()
+
     const formData = new FormData();
     formData.append("image", file);
     formData.append("key", "70ab458cc599c4e941b44dc5aa63c282");
@@ -39,5 +42,7 @@ export async function uploadImagesFile(file) {
     return response.data.data.url;
   } catch (error) {
     return await Promise.reject(error.response ? error.response.data : error);
+  } finally {
+    hideLoading()
   }
 }

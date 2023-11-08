@@ -3,10 +3,8 @@
     <q-card-section>
       <div class="text-h6">
         {{ product.name }}
-        <q-icon
-          :color="product.stock > 0 ? 'green' : 'red'"
-          :name="product.stock > 0 ? 'check_circle' : 'new_releases'"
-        />
+        <q-icon :color="product.stock > 0 ? 'green' : 'red'"
+          :name="product.stock > 0 ? 'check_circle' : 'new_releases'" />
       </div>
       <q-separator />
       <div class="text-caption">Quantity: {{ product.quantity }}</div>
@@ -26,39 +24,17 @@
     </q-card-section>
 
     <q-card-actions align="center" class="q-gutter-sm">
-      <q-btn
-        @click="sellProduct(product)"
-        label="Sell"
-        color="green"
-        :disabled="product.stock === 0"
-        class="full-width"
-      />
+      <q-btn v-if="product.stock != 0" @click="sellProduct(product)" label="Sell" color="green"
+        :disabled="product.stock === 0" class="full-width" />
       <template v-if="product.quantitiesSold === 0 || product.stock === 0">
-        <q-btn
-          v-if="product.quantitiesSold === 0"
-          @click="deleteProduct(product)"
-          label="Delete"
-          color="red"
-          class="full-width"
-        />
-        <q-btn
-          v-if="product.stock === 0"
-          @click="addStock(product)"
-          label="Add stock"
-          color="blue"
-          class="full-width"
-        />
+        <q-btn v-if="product.quantitiesSold === 0" @click="deleteProduct(product)" label="Delete" color="red"
+          class="full-width" />
+        <q-btn v-if="product.stock === 0" @click="addStock(product)" label="Add stock" color="blue" class="full-width" />
       </template>
-      <q-btn
-        @click="changeStateCatalog(product)"
-        :label="
-          product.isActiveInCatalog
-            ? 'Inactive in catalog'
-            : 'Active in catalog'
-        "
-        :color="product.isActiveInCatalog ? 'orange' : 'green'"
-        class="full-width"
-      />
+      <q-btn @click="changeStateCatalog(product)" :label="product.isActiveInCatalog
+          ? 'Inactive in catalog'
+          : 'Active in catalog'
+        " :color="product.isActiveInCatalog ? 'orange' : 'green'" class="full-width" />
     </q-card-actions>
   </q-card>
 </template>
@@ -74,7 +50,7 @@ const emit = defineEmits([
   "sell-product",
   "delete-product",
   "add-stock",
-  create-catalog-product,
+  "create-catalog-product",
 ]);
 const sellProduct = (product) => {
   emit("sell-product", product);
@@ -98,7 +74,7 @@ const changeStateCatalog = (product) => {
   width: 100%;
 }
 
-.q-gutter-sm > * {
+.q-gutter-sm>* {
   margin-right: 8px;
   margin-bottom: 8px;
 }
