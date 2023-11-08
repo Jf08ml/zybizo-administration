@@ -33,16 +33,16 @@ const createAxiosInstance = (baseURL) => {
 };
 
 const apiAuth = createAxiosInstance(
-  "https://zybizo-bazar-services-hkz8uduac-jf08ml.vercel.app/api/auth"
+  "https://zybizo-bazar-services-ctittv2i1-jf08ml.vercel.app/api/auth"
 );
 const apiProduct = createAxiosInstance(
-  "https://zybizo-bazar-services-hkz8uduac-jf08ml.vercel.app/api/product"
+  "https://zybizo-bazar-services-ctittv2i1-jf08ml.vercel.app/api/product"
 );
 const apiProductSale = createAxiosInstance(
-  "https://zybizo-bazar-services-hkz8uduac-jf08ml.vercel.app/api/productSale"
+  "https://zybizo-bazar-services-ctittv2i1-jf08ml.vercel.app/api/productSale"
 );
 const apiExpense = createAxiosInstance(
-  "https://zybizo-bazar-services-hkz8uduac-jf08ml.vercel.app/api/expense"
+  "https://zybizo-bazar-services-ctittv2i1-jf08ml.vercel.app/api/expense"
 );
 // const apiAuth = createAxiosInstance("http://localhost:5000/api/auth");
 // const apiProduct = createAxiosInstance("http://localhost:5000/api/product");
