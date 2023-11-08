@@ -30,7 +30,6 @@ async function updateProduct(req, res) {
   try {
     const productId = req.params.id;
     const updatedFields = req.body;
-
     const updatedProduct = await Product.findByIdAndUpdate(productId, updatedFields, { new: true });
     
     if (!updatedProduct) {

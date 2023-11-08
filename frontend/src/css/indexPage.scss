@@ -1,7 +1,6 @@
 .my-picture {
-    max-width: 600px;
-    width: 90%;
-    height: auto;
+    width: 68%; /* instead of width: 35%; */
+    height: 50%; /* maintain aspect ratio */
     object-fit: contain;
     filter: grayscale(50%) sepia(25%) contrast(1.2);
     position: relative;
@@ -46,10 +45,11 @@
 
 .description-text {
     text-align: center;
-    max-width: 800px;
+    max-width: 100%; /* instead of width: 700px; */
     font-size: 1rem;
     color: #3e454f;
     margin-bottom: 20px;
+    padding: 0 20px; /* responsive padding */
 }
 
 .social-links {
@@ -63,6 +63,13 @@
     transform: translateY(-5px);
     transition: transform 0.3s;
 }
+
+.social-icon {
+    width: 30%;
+    height: auto;
+  }
+  
+  
 
 @media (max-width: 768px) {
     .my-picture {
