@@ -46,8 +46,8 @@ import { useRouter } from "vue-router";
 
 const $router = useRouter();
 const loginInfo = ref({
-  identifier: "admin@gmail.com",
-  password: "admin",
+  identifier: "",
+  password: "",
 });
 
 const onSubmit = async () => {
