@@ -13,7 +13,7 @@
 
         <q-toolbar-title> {{ fullTitle }}</q-toolbar-title>
         <q-avatar v-if="isAuthenticated" @click="logout">
-          <q-icon name="logout"></q-icon>
+          <q-icon name="bi-box-arrow-in-left" size="sm"/>
         </q-avatar>
       </q-toolbar>
     </q-header>
@@ -52,66 +52,66 @@ const linksList = [
   {
     title: "Catálogo",
     caption: "",
-    icon: "shopping_cart_checkout",
+    icon: "bi-cart-check",
     link: "/catalogozybizo",
   },
   {
     title: "Iniciar sesión",
     caption: "",
-    icon: "login",
+    icon: "bi-box-arrow-in-right",
     link: "/login",
     requiresNoAuth: true,
   },
   {
     title: "Manage products",
     caption: "",
-    icon: "fact_check",
+    icon: "bi-card-checklist",
     link: "/products",
     role: "Administrator",
   },
   {
     title: "Financial analysis",
     caption: "",
-    icon: "attach_money",
+    icon: "bi-graph-up",
     link: "/financial",
     role: "Administrator",
   },
   {
     title: "Sales management",
     caption: "",
-    icon: "price_check",
+    icon: "bi-cash-stack",
     link: "/sales",
     role: "Administrator",
   },
   {
     title: "Expense management",
     caption: "",
-    icon: "payments",
+    icon: "bi-credit-card",
     link: "/expense",
     role: "Administrator",
   },
   {
     title: "Facebook",
     caption: "/zybizo",
-    icon: "facebook",
+    icon: "bi-facebook",
     link: "https://www.facebook.com/zybizo",
   },
   {
     title: "Instagram",
     caption: "@zybizobazar",
-    icon: "instagram",
+    icon: "bi-instagram",
     link: "https://www.instagram.com/zybizobazar",
   },
   {
     title: "Whatsapp",
     caption: "@ZybizoBazar",
-    icon: "chat",
+    icon: "bi-whatsapp",
     link: "https://wa.me/+573165892611",
   },
   {
     title: "Zybizo page",
     caption: "Page official",
-    icon: "public",
+    icon: "bi-globe-americas",
     link: "",
   },
 ];
