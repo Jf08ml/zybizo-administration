@@ -52,13 +52,6 @@
     padding: 0 20px; /* responsive padding */
 }
 
-.social-links {
-    display: flex;
-    justify-content: center;
-    gap: 1rem;
-    color: $accent
-}
-
 .social-button:hover {
     transform: translateY(-5px);
     transition: transform 0.3s;
