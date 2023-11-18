@@ -63,28 +63,28 @@ const linksList = [
     requiresNoAuth: true,
   },
   {
-    title: "Manage products",
+    title: "Stock de productos",
     caption: "",
     icon: "bi-card-checklist",
     link: "/products",
     role: "Administrator",
   },
   {
-    title: "Financial analysis",
+    title: "Análisis financiero",
     caption: "",
     icon: "bi-graph-up",
     link: "/financial",
     role: "Administrator",
   },
   {
-    title: "Sales management",
+    title: "Ventas",
     caption: "",
     icon: "bi-cash-stack",
     link: "/sales",
     role: "Administrator",
   },
   {
-    title: "Expense management",
+    title: "Gastos",
     caption: "",
     icon: "bi-credit-card",
     link: "/expense",
@@ -138,7 +138,7 @@ const logout = () => {
 };
 
 const fullTitle = computed(() => {
-  const matchedLink = linksList.find((link) => link.link === $router.path);
+  const matchedLink = linksList.find((link) => link.link === $router.currentRoute.value.path);
   const subTitle = matchedLink ? matchedLink.title : "";
   return `Zybizo Bazar / ${subTitle}`;
 });

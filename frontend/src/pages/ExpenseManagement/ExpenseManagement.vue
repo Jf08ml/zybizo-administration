@@ -2,10 +2,10 @@
   <q-page class="q-pa-md">
     <q-card>
       <q-card-section>
-        <q-input v-model="expense.description" label="Description" outlined />
+        <q-input v-model="expense.description" label="Descripción" outlined />
         <q-input
           v-model.number="expense.amount"
-          label="Amount"
+          label="Cantiodad"
           type="number"
           outlined
         />
@@ -17,7 +17,7 @@
         />
       </q-card-section>
       <q-card-actions>
-        <q-btn label="Add Expense" @click="addExpense" />
+        <q-btn label="Añadir gasto" @click="addExpense" />
       </q-card-actions>
     </q-card>
     <q-separator class="q-my-md" />
