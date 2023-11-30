@@ -14,37 +14,37 @@
             </div>
             <div class="col-4">
               <div class="text-h6">{{ formatPrice(expectedProfit) }}</div>
-              <div class="text-caption text-primary">Expected profit</div>
+              <div class="text-caption text-primary">Ganancia esperada</div>
             </div>
             <div class="col-4">
               <div class="text-h6">{{ formatPrice(actualSalesIncome) }}</div>
               <div class="text-caption text-primary">
-                Income from sales made
+                Total de ventas
               </div>
             </div>
             <div class="col-4">
               <div class="text-h6">{{ formatPrice(totalRefunds) }}</div>
-              <div class="text-caption text-primary">Total refunds</div>
+              <div class="text-caption text-primary">Total reembolsos</div>
             </div>
             <div class="col-4">
               <div class="text-h6">{{ formatPrice(totalExchanges) }}</div>
-              <div class="text-caption text-primary">Total exchanges</div>
+              <div class="text-caption text-primary">Total cambios</div>
             </div>
             <div class="col-4">
               <div class="text-h6">{{ formatPrice(grossProfit) }}</div>
               <div class="text-caption text-primary">
-                Ganancia hasta el momento
+                Ganancia
               </div>
             </div>
             <div class="col-4">
               <div class="text-h6">{{ formatPrice(cashOnHand) }}</div>
               <div class="text-caption text-primary">
-                Saldo en efectivo que debería tener
+                Saldo en efectivo
               </div>
             </div>
             <div class="col-4">
               <div class="text-h6">{{ formatPrice(totalExpenses) }}</div>
-              <div class="text-caption text-primary">Total expenses</div>
+              <div class="text-caption text-primary">Gastos</div>
             </div>
           </div>
         </q-card-section>
