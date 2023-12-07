@@ -6,6 +6,8 @@ import authRoutes from "./routes/auth";
 import productRoutes from "./routes/product.js";
 import productSaleRoutes from "./routes/productSale.js";
 import expenseRoutes from "./routes/expense.js";
+import rewardRoutes from "./routes/rewards.js";
+
 const app = express();
 
 app.use(cors({ origin: "*" }));
@@ -19,6 +21,7 @@ app.use("/api/auth", authRoutes);
 app.use("/api/product", productRoutes);
 app.use("/api/productSale", productSaleRoutes);
 app.use("/api/expense", expenseRoutes);
+app.use("/api/rewards", rewardRoutes);
 
 app.get("/", (req, res) => {
   res.send("API zybizo");

@@ -11,33 +11,38 @@ const routes = [
       {
         name: "ManageProducts",
         path: "/products",
-        component: () => import("pages/ManageProducts/ManageProducts.vue"),
+        component: () => import("pages/manageProducts/ManageProducts.vue"),
       },
       {
         name: "FinancialAnalysis",
         path: "/financial",
         component: () =>
-          import("pages/FinancialAnalysis/FinancialAnalysis.vue"),
+          import("pages/financialAnalysis/financialAnalysis.vue"),
       },
       {
         name: "SalesManagement",
         path: "/sales",
-        component: () => import("pages/SalesManagement/SalesManagement.vue"),
+        component: () => import("pages/salesManagement/SalesManagement.vue"),
       },
       {
         name: "ExpenseManagement",
         path: "/expense",
         component: () =>
-          import("pages/ExpenseManagement/ExpenseManagement.vue"),
+          import("pages/expenseManagement/expenseManagement.vue"),
       },
       {
         name: "Catalogue",
         path: "/catalogozybizo",
-        component: () => import("pages/Catalogue/ProductCatalog.vue"),
+        component: () => import("pages/catalogue/ProductCatalog.vue"),
+      },
+      {
+        name: "Lottery",
+        path: "/sorteozybizo",
+        component: () => import("pages/lottery/LotteryView.vue"),
       },
       {
         path: "/Login",
-        component: () => import("pages/Login/LoginUsers.vue"),
+        component: () => import("pages/login/LoginUsers.vue"),
       },
     ],
   },

@@ -1,7 +1,12 @@
 <template>
-  <q-page class="flex flex-center column items-center justify-space-between q-pa-md w-full"
-    style="height: 100%; box-sizing: border-box;">
-    <div class="text-h3 text-weight-bold q-my-md text-center clandestine-neon" style="color: #3e454f">
+  <q-page
+    class="flex flex-center column items-center justify-space-between q-pa-md w-full"
+    style="height: 100%; box-sizing: border-box"
+  >
+    <div
+      class="text-h3 text-weight-bold q-my-md text-center clandestine-neon"
+      style="color: #3e454f"
+    >
       Bienvenido a la tienda clandestina
     </div>
 
@@ -14,11 +19,29 @@
     <q-img alt="Zybizo Bazar" src="~assets/fondo.jpeg" class="my-picture" />
 
     <div class="q-mt-lg">
-      <q-btn flat round @click="redirectToWhatsApp" class="q-ma-md social-button">
+      <q-btn
+        flat
+        round
+        @click="redirectToWhatsApp"
+        class="q-ma-md social-button"
+      >
         <q-icon name="bi-whatsapp" size="xl" color="teal"></q-icon>
       </q-btn>
-      <q-btn flat round @click="redirectToInstagram" class="q-ma-md social-button">
+      <q-btn
+        flat
+        round
+        @click="redirectToInstagram"
+        class="q-ma-md social-button"
+      >
         <q-icon name="bi-instagram" size="xl" color="pink"></q-icon>
+      </q-btn>
+      <q-btn
+        flat
+        round
+        @click="redirectToFacebook"
+        class="q-ma-md social-button"
+      >
+        <q-icon name="bi-facebook" size="xl" color="blue"></q-icon>
       </q-btn>
     </div>
   </q-page>
@@ -31,5 +54,9 @@ const redirectToWhatsApp = () => {
 
 const redirectToInstagram = () => {
   window.open("https://www.instagram.com/zybizobazar", "_blank");
+};
+
+const redirectToFacebook = () => {
+  window.open("https://www.facebook.com/zybizo", "_blank");
 };
 </script>

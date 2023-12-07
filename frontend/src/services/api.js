@@ -32,23 +32,28 @@ const createAxiosInstance = (baseURL) => {
   return api;
 };
 
-const apiAuth = createAxiosInstance(
-  "https://zybizo-bazar-services-ctittv2i1-jf08ml.vercel.app/api/auth"
-);
-const apiProduct = createAxiosInstance(
-  "https://zybizo-bazar-services-ctittv2i1-jf08ml.vercel.app/api/product"
-);
-const apiProductSale = createAxiosInstance(
-  "https://zybizo-bazar-services-ctittv2i1-jf08ml.vercel.app/api/productSale"
-);
-const apiExpense = createAxiosInstance(
-  "https://zybizo-bazar-services-ctittv2i1-jf08ml.vercel.app/api/expense"
-);
-// const apiAuth = createAxiosInstance("http://localhost:5000/api/auth");
-// const apiProduct = createAxiosInstance("http://localhost:5000/api/product");
-// const apiProductSale = createAxiosInstance(
-//   "http://localhost:5000/api/productSale"
+// const apiAuth = createAxiosInstance(
+//   "https://zybizo-bazar-services-ctittv2i1-jf08ml.vercel.app/api/auth"
 // );
-// c
+// const apiProduct = createAxiosInstance(
+//   "https://zybizo-bazar-services-ctittv2i1-jf08ml.vercel.app/api/product"
+// );
+// const apiProductSale = createAxiosInstance(
+//   "https://zybizo-bazar-services-ctittv2i1-jf08ml.vercel.app/api/productSale"
+// );
+// const apiExpense = createAxiosInstance(
+//   "https://zybizo-bazar-services-ctittv2i1-jf08ml.vercel.app/api/expense"
+// );
 
-export { apiAuth, apiProduct, apiProductSale, apiExpense };
+// const apiRewards = createAxiosInstance(
+//   "https://zybizo-bazar-services-ctittv2i1-jf08ml.vercel.app/api/rewards"
+// );
+const apiAuth = createAxiosInstance("http://localhost:5000/api/auth");
+const apiProduct = createAxiosInstance("http://localhost:5000/api/product");
+const apiProductSale = createAxiosInstance(
+  "http://localhost:5000/api/productSale"
+);
+const apiExpense = createAxiosInstance("http://localhost:5000/api/expense");
+const apiRewards = createAxiosInstance("http://localhost:5000/api/rewards");
+
+export { apiAuth, apiProduct, apiProductSale, apiExpense, apiRewards };
