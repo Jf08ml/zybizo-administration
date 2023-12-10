@@ -17,7 +17,7 @@ const routes = [
         name: "FinancialAnalysis",
         path: "/financial",
         component: () =>
-          import("pages/FinancialAnalysis/financialAnalysis.vue"),
+          import("pages/FinancialAnalysis/FinancialAnalysis.vue"),
       },
       {
         name: "SalesManagement",
@@ -28,7 +28,7 @@ const routes = [
         name: "ExpenseManagement",
         path: "/expense",
         component: () =>
-          import("pages/ExpenseManagement/expenseManagement.vue"),
+          import("pages/ExpenseManagement/ExpenseManagement.vue"),
       },
       {
         name: "Catalogue",
