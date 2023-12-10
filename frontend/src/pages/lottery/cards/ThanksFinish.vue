@@ -14,35 +14,18 @@
           productos y servicios.
         </p>
         <div>
-          <q-img
-            alt="Zybizo Bazar"
-            src="~assets/fondo.jpeg"
-            class="my-picture"
-          />
-
+          <q-img alt="Zybizo Bazar" src="~assets/fondo.jpeg" class="my-picture" />
+          <p class="text-justify"><a class="text-body1 text-red text-weight-bolder">Nota: </a>Recuerda que para reclamar tu premio deberás escribirnos, tener a la mano el
+            número de teléfono y nombre de
+            usuario de Instagram que registraste en el formulario inicial para poder recibir tu recompensa.</p>
           <div class="q-mt-lg">
-            <q-btn
-              flat
-              round
-              @click="redirectToWhatsApp"
-              class="q-ma-md social-button"
-            >
+            <q-btn flat round @click="redirectToWhatsApp" class="q-ma-md social-button">
               <q-icon name="bi-whatsapp" size="xl" color="teal"></q-icon>
             </q-btn>
-            <q-btn
-              flat
-              round
-              @click="redirectToInstagram"
-              class="q-ma-md social-button"
-            >
+            <q-btn flat round @click="redirectToInstagram" class="q-ma-md social-button">
               <q-icon name="bi-instagram" size="xl" color="pink"></q-icon>
             </q-btn>
-            <q-btn
-              flat
-              round
-              @click="redirectToFacebook"
-              class="q-ma-md social-button"
-            >
+            <q-btn flat round @click="redirectToFacebook" class="q-ma-md social-button">
               <q-icon name="bi-facebook" size="xl" color="blue"></q-icon>
             </q-btn>
           </div>

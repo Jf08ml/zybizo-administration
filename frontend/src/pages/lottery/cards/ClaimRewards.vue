@@ -14,6 +14,7 @@
         unelevated
         rounded
         color="light-blue"
+        :disabled="!selectedReward"
         label="Reclamar recompensa"
         @click="submitReward"
       />

@@ -118,7 +118,7 @@ const linksList = [
     title: "Zybizo page",
     caption: "Page official",
     icon: "bi-globe-americas",
-    link: "",
+    link: "https://www.zybizobazar.com/#/catalogozybizo",
   },
 ];
 
