@@ -1,7 +1,7 @@
 <template>
   <q-card class="flex q-mt-md column">
     <q-card-section>
-      <div class="text-h6">Selecciona tu recompensa</div>
+      <div class="text-h6">Selecciona una recompensa</div>
       <q-select
         v-model="selectedReward"
         :options="listaPremios"

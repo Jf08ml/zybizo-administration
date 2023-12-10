@@ -59,7 +59,7 @@ const saveCupon = async (cupon) => {
   try {
     const response = await createReward(infoParticipante.value);
     Notify.create({
-      message: "Premio cargado correctamente, escribenos para canejarlo!",
+      message: "¡Premio cargado correctamente, escríbenos para canjearlo!",
       color: "positive",
     });
     showRoulette.value = false;
@@ -78,7 +78,7 @@ const saveReward = async (reward) => {
   try {
     const response = await createReward(infoParticipante.value);
     Notify.create({
-      message: "Premio cargado correctamente, escribenos para canejarlo!",
+      message: "¡Premio cargado correctamente, escríbenos para canjearlo!",
       color: "positive",
     });
     showRoulette.value = false;

@@ -102,7 +102,7 @@ const generarCupon = () => {
 };
 
 const symbolsProbabilities = [
-  0.02, 0.02, 0.1, 0.1, 0.1, 0.02, 0.02, 0.02, 0.02, 0.7,
+  0.01, 0.01, 0.2, 0.2, 0.1, 0.01, 0.01, 0.01, 0.01, 1.1,
 ];
 // const symbolsProbabilities = [
 //   0, 0, 0, 0, 0, 0, 0, 0, 0, 0.7,
@@ -164,7 +164,7 @@ const spin = () => {
 .slot-column {
   width: 300px;
   height: 100%;
-  border: 2px solid #007bff;
+  border: 2px solid #2d86e6;
   border-radius: 8px;
   display: flex;
   justify-content: center;
@@ -174,7 +174,7 @@ const spin = () => {
   padding: 10px;
   font-weight: bold;
   background-color: #fff;
-  color: #007bff;
+  color: #00aeff;
   text-transform: uppercase;
 }
 
