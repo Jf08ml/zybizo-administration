@@ -10,39 +10,19 @@
         </div>
       </q-card-section>
       <q-card-actions>
-        <q-btn
-          style="background: #ff0080; color: white"
-          v-if="giros != 0"
-          :disabled="spinning"
-          @click="spin"
-          >{{ spinning ? "Girando..." : "Girar" }}</q-btn
-        >
-        <q-chip
-          v-else
-          color="red"
-          text-color="white"
-          label="Actividad finalizada, selecciona tu recompensa"
-        />
+        <q-btn style="background: #ff0080; color: white" v-if="giros != 0" :disabled="spinning" @click="spin">{{ spinning
+          ? "Girando..." : "Girar" }}</q-btn>
+        <q-chip v-else color="red" text-color="white" label="Actividad finalizada, selecciona tu recompensa" />
       </q-card-actions>
     </q-card>
 
-    <CardClaimRewards
-      v-if="giros === 0 && listaPremios.length > 0 && !todosPerdidos"
-      @submit-reward="submitReward"
-      :listaPremios="listaPremios"
-    />
+    <CardClaimRewards v-if="giros === 0 && listaPremios.length > 0 && !todosPerdidos" @submit-reward="submitReward"
+      :listaPremios="listaPremios" />
 
-    <CardCuponReward
-      v-if="giros === 0 && todosPerdidos"
-      @save-cupon="saveCupon"
-      :cuponGenerado="cuponGenerado"
-    />
+    <CardCuponReward v-if="giros === 0 && todosPerdidos" @save-cupon="saveCupon" :cuponGenerado="cuponGenerado" />
 
     <q-dialog v-model="won">
-      <CardWinOrLose
-        @añadir-premio="añadirPremio()"
-        :winningSymbol="winningSymbol"
-      />
+      <CardWinOrLose @añadir-premio="añadirPremio()" :winningSymbol="winningSymbol" />
     </q-dialog>
   </q-page>
 </template>
@@ -102,8 +82,18 @@ const generarCupon = () => {
 };
 
 const symbolsProbabilities = [
-  0.01, 0.01, 0.2, 0.2, 0.1, 0.01, 0.01, 0.01, 0.01, 1.1,
+  0.01, // "¡Auriculares + envió gratis!" aumentado a 5%
+  0.01, // "¡Auriculares sin envió gratis!"
+  0.03, // "¡Bono de $10.000!"
+  0.03, // "Descuento del 10%"
+  0.01, // "Descuento del 20%"
+  0.01, // "Descuento del 30%"
+  0.01, // "Descuento del 40%"
+  0.01, // "Descuento del 50%"
+  0.01, // "Descuento del 60%"
+  0.99, // "¡Buena suerte la proxima vez!" disminuido a 85%
 ];
+
 // const symbolsProbabilities = [
 //   0, 0, 0, 0, 0, 0, 0, 0, 0, 0.7,
 // ];
