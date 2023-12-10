@@ -11,29 +11,29 @@ const routes = [
       {
         name: "ManageProducts",
         path: "/products",
-        component: () => import("pages/manageProducts/ManageProducts.vue"),
+        component: () => import("pages/ManageProducts/ManageProducts.vue"),
       },
       {
         name: "FinancialAnalysis",
         path: "/financial",
         component: () =>
-          import("pages/financialAnalysis/financialAnalysis.vue"),
+          import("pages/FinancialAnalysis/FinancialAnalysis.vue"),
       },
       {
         name: "SalesManagement",
         path: "/sales",
-        component: () => import("pages/salesManagement/SalesManagement.vue"),
+        component: () => import("pages/SalesManagement/SalesManagement.vue"),
       },
       {
         name: "ExpenseManagement",
         path: "/expense",
         component: () =>
-          import("pages/expenseManagement/expenseManagement.vue"),
+          import("pages/ExpenseManagement/ExpenseManagement.vue"),
       },
       {
         name: "Catalogue",
         path: "/catalogozybizo",
-        component: () => import("pages/catalogue/ProductCatalog.vue"),
+        component: () => import("pages/Catalogue/ProductCatalog.vue"),
       },
       {
         name: "Lottery",
