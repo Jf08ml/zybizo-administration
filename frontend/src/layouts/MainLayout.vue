@@ -56,6 +56,12 @@ const linksList = [
     link: "/catalogozybizo",
   },
   {
+    title: "Sorteo de descuentos",
+    caption: "",
+    icon: "bi-gift-fill",
+    link: "/sorteozybizo",
+  },
+  {
     title: "Iniciar sesión",
     caption: "",
     icon: "bi-box-arrow-in-right",
