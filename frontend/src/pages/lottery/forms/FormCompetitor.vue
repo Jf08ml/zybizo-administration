@@ -43,9 +43,9 @@
 import { ref } from "vue";
 
 const infoParticipante = ref({
-  participantName: "Juan Mosquera",
-  phoneNumber: "3132735116",
-  usernameInsta: "juanfe_ls",
+  participantName: "",
+  phoneNumber: "",
+  usernameInsta: "",
 });
 
 const emit = defineEmits(["save-competitor"]);
