@@ -1,6 +1,8 @@
 .my-picture {
-    width: 68%; /* instead of width: 35%; */
-    height: 50%; /* maintain aspect ratio */
+    width: 68%;
+    /* instead of width: 35%; */
+    height: 50%;
+    /* maintain aspect ratio */
     object-fit: contain;
     filter: grayscale(50%) sepia(25%) contrast(1.2);
     position: relative;
@@ -43,13 +45,37 @@
     }
 }
 
+.clandestine-neon-red {
+    text-shadow: 0 0 5px #fff, 0 0 10px #fff, 0 0 15px $negative , 0 0 10px $negative,
+        0 0 10px $negative , 0 0 10px $negative , 0 0 10px $negative , 0 0 10px $negative;
+    animation: neon-flicker-red 1.5s infinite alternate ease-in-out;
+    z-index: 1;
+}
+
+@keyframes neon-flicker-red {
+    from {
+        text-shadow: 0 0 5px #fff, 0 0 10px #fff, 0 0 15px $negative , 0 0 20px $negative ,
+            0 0 10px $negative , 0 0 10px $negative , 0 0 15px $negative, 0 0 25px $negative;
+        color: $negative ;
+    }
+
+    to {
+        text-shadow: 0 0 5px $negative , 0 0 10px $negative , 0 0 15px $negative ,
+            0 0 10px $negative , 0 0 10px $negative , 0 0 15px $negative , 0 0 20px $negative ,
+            0 0 75px $negative ;
+        color: #fff;
+    }
+}
+
 .description-text {
     text-align: center;
-    max-width: 100%; /* instead of width: 700px; */
+    max-width: 100%;
+    /* instead of width: 700px; */
     font-size: 1rem;
     color: #3e454f;
     margin-bottom: 20px;
-    padding: 0 20px; /* responsive padding */
+    padding: 0 20px;
+    /* responsive padding */
 }
 
 .social-button:hover {
@@ -60,9 +86,9 @@
 .social-icon {
     width: 100%;
     height: auto;
-  }
-  
-  
+}
+
+
 
 @media (max-width: 768px) {
     .my-picture {
