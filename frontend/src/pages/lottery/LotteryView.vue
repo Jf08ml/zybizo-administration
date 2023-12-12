@@ -1,5 +1,7 @@
 <template>
-  <q-page class="flex flex-center column items-center justify-space-between q-pa-md w-full">
+  <q-page
+    class="flex flex-center column items-center justify-space-between q-pa-md w-full"
+  >
     <transition name="fade" mode="out-in">
       <div v-if="showWelcomeCard" key="welcome">
         <CardWelcomeLottery @change-welcome-card="changeWelcomeCard" />
@@ -8,7 +10,11 @@
         <FormCompetitor @save-competitor="saveCompetitor" />
       </div>
       <div v-else-if="showRoulette" key="roulette">
-        <RouletteAzar @save-reward="saveReward" @save-cupon="saveCupon" :competitorData="rewardCreated"/>
+        <RouletteAzar
+          @save-reward="saveReward"
+          @save-cupon="saveCupon"
+          :competitorData="rewardCreated"
+        />
       </div>
       <div v-else-if="showSorteo">
         <CardThanksFinish />
@@ -18,17 +24,17 @@
 </template>
 
 <script setup>
-import { ref } from "vue";
+import { ref, onBeforeMount } from "vue";
 import { Notify } from "quasar";
-import { useRouter } from "vue-router";
 import RouletteAzar from "./components/RouletteAzar.vue";
 import CardWelcomeLottery from "./cards/WelcomeLottery.vue";
 import FormCompetitor from "./forms/FormCompetitor.vue";
 import CardThanksFinish from "./cards/ThanksFinish.vue";
-import { createReward, updatedReward } from "../../services/rewardService";
-
-const $router = useRouter();
-
+import {
+  createReward,
+  updatedReward,
+  getAllRewards,
+} from "../../services/rewardService";
 
 const showWelcomeCard = ref(true);
 const showFormCompetitor = ref(false);
@@ -36,11 +42,38 @@ const showRoulette = ref(false);
 const showSorteo = ref(false);
 const rewardCreated = ref("");
 
+const giftsClaimed = ref({});
+
 const infoParticipante = ref({
   participantName: "",
   phoneNumber: "",
   usernameInsta: "",
 });
+
+onBeforeMount(async () => {
+  giftsClaimed.value = await getAllRewards();
+  showRandomGifts();
+});
+
+const showRandomGifts = () => {
+  const shuffledGifts = giftsClaimed.value.sort(() => 0.5 - Math.random());
+  const selectedGifts = shuffledGifts.slice(0, 10);
+
+  selectedGifts.forEach((gift, index) => {
+    setTimeout(() => {
+      Notify.create({
+        icon: "contactless",
+        html: true,
+        message: `${gift.participantName} ha ganado: ${gift.reward}`,
+        progress: true,
+        textColor: "white",
+        position: "bottom-right",
+      });
+    }, index * 5000);
+  });
+};
+
+setInterval(showRandomGifts, 60000); // 60000 milisegundos = 1 minuto
 
 const changeWelcomeCard = (state) => {
   showWelcomeCard.value = state;
@@ -74,11 +107,13 @@ const saveCupon = async (cupon) => {
   }
 };
 
-
 const saveReward = async (reward) => {
   rewardCreated.value.reward = reward;
   try {
-    const response = await updatedReward(rewardCreated.value._id, rewardCreated.value);
+    const response = await updatedReward(
+      rewardCreated.value._id,
+      rewardCreated.value
+    );
     Notify.create({
       message: "¡Premio cargado correctamente, escríbenos para canjearlo!",
       color: "positive",
@@ -111,8 +146,7 @@ const saveReward = async (reward) => {
 .fade-enter,
 .fade-leave-to
 
-/* .fade-leave-active in <2.1.8 */
-  {
+/* .fade-leave-active in <2.1.8 */ {
   opacity: 0;
 }
 </style>

@@ -3,7 +3,7 @@
     <q-card-section class="text-center">
       <span
         class="text-red text-body1"
-        v-if="winningSymbol === '¡Buena suerte la proxima vez!'"
+        v-if="winningSymbol === '¡Buena suerte la próxima vez!'"
         >Lo sentimos, {{ winningSymbol }}</span
       >
       <span class="text-green text-body1" v-else
@@ -13,6 +13,13 @@
     <q-separator />
     <q-card-actions align="right">
       <q-btn
+        v-if="winningSymbol === '¡Buena suerte la próxima vez!'"
+        color="primary"
+        label="Seguir jugando"
+        v-close-popup
+      />
+      <q-btn
+        v-else
         color="primary"
         label="Añadir a la lista"
         v-close-popup

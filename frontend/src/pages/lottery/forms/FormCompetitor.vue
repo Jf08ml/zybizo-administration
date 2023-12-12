@@ -2,7 +2,7 @@
   <q-card class="my-card q-pa-md">
     <q-card-section>
       <div class="text-h5 text-center q-pb-md">Registro del participante</div>
-      <p class="text-primary text-sm">
+      <p class="text-body2 text-primary text-sm text-justify">
         Los datos siguientes serán usados para validar entrega de recompensas
       </p>
       <q-form @submit="saveCompetitor">

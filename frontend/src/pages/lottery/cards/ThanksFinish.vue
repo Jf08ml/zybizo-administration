@@ -1,6 +1,6 @@
 <template>
   <q-page class="flex flex-center">
-    <q-card class="my-card">
+    <q-card>
       <q-card-section class="bg-green text-white">
         <div class="text-h6">¡Gracias por participar!</div>
       </q-card-section>
@@ -15,7 +15,7 @@
         </p>
         <div>
           <q-img alt="Zybizo Bazar" src="~assets/fondo.jpeg" class="my-picture" />
-          <p class="text-justify"><a class="text-body1 text-red text-weight-bolder">Nota: </a>Recuerda que para reclamar tu premio deberás escribirnos, tener a la mano el
+          <p class="text-justify"><span class="text-body1 text-red text-weight-bolder">Nota: </span>Recuerda que para reclamar tu premio deberás escribirnos, tener a la mano el
             número de teléfono y nombre de
             usuario de Instagram que registraste en el formulario inicial para poder recibir tu recompensa.</p>
           <div class="q-mt-lg">
