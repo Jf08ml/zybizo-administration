@@ -1,9 +1,11 @@
 <template>
   <q-page class="flex flex-center column w-full">
     <q-card class="flex flex-center column">
-      <q-card-section>
+      <q-card-section class="text-overline">
         <q-separator />
-        <span class="text-overline">Giros disponibles: {{ giros }} / 3</span>
+        <span>Participante: <a class="text-teal">{{ competitorData.participantName }}</a></span>
+        <q-separator />
+        <span>Giros disponibles: <a :style="giros !== 0 ? 'color: green' : 'color: red'"> {{ giros }} / 3</a></span>
         <q-separator />
         <div class="slot-column">
           <div class="slot-symbol">{{ symbols[currentSymbolIndex] }}</div>
@@ -16,12 +18,12 @@
       </q-card-actions>
     </q-card>
 
-    <CardClaimRewards v-if="giros === 0 && listaPremios.length > 0 && !todosPerdidos" @submit-reward="submitReward"
+    <CardClaimRewards v-if="listaPremios.length > 0 && !todosPerdidos" @submit-reward="submitReward"
       :listaPremios="listaPremios" />
 
     <CardCuponReward v-if="giros === 0 && todosPerdidos" @save-cupon="saveCupon" :cuponGenerado="cuponGenerado" />
 
-    <q-dialog v-model="won">
+    <q-dialog v-model="won" persistent no-backdrop-dismiss>
       <CardWinOrLose @añadir-premio="añadirPremio()" :winningSymbol="winningSymbol" />
     </q-dialog>
   </q-page>
@@ -32,6 +34,10 @@ import { ref, computed } from "vue";
 import CardClaimRewards from "../cards/ClaimRewards.vue";
 import CardCuponReward from "../cards/CuponReward.vue";
 import CardWinOrLose from "../cards/WinOrLose.vue";
+
+const props = defineProps({
+  competitorData: Object
+})
 
 const emit = defineEmits(["save-reward", "save-cupon"]);
 
@@ -82,21 +88,18 @@ const generarCupon = () => {
 };
 
 const symbolsProbabilities = [
-  0.01, // "¡Auriculares + envió gratis!" aumentado a 5%
-  0.01, // "¡Auriculares sin envió gratis!"
-  0.03, // "¡Bono de $10.000!"
-  0.03, // "Descuento del 10%"
-  0.01, // "Descuento del 20%"
-  0.01, // "Descuento del 30%"
-  0.01, // "Descuento del 40%"
-  0.01, // "Descuento del 50%"
-  0.01, // "Descuento del 60%"
-  0.99, // "¡Buena suerte la proxima vez!" disminuido a 85%
+  0.009, // "¡Auriculares + envió gratis!" 0.9%
+  0.009, // "¡Auriculares sin envió gratis!" 0.9%
+  0.04,  // "¡Bono de $10.000!" 4%
+  0.04,  // "Descuento del 10%" 4%
+  0.02,  // "Descuento del 20%" 2%
+  0.02,  // "Descuento del 30%" 2%
+  0.01,  // "Descuento del 40%" 1%
+  0.01,  // "Descuento del 50%" 1%
+  0.01,  // "Descuento del 60%" 1%
+  0.831, // "¡Buena suerte la proxima vez!" ajustado al 83.1%
 ];
 
-// const symbolsProbabilities = [
-//   0, 0, 0, 0, 0, 0, 0, 0, 0, 0.7,
-// ];
 const añadirPremio = () => {
   listaPremios.value.push(winningSymbol.value);
 };

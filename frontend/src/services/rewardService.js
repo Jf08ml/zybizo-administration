@@ -19,3 +19,22 @@ export async function createReward(reward) {
     hideLoading();
   }
 }
+
+export async function updatedReward(rewardId, reward) {
+  try {
+    showLoading();
+    const response = await apiRewards.put(
+      `/rewards/${rewardId}`,
+      { reward },
+      {
+        headers: { "Content-Type": "application/json" },
+      }
+    );
+
+    return response.data;
+  } catch (error) {
+    return await Promise.reject(error.response.data);
+  } finally {
+    hideLoading();
+  }
+}

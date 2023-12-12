@@ -1,7 +1,5 @@
 <template>
-  <q-page
-    class="flex flex-center column items-center justify-space-between q-pa-md w-full"
-  >
+  <q-page class="flex flex-center column items-center justify-space-between q-pa-md w-full">
     <transition name="fade" mode="out-in">
       <div v-if="showWelcomeCard" key="welcome">
         <CardWelcomeLottery @change-welcome-card="changeWelcomeCard" />
@@ -10,7 +8,7 @@
         <FormCompetitor @save-competitor="saveCompetitor" />
       </div>
       <div v-else-if="showRoulette" key="roulette">
-        <RouletteAzar @save-reward="saveReward" @save-cupon="saveCupon" />
+        <RouletteAzar @save-reward="saveReward" @save-cupon="saveCupon" :competitorData="rewardCreated"/>
       </div>
       <div v-else-if="showSorteo">
         <CardThanksFinish />
@@ -27,7 +25,7 @@ import RouletteAzar from "./components/RouletteAzar.vue";
 import CardWelcomeLottery from "./cards/WelcomeLottery.vue";
 import FormCompetitor from "./forms/FormCompetitor.vue";
 import CardThanksFinish from "./cards/ThanksFinish.vue";
-import { createReward } from "../../services/rewardService";
+import { createReward, updatedReward } from "../../services/rewardService";
 
 const $router = useRouter();
 
@@ -36,6 +34,7 @@ const showWelcomeCard = ref(true);
 const showFormCompetitor = ref(false);
 const showRoulette = ref(false);
 const showSorteo = ref(false);
+const rewardCreated = ref("");
 
 const infoParticipante = ref({
   participantName: "",
@@ -48,16 +47,18 @@ const changeWelcomeCard = (state) => {
   showFormCompetitor.value = !state;
 };
 
-const saveCompetitor = (competitor) => {
+const saveCompetitor = async (competitor) => {
   infoParticipante.value = { ...competitor };
+  const response = await createReward(infoParticipante.value);
+  rewardCreated.value = response.newReward;
   showRoulette.value = true;
   showFormCompetitor.value = false;
 };
 
 const saveCupon = async (cupon) => {
-  infoParticipante.value.cupon = cupon;
+  rewardCreated.value.cupon = cupon;
   try {
-    const response = await createReward(infoParticipante.value);
+    await updatedReward(rewardCreated.value._id, rewardCreated.value);
     Notify.create({
       message: "¡Premio cargado correctamente, escríbenos para canjearlo!",
       color: "positive",
@@ -73,10 +74,11 @@ const saveCupon = async (cupon) => {
   }
 };
 
+
 const saveReward = async (reward) => {
-  infoParticipante.value.reward = reward;
+  rewardCreated.value.reward = reward;
   try {
-    const response = await createReward(infoParticipante.value);
+    const response = await updatedReward(rewardCreated.value._id, rewardCreated.value);
     Notify.create({
       message: "¡Premio cargado correctamente, escríbenos para canjearlo!",
       color: "positive",
@@ -100,11 +102,17 @@ const saveReward = async (reward) => {
   box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
   border-radius: 10px;
 }
+
 .fade-enter-active,
 .fade-leave-active {
   transition: opacity 0.5s;
 }
-.fade-enter, .fade-leave-to /* .fade-leave-active in <2.1.8 */ {
+
+.fade-enter,
+.fade-leave-to
+
+/* .fade-leave-active in <2.1.8 */
+  {
   opacity: 0;
 }
 </style>

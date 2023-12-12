@@ -7,7 +7,7 @@
       <q-separator />
       <div class="text-h6 text-center">
         <p class="q-pt-md">Premio mayor: <a class="text-green">GM2 Pro</a> </p>
-        <q-img alt="Zybizo Bazar" src="~assets/imgs/img-sorteo.jpg" style="box-shadow: 0 0 5px gold; width: 400px" />
+        <q-img alt="Zybizo Bazar" src="~assets/imgs/img-sorteo.jpg" style="box-shadow: 0 0 5px gold; width: 60%" />
       </div>
       <p class="text-body1 text-justify q-mt-md"><a class="text-red text-weight-bolder">Nota: </a>Síguenos en nuestras redes
           sociales para poder recibir tus premios.</p>

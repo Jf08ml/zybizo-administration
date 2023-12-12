@@ -48,6 +48,7 @@ const apiExpense = createAxiosInstance(
 const apiRewards = createAxiosInstance(
   "https://api.zybizobazar.com/api/rewards"
 );
+
 // const apiAuth = createAxiosInstance("http://localhost:5000/api/auth");
 // const apiProduct = createAxiosInstance("http://localhost:5000/api/product");
 // const apiProductSale = createAxiosInstance(

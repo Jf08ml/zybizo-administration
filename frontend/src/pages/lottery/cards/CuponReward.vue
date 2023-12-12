@@ -4,7 +4,7 @@
       <div class="text-h6">Lo sentimos!</div>
       <p class="text-justify">
         Como no has ganado ningún premio, te llevas un descuento de $ 5.000 en
-        tu próxima compra, por favor guarda tu cupón.
+        tu próxima compra, <a class="text-weight-bolder">por favor guardalo tomando captura o copiando el codigo de tu cupón</a>.
       </p>
       <q-chip
         outline
@@ -16,7 +16,7 @@
       />
       <q-card-actions align="center">
         <q-btn color="primary" @click="saveCupon"
-          >Guardar cupón en el sistema</q-btn
+          >Enviar cupón a Zybizo Bazar</q-btn
         >
       </q-card-actions>
     </q-card-section>

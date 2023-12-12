@@ -23,7 +23,7 @@ export const createReward = async (req, res) => {
     res
       .status(201)
       .json({
-        message: "Recompensa guardada y disponible para reclamar, escribenos!",
+        newReward, message: "Recompensa guardada y disponible para reclamar, escribenos!"
       });
   } catch (error) {
     res.status(400).json({ message: error.message });
@@ -56,10 +56,10 @@ export const updateReward = async (req, res) => {
   try {
     const updatedReward = await Reward.findByIdAndUpdate(
       req.params.id,
-      req.body,
+      req.body.reward,
       { new: true }
     );
-    res.status(200).json(updatedReward);
+    res.status(200).json({ updatedReward, message: "Recompensa guardada y disponible para reclamar, escribenos!" });
   } catch (error) {
     res.status(400).json({ message: error.message });
   }
