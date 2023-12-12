@@ -7,16 +7,17 @@
       class="text-h3 text-weight-bold q-my-md text-center clandestine-neon"
       style="color: #3e454f"
     >
-      Bienvenido a la tienda clandestina
+      <p>Bienvenido a la tienda clandestina</p>
+      <p class="clandestine-neon-red">Zybizo Bazar</p>
     </div>
 
     <div class="q-pa-md description-text">
-      En nuestra tienda, ofrecemos productos garantizados de alta calidad a
+      <p>En nuestra tienda, ofrecemos productos garantizados de alta calidad a
       precios competitivos. ¡Explora nuestro catálogo y descubre los mejores
-      precios!
+      precios!</p>
     </div>
 
-    <q-img alt="Zybizo Bazar" src="~assets/fondo.jpeg" class="my-picture" />
+    <q-img alt="Zybizo Bazar" src="~assets/fondo.jpeg" class="my-picture" style="width: 30%;"/>
 
     <div class="q-mt-lg">
       <q-btn
