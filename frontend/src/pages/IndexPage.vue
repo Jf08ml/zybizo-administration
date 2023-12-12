@@ -3,21 +3,21 @@
     class="flex flex-center column items-center justify-space-between q-pa-md w-full"
     style="height: 100%; box-sizing: border-box"
   >
-    <div
+    <header
       class="text-h3 text-weight-bold q-my-md text-center clandestine-neon"
       style="color: #3e454f"
     >
       <p>Bienvenido a la tienda clandestina</p>
       <p class="clandestine-neon-red">Zybizo Bazar</p>
-    </div>
+    </header>
 
-    <div class="q-pa-md description-text">
+    <main class="q-pa-md description-text">
       <p>
         En nuestra tienda, ofrecemos productos garantizados de alta calidad a
         precios competitivos. ¡Explora nuestro catálogo y descubre los mejores
         precios!
       </p>
-    </div>
+    </main>
 
     <q-img
       alt="Zybizo Bazar"

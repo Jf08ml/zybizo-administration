@@ -10,7 +10,7 @@
         label="Recompensas"
       />
       <div>
-        <span class="text-body2"><a class="text-red text-weight-bolder">Nota: </a> Solo puedes reclamar 1.</span>
+        <p class="text-body2"><span class="text-red text-weight-bolder">Nota: </span> Solo puedes reclamar 1.</p>
       </div>
     </q-card-section>
 

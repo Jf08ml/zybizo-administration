@@ -38,3 +38,15 @@ export async function updatedReward(rewardId, reward) {
     hideLoading();
   }
 }
+
+export async function getAllRewards() {
+  try {
+    const response = await apiRewards.get(`/rewards`, {
+      headers: { "Cache-Control": "no-cache" },
+    });
+
+    return response.data;
+  } catch (error) {
+    return await Promise.reject(error.response.data);
+  }
+}
