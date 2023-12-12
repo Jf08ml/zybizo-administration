@@ -12,12 +12,19 @@
     </div>
 
     <div class="q-pa-md description-text">
-      <p>En nuestra tienda, ofrecemos productos garantizados de alta calidad a
-      precios competitivos. ¡Explora nuestro catálogo y descubre los mejores
-      precios!</p>
+      <p>
+        En nuestra tienda, ofrecemos productos garantizados de alta calidad a
+        precios competitivos. ¡Explora nuestro catálogo y descubre los mejores
+        precios!
+      </p>
     </div>
 
-    <q-img alt="Zybizo Bazar" src="~assets/fondo.jpeg" class="my-picture" style="width: 30%;"/>
+    <q-img
+      alt="Zybizo Bazar"
+      src="~assets/fondo.jpeg"
+      class="my-picture"
+      style="width: 30%"
+    />
 
     <div class="q-mt-lg">
       <q-btn
@@ -49,6 +56,8 @@
 </template>
 
 <script setup>
+import { useMeta } from "quasar";
+
 const redirectToWhatsApp = () => {
   window.open("https://wa.me/+573165892611", "_blank");
 };
@@ -60,4 +69,19 @@ const redirectToInstagram = () => {
 const redirectToFacebook = () => {
   window.open("https://www.facebook.com/zybizo", "_blank");
 };
+
+useMeta(() => ({
+  title: "Zybizo Bazar - Tienda Clandestina",
+  meta: {
+    description: {
+      name: "description",
+      content:
+        "En nuestra tienda, ofrecemos productos garantizados de alta calidad a precios competitivos. ¡Explora nuestro catálogo y descubre los mejores precios!",
+    },
+    keywords: {
+      name: "keywords",
+      content: "zybizo, tienda, bazar, productos de calidad, precios competitivos",
+    },
+  },
+}));
 </script>
