@@ -1,12 +1,17 @@
 <template>
   <q-card class="flex q-mt-md column">
     <q-card-section>
-      <div class="text-h6">Selecciona una recompensa</div>
+      <div>
+        <span class="text-body1 text-weight-bolder">Has ganado las siguientes recompensas:</span>
+      </div>
       <q-select
         v-model="selectedReward"
         :options="listaPremios"
         label="Recompensas"
       />
+      <div>
+        <span class="text-body2"><a class="text-red text-weight-bolder">Nota: </a> Solo puedes reclamar 1.</span>
+      </div>
     </q-card-section>
 
     <q-card-actions align="center">

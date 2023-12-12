@@ -14,7 +14,7 @@
     <q-card-actions align="right">
       <q-btn
         color="primary"
-        label="Añadir a premios"
+        label="Añadir a la lista"
         v-close-popup
         @click="añadirPremio()"
       />
