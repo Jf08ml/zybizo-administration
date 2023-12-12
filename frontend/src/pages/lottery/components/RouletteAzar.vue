@@ -143,7 +143,6 @@ const añadirPremio = () => {
     return;
   } else {
     listaPremios.value.push(winningSymbol.value);
-    console.log(listaPremios.value);
   }
 };
 

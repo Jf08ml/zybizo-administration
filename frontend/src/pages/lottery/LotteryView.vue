@@ -51,11 +51,21 @@ const infoParticipante = ref({
 });
 
 onBeforeMount(async () => {
-  giftsClaimed.value = await getAllRewards();
-  showRandomGifts();
+  await getGifts();
+  await showRandomGifts();
 });
 
-const showRandomGifts = () => {
+const getGifts = async () => {
+  try {
+    giftsClaimed.value = await getAllRewards();
+  } catch (error) {
+    console.error(error);
+  }
+};
+
+const showRandomGifts = async () => {
+  if (!giftsClaimed.value || giftsClaimed.value.length === 0) return;
+
   const shuffledGifts = giftsClaimed.value.sort(() => 0.5 - Math.random());
   const selectedGifts = shuffledGifts.slice(0, 10);
 
@@ -64,7 +74,9 @@ const showRandomGifts = () => {
       Notify.create({
         icon: "contactless",
         html: true,
-        message: `${gift.participantName} ha ganado: ${gift.reward}`,
+        message: gift.reward
+          ? `${gift.participantName} ha ganado: ${gift.reward}.`
+          : `${gift.participantName} ha ganado un cupon.`,
         progress: true,
         textColor: "white",
         position: "bottom-right",
@@ -73,7 +85,10 @@ const showRandomGifts = () => {
   });
 };
 
-setInterval(showRandomGifts, 60000); // 60000 milisegundos = 1 minuto
+setInterval(async () => {
+  await getGifts();
+  showRandomGifts();
+}, 60000); // 60000 milisegundos = 1 minuto
 
 const changeWelcomeCard = (state) => {
   showWelcomeCard.value = state;
