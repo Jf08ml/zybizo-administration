@@ -1,7 +1,5 @@
 <template>
-  <q-page
-    class="flex flex-center column items-center justify-space-between q-pa-md w-full"
-  >
+  <q-page class="flex flex-center column items-center justify-space-between q-pa-md w-full">
     <transition name="fade" mode="out-in">
       <div v-if="showWelcomeCard" key="welcome">
         <CardWelcomeLottery @change-welcome-card="changeWelcomeCard" />
@@ -10,11 +8,7 @@
         <FormCompetitor @save-competitor="saveCompetitor" />
       </div>
       <div v-else-if="showRoulette" key="roulette">
-        <RouletteAzar
-          @save-reward="saveReward"
-          @save-cupon="saveCupon"
-          :competitorData="rewardCreated"
-        />
+        <RouletteAzar @save-reward="saveReward" @save-cupon="saveCupon" :competitorData="rewardCreated" />
       </div>
       <div v-else-if="showSorteo">
         <CardThanksFinish />
@@ -24,7 +18,7 @@
 </template>
 
 <script setup>
-import { ref, onBeforeMount } from "vue";
+import { ref, onBeforeMount, onBeforeUnmount } from "vue";
 import { Notify } from "quasar";
 import RouletteAzar from "./components/RouletteAzar.vue";
 import CardWelcomeLottery from "./cards/WelcomeLottery.vue";
@@ -41,14 +35,15 @@ const showFormCompetitor = ref(false);
 const showRoulette = ref(false);
 const showSorteo = ref(false);
 const rewardCreated = ref("");
-
 const giftsClaimed = ref({});
-
 const infoParticipante = ref({
   participantName: "",
   phoneNumber: "",
   usernameInsta: "",
 });
+
+const intervalId = ref(null);
+const timeoutIds = ref([]);
 
 onBeforeMount(async () => {
   await getGifts();
@@ -70,7 +65,7 @@ const showRandomGifts = async () => {
   const selectedGifts = shuffledGifts.slice(0, 10);
 
   selectedGifts.forEach((gift, index) => {
-    setTimeout(() => {
+    const timeoutId = setTimeout(() => {
       Notify.create({
         icon: "contactless",
         html: true,
@@ -82,13 +77,14 @@ const showRandomGifts = async () => {
         position: "bottom-right",
       });
     }, index * 5000);
+    timeoutIds.value.push(timeoutId);
   });
 };
 
-setInterval(async () => {
+intervalId.value = setInterval(async () => {
   await getGifts();
   showRandomGifts();
-}, 60000); // 60000 milisegundos = 1 minuto
+}, 60000);
 
 const changeWelcomeCard = (state) => {
   showWelcomeCard.value = state;
@@ -143,25 +139,16 @@ const saveReward = async (reward) => {
     console.error(error);
   }
 };
+
+onBeforeUnmount(() => {
+  timeoutIds.value.forEach((id) => {
+    clearTimeout(id);
+  });
+  
+  if (intervalId.value) {
+    clearInterval(intervalId.value);
+  }
+});
 </script>
 
-<style scoped>
-.my-card {
-  width: 100%;
-  max-width: 600px;
-  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
-  border-radius: 10px;
-}
-
-.fade-enter-active,
-.fade-leave-active {
-  transition: opacity 0.5s;
-}
-
-.fade-enter,
-.fade-leave-to
-
-/* .fade-leave-active in <2.1.8 */ {
-  opacity: 0;
-}
-</style>
+<style scoped></style>
