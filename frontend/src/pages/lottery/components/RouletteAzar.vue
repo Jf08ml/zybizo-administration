@@ -60,7 +60,7 @@
 
     <q-dialog v-model="won" persistent no-backdrop-dismiss>
       <CardWinOrLose
-        @añadir-premio="añadirPremio()"
+        @añadir-premio="añadirPremio"
         :winningSymbol="winningSymbol"
       />
     </q-dialog>
@@ -126,10 +126,10 @@ const generarCupon = () => {
 };
 
 const symbolsProbabilities = [
-  0.009, // "¡Auriculares + envió gratis!" 0.9%
-  0.009, // "¡Auriculares sin envió gratis!" 0.9%
-  0.04, // "¡Bono de $10.000!" 4%
-  0.04, // "Descuento del 10%" 4%
+  0.00009, // "¡Auriculares + envió gratis!" 0.009%
+  0.00009, // "¡Auriculares sin envió gratis!" 0.009%
+  0.04941, // "¡Bono de $10.000!" 4.941%
+  0.04941, // "Descuento del 10%" 4.941%
   0.02, // "Descuento del 20%" 2%
   0.02, // "Descuento del 30%" 2%
   0.01, // "Descuento del 40%" 1%
