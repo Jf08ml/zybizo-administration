@@ -1,11 +1,8 @@
 .my-picture {
-    width: 68%;
-    /* instead of width: 35%; */
-    height: 50%;
-    /* maintain aspect ratio */
+    width: 40%;
+    height: auto;
     object-fit: contain;
     filter: grayscale(50%) sepia(25%) contrast(1.2);
-    position: relative;
     overflow: hidden;
 }
 
@@ -92,13 +89,13 @@
 
 @media (max-width: 768px) {
     .my-picture {
-        max-width: 600px;
+        width: 70%;
     }
 }
 
 @media (max-width: 450px) {
     .my-picture {
-        max-width: 500px;
+        width: 80%;
     }
 
     .clandestine-neon {

@@ -1,5 +1,7 @@
 <template>
-  <q-page class="flex flex-center column items-center justify-space-between q-pa-md w-full">
+  <q-page
+    class="flex flex-center column items-center justify-space-between q-pa-md full-width"
+  >
     <transition name="fade" mode="out-in">
       <div v-if="showWelcomeCard" key="welcome">
         <CardWelcomeLottery @change-welcome-card="changeWelcomeCard" />
@@ -8,7 +10,11 @@
         <FormCompetitor @save-competitor="saveCompetitor" />
       </div>
       <div v-else-if="showRoulette" key="roulette">
-        <RouletteAzar @save-reward="saveReward" @save-cupon="saveCupon" :competitorData="rewardCreated" />
+        <RouletteAzar
+          @save-reward="saveReward"
+          @save-cupon="saveCupon"
+          :competitorData="rewardCreated"
+        />
       </div>
       <div v-else-if="showSorteo">
         <CardThanksFinish />
@@ -144,7 +150,7 @@ onBeforeUnmount(() => {
   timeoutIds.value.forEach((id) => {
     clearTimeout(id);
   });
-  
+
   if (intervalId.value) {
     clearInterval(intervalId.value);
   }

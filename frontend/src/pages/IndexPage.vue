@@ -1,6 +1,6 @@
 <template>
   <q-page
-    class="flex flex-center column items-center justify-space-between q-pa-md w-full"
+    class="flex flex-center column items-center justify-space-between q-pa-md"
     style="height: 100%; box-sizing: border-box"
   >
     <header
@@ -21,9 +21,8 @@
 
     <q-img
       alt="Zybizo Bazar"
-      src="~assets/fondo.jpeg"
+      src="https://i.ibb.co/Gxr3GSs/fondo.jpg"
       class="my-picture"
-      style="width: 30%"
     />
 
     <div class="q-mt-lg">

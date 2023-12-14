@@ -1,5 +1,5 @@
 <template>
-  <q-page class="flex flex-center column w-full">
+  <q-page class="flex flex-center column">
     <q-card class="flex flex-center column">
       <q-card-section class="text-body1">
         <q-list>

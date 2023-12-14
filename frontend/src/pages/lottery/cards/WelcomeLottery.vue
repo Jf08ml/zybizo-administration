@@ -1,5 +1,5 @@
 <template>
-  <q-card class="my-card q-pa-md">
+  <q-card class="my-card q-pa-sm full-width">
     <q-card-section class="bg-light text-dark" align="center">
       <div class="text-h4 text-center text-primary q-pb-md">
         ¡Bienvenido al sorteo de ofertas y artículos!
@@ -11,7 +11,7 @@
         </p>
         <q-img
           alt="Zybizo Bazar"
-          src="~assets/imgs/img-sorteo.jpg"
+          src="https://i.ibb.co/zN0PqdC/img-sorteo.jpg"
           class="img-sorteo"
         />
       </div>
@@ -49,18 +49,6 @@ const changeWelcomeCard = () => {
 <style scoped>
 .img-sorteo {
   box-shadow: 0 0 5px gold;
-  width: 60%;
-}
-
-@media (max-width: 768px) {
-  .img-sorteo {
-    max-width: 100%;
-  }
-}
-
-@media (max-width: 450px) {
-  .img-sorteo {
-    width: 100%;
-  }
+  width: 100%;
 }
 </style>
