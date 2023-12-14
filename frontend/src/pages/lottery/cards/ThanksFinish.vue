@@ -14,7 +14,7 @@
           productos y servicios.
         </p>
         <div>
-          <q-img alt="Zybizo Bazar" src="~assets/fondo.jpeg" class="my-picture" />
+          <q-img alt="Zybizo Bazar" src="https://i.ibb.co/Gxr3GSs/fondo.jpg" class="my-picture" />
           <p class="text-justify"><span class="text-body1 text-red text-weight-bolder">Nota: </span>Recuerda que para reclamar tu premio deberás escribirnos, tener a la mano el
             número de teléfono y nombre de
             usuario de Instagram que registraste en el formulario inicial para poder recibir tu recompensa.</p>
