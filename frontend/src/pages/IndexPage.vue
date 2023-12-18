@@ -70,7 +70,7 @@ const redirectToFacebook = () => {
 };
 
 useMeta(() => ({
-  title: "Zybizo Bazar - Tienda Clandestina",
+  title: "Zybizo Bazar - Tienda Online",
   meta: {
     description: {
       name: "description",
