@@ -14,8 +14,8 @@ async function createProductSale(req, res) {
         .json({ result: "error", message: "Product not found" });
     }
 
-    product.quantitiesSold = product.quantitiesSold + 1;
-    product.stock = product.stock - productSale.quantity;
+    product.quantitiesSold += productSale.quantity;
+    product.stock -= productSale.quantity;
     await product.save();
 
     return res
@@ -45,53 +45,51 @@ async function handleReturn(req, res) {
   const { status, returnReason, exchangeProductId } = req.body;
 
   try {
-      const sale = await ProductSale.findById(id);
-      if (!sale) {
-          return res.status(404).json({
-              result: 'error',
-              message: 'Venta no encontrada'
-          });
-      }
-
-      if (status === 'Refund' && returnReason === 'Product exchange') {
-          const exchangeProduct = await Product.findById(exchangeProductId);
-          if (!exchangeProduct) {
-              return res.status(404).json({
-                  result: 'error',
-                  message: 'Producto de intercambio no encontrado'
-              });
-          }
-
-          sale.status = 'Refund';
-          sale.returnReason = returnReason;
-          sale.exchangeProductId = exchangeProductId;
-          sale.exchangeProductPrice = exchangeProduct.salePrice;
-
-          if (exchangeProduct.salePrice > sale.salePrice) {
-              sale.refundAmount = exchangeProduct.salePrice - sale.salePrice;
-          } else if (exchangeProduct.salePrice < sale.salePrice) {
-              sale.refundAmount = sale.salePrice - exchangeProduct.salePrice;
-          }
-
-      } else if (status === 'Refund') {
-          sale.status = 'Refund';
-          sale.returnReason = returnReason;
-          sale.refundAmount = sale.salePrice;
-      }
-
-      await sale.save();
-      return res.status(200).json({
-          result: 'success',
-          sale
+    const sale = await ProductSale.findById(id);
+    if (!sale) {
+      return res.status(404).json({
+        result: "error",
+        message: "Venta no encontrada",
       });
+    }
+
+    if (status === "Refund" && returnReason === "Product exchange") {
+      const exchangeProduct = await Product.findById(exchangeProductId);
+      if (!exchangeProduct) {
+        return res.status(404).json({
+          result: "error",
+          message: "Producto de intercambio no encontrado",
+        });
+      }
+
+      sale.status = "Refund";
+      sale.returnReason = returnReason;
+      sale.exchangeProductId = exchangeProductId;
+      sale.exchangeProductPrice = exchangeProduct.salePrice;
+
+      if (exchangeProduct.salePrice > sale.salePrice) {
+        sale.refundAmount = exchangeProduct.salePrice - sale.salePrice;
+      } else if (exchangeProduct.salePrice < sale.salePrice) {
+        sale.refundAmount = sale.salePrice - exchangeProduct.salePrice;
+      }
+    } else if (status === "Refund") {
+      sale.status = "Refund";
+      sale.returnReason = returnReason;
+      sale.refundAmount = sale.salePrice;
+    }
+
+    await sale.save();
+    return res.status(200).json({
+      result: "success",
+      sale,
+    });
   } catch (error) {
-      console.error("Error al manejar la devolución:", error);
-      return res.status(500).json({
-          result: 'error',
-          message: 'Hubo un error al manejar la devolución'
-      });
+    console.error("Error al manejar la devolución:", error);
+    return res.status(500).json({
+      result: "error",
+      message: "Hubo un error al manejar la devolución",
+    });
   }
 }
-
 
 export { createProductSale, getProductsSale, handleReturn };

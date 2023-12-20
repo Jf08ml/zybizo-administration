@@ -15,8 +15,8 @@
       </q-expansion-item>
     </q-card-section>
 
-    <q-card-section class="row items-center">
-      <div class="col-6">
+    <q-card-section v-if="product.stock > 0" class="row items-center">
+      <div class="col-4">
         <div class="text-subtitle2">
           <q-chip square>
             <q-avatar icon="sell" color="red" text-color="white" />
@@ -40,6 +40,18 @@
         </q-btn>
       </div>
     </q-card-section>
+    <q-card-section v-else align="left">
+      <div class="flex justify-end">
+        <q-chat-message
+          avatar="https://i.ibb.co/njBrkRL/logo.png"
+          text-color="white"
+          :text="['Lo sentimos, el producto se encuentra agotado.']"
+          stamp="Disponible pronto..."
+          sent
+          bg-color="red-5"
+        />
+      </div>
+    </q-card-section>
   </q-card>
 </template>
 
@@ -50,7 +62,7 @@ import { formatPrice } from "../../../utils/utilsFunctions.js";
 const props = defineProps({
   product: Object,
 });
-
+console.log(props.product);
 const emit = defineEmits(["open-carousel", "redirect-to-whatsApp"]);
 
 const openCarousel = (images) => {
