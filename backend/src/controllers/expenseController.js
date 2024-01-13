@@ -1,11 +1,10 @@
 import Expense from "../models/expense.js";
+import expenseService from "../services/expense.service.js";
 
 async function createExpense(req, res) {
-  const spent = req.body.spent;
   try {
-    const expense = new Expense(spent);
-    await expense.save();
-    res.status(200).json({ message: "Expense saved successfully", expense });
+    const response = expenseService.createExpense(req.body.spent);
+    res.status(200).json({ message: "Expense saved successfully", response });
   } catch (error) {
     res.status(500).json({ message: "Error saving expense", error });
   }
@@ -13,7 +12,7 @@ async function createExpense(req, res) {
 
 async function getExpenses(req, res) {
   try {
-    const expenses = await Expense.find();
+    const expenses = await expenseService.getExpenses();
     res.status(200).json(expenses);
   } catch (error) {
     res.status(500).json({ message: "Error fetching expenses", error });
