@@ -125,7 +125,6 @@ async function refreshTokens(req, res) {
     const { refreshTokenUser } = req.body;
     jwt.verify(refreshTokenUser, JWT_REFRESH_SECRET, async (err, decoded) => {
       if (err) {
-        console.log(err);
         return res
           .status(401)
           .json({ error: "RefreshTokenError", message: err.name });

@@ -62,7 +62,6 @@ import { formatPrice } from "../../../utils/utilsFunctions.js";
 const props = defineProps({
   product: Object,
 });
-console.log(props.product);
 const emit = defineEmits(["open-carousel", "redirect-to-whatsApp"]);
 
 const openCarousel = (images) => {

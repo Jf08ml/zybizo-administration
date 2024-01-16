@@ -162,7 +162,6 @@ const ConfirmSellProduct = (product) => {
 
 const saleProduct = async () => {
   try {
-    console.log(productSale.value);
     await createProductSale(productSale.value);
   } catch (error) {
     console.error(error);

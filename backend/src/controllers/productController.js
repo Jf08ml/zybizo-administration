@@ -1,77 +1,94 @@
-import Product from "../models/product";
+import ProductService from "../services/product.service";
+import CustomErrors from "../errors/CustomErrors.js";
+
+const { NotFoundError } = CustomErrors;
 
 async function createProduct(req, res) {
-  const { product } = req.body;
-  product.stock = product.quantity;
   try {
-    const newProduct = new Product(product);
-    await newProduct.save();
-    return res.status(200).json({ result: "success", product: newProduct });
-  } catch (error) {
-    console.error(error);
-    return res.status(500).json({
-      result: "error",
-      message: "An error occurred while saving the series.",
+    const newProduct = await ProductService.createProduct(req.body.product);
+    res.status(201).json({
+      status: "success",
+      data: newProduct,
+      message: "Producto creado exitosamente.",
     });
+  } catch (error) {
+    next(error);
   }
 }
 
 async function getProducts(req, res) {
   try {
-    const products = await Product.find();
-    res.status(200).json({ result: "success", products: products });
+    const products = await ProductService.getProducts();
+    res.status(200).json({
+      status: "success",
+      data: products,
+      message:
+        rewards.length > 0
+          ? "Productos encontrados."
+          : "No se encontraron productos.",
+    });
   } catch (error) {
-    console.error("Error al obtener los productos:", error);
-    res.status(500).json({ message: "Error al obtener los productos" });
+    next(error);
   }
 }
 
 async function getProductsCatalog(req, res) {
   try {
-    const productsCatalog = await Product.find({isActiveInCatalog: true});
-    res.status(200).json({ result: "success", products: productsCatalog });
+    const productsCatalog = await ProductService.getProducts({
+      isActiveInCatalog: true,
+    });
+    res.status(200).json({
+      status: "success",
+      data: productsCatalog,
+      message:
+        rewards.length > 0
+          ? "Productos  de catálogo encontrados."
+          : "No se encontraron productos de catálogo.",
+    });
   } catch (error) {
-    console.error("Error al obtener los productos:", error);
-    res.status(500).json({ message: "Error al obtener los productos" });
+    next(error);
   }
 }
 
 async function updateProduct(req, res) {
   try {
-    const productId = req.params.id;
-    const updatedFields = req.body;
-    const updatedProduct = await Product.findByIdAndUpdate(
-      productId,
-      updatedFields,
-      { new: true }
+    const updatedProduct = await ProductService.updateProduct(
+      req.params.id,
+      req.body
     );
-
-    if (!updatedProduct) {
-      return res
-        .status(404)
-        .json({ result: "error", message: "Producto no encontrado" });
-    }
-
-    res.status(200).json({ result: "success", product: updatedProduct });
+    res.status(200).json({
+      status: "success",
+      data: updatedProduct,
+      message: "Producto actualizado con éxito.",
+    });
   } catch (error) {
-    console.error("Error al actualizar el producto:", error);
-    res.status(500).json({ message: "Error al actualizar el producto" });
+    if (error instanceof NotFoundError) {
+      return res.status(404).json(error);
+    }
+    next(error);
   }
 }
 
 async function deleteProduct(req, res) {
   try {
-    const productId = req.params.id;
+    await ProductService.deleteProduct(req.params.id);
 
-    await Product.findByIdAndDelete(productId);
-
-    res
-      .status(200)
-      .json({ result: "success", message: "Producto eliminado exitosamente" });
+    res.status(200).json({
+      status: "success",
+      message: "Producto eliminado con éxito.",
+    });
   } catch (error) {
-    console.error("Error al eliminar el producto:", error);
-    res.status(500).json({ message: "Error al eliminar el producto" });
+    if (error instanceof NotFoundError) {
+      return res.status(404).json(error);
+    }
+    next(error);
   }
 }
 
-export { createProduct, getProducts, getProductsCatalog, updateProduct, deleteProduct };
+export {
+  createProduct,
+  getProducts,
+  getProductsCatalog,
+  updateProduct,
+  deleteProduct,
+};

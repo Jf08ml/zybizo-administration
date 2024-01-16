@@ -1,4 +1,7 @@
 import Expense from "../models/expense.js";
+import CustomErrors from "../errors/CustomErrors.js";
+
+const { DatabaseError, NotFoundError, ValidationError } = CustomErrors;
 
 class ExpenseService {
   async createExpense(data) {
@@ -6,7 +9,7 @@ class ExpenseService {
       const newExpense = new Expense(data);
       return await newExpense.save();
     } catch (error) {
-      throw error;
+      throw new DatabaseError("Error al crear el gasto");
     }
   }
 
@@ -14,25 +17,43 @@ class ExpenseService {
     try {
       return await Expense.find({});
     } catch (error) {
-      throw error;
+      throw new DatabaseError("Error al obtener los gastos");
     }
   }
 
   async updateExpense(expenseId, updateData) {
     try {
-      return await Expense.findByIdAndUpdate(expenseId, updateData, {
-        new: true,
-      });
+      const updatedExpense = await Expense.findByIdAndUpdate(
+        expenseId,
+        updateData,
+        {
+          new: true,
+        }
+      );
+      if (!updatedExpense) {
+        throw new NotFoundError("Gasto no encontrado para actualizar");
+      }
+      return updatedExpense;
     } catch (error) {
-      throw error;
+      if (error instanceof NotFoundError) {
+        throw error;
+      }
+      throw new DatabaseError("Error al actualizar el gasto");
     }
   }
 
   async deleteExpense(expenseId) {
     try {
-      return await Expense.findByIdAndDelete(expenseId);
+      const deleteExpense = await Expense.findByIdAndDelete(expenseId);
+      if (!deleteExpense) {
+        throw new NotFoundError("Gasto no encontrado para eliminar");
+      }
+      return deleteExpense;
     } catch (error) {
-      throw error;
+      if (error instanceof NotFoundError) {
+        throw error;
+      }
+      throw new DatabaseError("Error al eliminar el gasto");
     }
   }
 }

@@ -31,11 +31,11 @@ app.use((err, req, res, next) => {
   console.error(err.stack || err);
 
   const statusCode = err.statusCode || 500;
+  let message = err.message;
 
-  const message =
-    process.env.NODE_ENV === "development" || err.statusCode
-      ? err.message
-      : "Server error";
+  if (process.env.NODE_ENV === "production" && !err.statusCode) {
+    message = "Ocurrió un error en el servidor";
+  }
 
   res.status(statusCode).json({ result: "error", message: message });
 });
