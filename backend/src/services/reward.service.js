@@ -24,7 +24,7 @@ class RewardService {
       if (error instanceof ValidationError) {
         throw error;
       }
-      throw new DatabaseError("Error al crear la recompensa");
+      throw new DatabaseError("Error al crear la recompensa.");
     }
   }
 
@@ -33,7 +33,7 @@ class RewardService {
       const rewards = await Reward.find();
       return rewards;
     } catch (error) {
-      throw new DatabaseError("Error al obtener las recompensas");
+      throw new DatabaseError("Error al obtener las recompensas.");
     }
   }
 
@@ -41,14 +41,14 @@ class RewardService {
     try {
       const reward = await Reward.findById(id);
       if (!reward) {
-        throw new NotFoundError("Recompensa no encontrada");
+        throw new NotFoundError("Recompensa no encontrada.");
       }
       return reward;
     } catch (error) {
       if (error instanceof NotFoundError) {
         throw error;
       }
-      throw new DatabaseError("Error al obtener la recompensa");
+      throw new DatabaseError("Error al obtener la recompensa.");
     }
   }
 
@@ -60,14 +60,14 @@ class RewardService {
         { new: true }
       );
       if (!updatedReward) {
-        throw new NotFoundError("Recompensa no encontrada para actualizar");
+        throw new NotFoundError("Recompensa no encontrada para actualizar.");
       }
       return updatedReward;
     } catch (error) {
       if (error instanceof NotFoundError) {
         throw error;
       }
-      throw new DatabaseError("Error al actualizar la recompensa");
+      throw new DatabaseError("Error al actualizar la recompensa.");
     }
   }
 
@@ -75,14 +75,14 @@ class RewardService {
     try {
       const deletedReward = await Reward.findByIdAndDelete(rewardId);
       if (!deletedReward) {
-        throw new NotFoundError("Recompensa no encontrada para eliminar");
+        throw new NotFoundError("Recompensa no encontrada para eliminar.");
       }
       return deletedReward;
     } catch (error) {
       if (error instanceof NotFoundError) {
         throw error;
       }
-      throw new DatabaseError("Error al eliminar la recompensa");
+      throw new DatabaseError("Error al eliminar la recompensa.");
     }
   }
 }

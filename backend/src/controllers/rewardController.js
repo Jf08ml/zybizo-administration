@@ -1,19 +1,21 @@
 import RewardService from "../services/reward.service";
 import CustomErrors from "../errors/CustomErrors.js";
+import sendResponse from "../utils/response";
 
 const { NotFoundError, ValidationError } = CustomErrors;
 
-export const createReward = async (req, res) => {
+export const createReward = async (req, res, next) => {
   try {
     const newReward = await RewardService.createReward(req.body.reward);
-    res.status(201).json({
-      status: "success",
-      data: newReward,
-      message: "Recompensa guardada y disponible para reclamar, ¡escríbenos!",
-    });
+    sendResponse(
+      res,
+      201,
+      newReward,
+      "Recompensa guardada y disponible para reclamar, ¡escríbenos!"
+    );
   } catch (error) {
     if (error instanceof ValidationError) {
-      return res.status(400).json({ message: error.message });
+      return sendResponse(res, 400, null, error.message);
     }
     next(error);
   }
@@ -22,14 +24,14 @@ export const createReward = async (req, res) => {
 export const getRewards = async (req, res, next) => {
   try {
     const rewards = await RewardService.getRewards();
-    res.status(200).json({
-      status: "success",
-      data: rewards,
-      message:
-        rewards.length > 0
-          ? "Recompensas encontradas."
-          : "No se encontraron recompensas.",
-    });
+    sendResponse(
+      res,
+      200,
+      rewards,
+      rewards.length > 0
+        ? "Recompensas encontradas."
+        : "No se encontraron recompensas."
+    );
   } catch (error) {
     next(error);
   }
@@ -38,48 +40,42 @@ export const getRewards = async (req, res, next) => {
 export const getRewardById = async (req, res, next) => {
   try {
     const reward = await RewardService.getReward(req.params.id);
-    res.status(200).json({
-      status: "success",
-      data: reward,
-      message: "Recompensa encontrada.",
-    });
+    sendResponse(res, 200, reward, "Recompensa encontrada.");
   } catch (error) {
     if (error instanceof NotFoundError) {
-      return res.status(404).json(error);
+      return sendResponse(res, 404, null, error.message);
     }
     next(error);
   }
 };
 
-export const updateReward = async (req, res) => {
+export const updateReward = async (req, res, next) => {
   try {
     const updatedReward = await RewardService.updateReward(
       req.params.id,
       req.body.reward
     );
-    res.status(200).json({
-      status: "success",
-      data: updatedReward,
-      message: "Recompensa actualizada y disponible para reclamar, escribenos!",
-    });
+    sendResponse(
+      res,
+      200,
+      updatedReward,
+      "Recompensa actualizada y disponible para reclamar, ¡escríbenos!"
+    );
   } catch (error) {
     if (error instanceof NotFoundError) {
-      return res.status(404).json(error);
+      return sendResponse(res, 404, null, error.message);
     }
     next(error);
   }
 };
 
-export const deleteReward = async (req, res) => {
+export const deleteReward = async (req, res, next) => {
   try {
     await RewardService.deleteReward(req.params.id);
-    res.status(200).json({
-      status: "success",
-      message: "Recompensa eliminada con éxito.",
-    });
+    sendResponse(res, 200, null, "Recompensa eliminada con éxito.");
   } catch (error) {
     if (error instanceof NotFoundError) {
-      return res.status(404).json(error);
+      return sendResponse(res, 404, null, error.message);
     }
     next(error);
   }

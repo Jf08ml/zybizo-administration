@@ -1,17 +1,17 @@
 import Product from "../models/product.js";
 import CustomErrors from "../errors/CustomErrors.js";
 
-const { DatabaseError, NotFoundError, ValidationError } = CustomErrors;
+const { DatabaseError, NotFoundError } = CustomErrors;
 
 class ProductService {
   async createProduct(data) {
     try {
       data.stock = data.quantity;
-
-      const newProduct = await Product(data);
+      const newProduct = new Product(data);
       return await newProduct.save();
     } catch (error) {
-      throw new DatabaseError("Error al crear el producto.");
+      console.error("Error en createProduct:", error);
+      DatabaseError.throw("Error al crear el producto.");
     }
   }
 
@@ -20,7 +20,8 @@ class ProductService {
       const products = await Product.find(options);
       return products;
     } catch (error) {
-      throw new DatabaseError("Error al obtener los producto.");
+      console.error("Error en getProducts:", error);
+      DatabaseError.throw("Error al obtener los productos.");
     }
   }
 
@@ -28,14 +29,12 @@ class ProductService {
     try {
       const product = await Product.findById(id);
       if (!product) {
-        throw new NotFoundError("Producto no encontrado.");
+        NotFoundError.throw("Producto no encontrado.");
       }
-      return reward;
+      return product;
     } catch (error) {
-      if (error instanceof NotFoundError) {
-        throw error;
-      }
-      throw new DatabaseError("Error al obtener el producto.");
+      console.error("Error en getProduct:", error);
+      DatabaseError.throw("Error al obtener el producto.");
     }
   }
 
@@ -47,14 +46,12 @@ class ProductService {
         { new: true }
       );
       if (!updatedProduct) {
-        throw new NotFoundError("Producto no encontrado para actualizar.");
+        NotFoundError.throw("Producto no encontrado para actualizar.");
       }
       return updatedProduct;
     } catch (error) {
-      if (error instanceof NotFoundError) {
-        throw error;
-      }
-      throw new DatabaseError("Error al actualizar el producto.");
+      console.error("Error en updateProduct:", error);
+      DatabaseError.throw("Error al actualizar el producto.");
     }
   }
 
@@ -62,14 +59,12 @@ class ProductService {
     try {
       const deletedProduct = await Product.findByIdAndDelete(productId);
       if (!deletedProduct) {
-        throw new NotFoundError("Producto no encontrado para eliminar.");
+        NotFoundError.throw("Producto no encontrado para eliminar.");
       }
       return deletedProduct;
     } catch (error) {
-      if (error instanceof NotFoundError) {
-        throw error;
-      }
-      throw new DatabaseError("Error al eliminar el producto.");
+      console.error("Error en deleteProduct:", error);
+      DatabaseError.throw("Error al eliminar el producto.");
     }
   }
 }

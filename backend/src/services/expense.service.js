@@ -9,7 +9,7 @@ class ExpenseService {
       const newExpense = new Expense(data);
       return await newExpense.save();
     } catch (error) {
-      throw new DatabaseError("Error al crear el gasto");
+      throw new DatabaseError("Error al crear el gasto.");
     }
   }
 
@@ -17,7 +17,7 @@ class ExpenseService {
     try {
       return await Expense.find({});
     } catch (error) {
-      throw new DatabaseError("Error al obtener los gastos");
+      throw new DatabaseError("Error al obtener los gastos.");
     }
   }
 
@@ -31,14 +31,14 @@ class ExpenseService {
         }
       );
       if (!updatedExpense) {
-        throw new NotFoundError("Gasto no encontrado para actualizar");
+        throw new NotFoundError("Gasto no encontrado para actualizar.");
       }
       return updatedExpense;
     } catch (error) {
       if (error instanceof NotFoundError) {
         throw error;
       }
-      throw new DatabaseError("Error al actualizar el gasto");
+      throw new DatabaseError("Error al actualizar el gasto.");
     }
   }
 
@@ -46,14 +46,14 @@ class ExpenseService {
     try {
       const deleteExpense = await Expense.findByIdAndDelete(expenseId);
       if (!deleteExpense) {
-        throw new NotFoundError("Gasto no encontrado para eliminar");
+        throw new NotFoundError("Gasto no encontrado para eliminar.");
       }
       return deleteExpense;
     } catch (error) {
       if (error instanceof NotFoundError) {
         throw error;
       }
-      throw new DatabaseError("Error al eliminar el gasto");
+      throw new DatabaseError("Error al eliminar el gasto.");
     }
   }
 }

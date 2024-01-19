@@ -1,86 +1,66 @@
 import ProductService from "../services/product.service";
-import CustomErrors from "../errors/CustomErrors.js";
+import sendResponse from "../utils/response.js";
 
-const { NotFoundError } = CustomErrors;
-
-async function createProduct(req, res) {
+async function createProduct(req, res, next) {
   try {
     const newProduct = await ProductService.createProduct(req.body.product);
-    res.status(201).json({
-      status: "success",
-      data: newProduct,
-      message: "Producto creado exitosamente.",
-    });
+    sendResponse(res, 201, newProduct, "Producto creado exitosamente.");
   } catch (error) {
     next(error);
   }
 }
 
-async function getProducts(req, res) {
+async function getProducts(req, res, next) {
   try {
     const products = await ProductService.getProducts();
-    res.status(200).json({
-      status: "success",
-      data: products,
-      message:
-        rewards.length > 0
-          ? "Productos encontrados."
-          : "No se encontraron productos.",
-    });
+    sendResponse(
+      res,
+      200,
+      products,
+      products.length > 0
+        ? "Productos encontrados."
+        : "No se encontraron productos."
+    );
   } catch (error) {
     next(error);
   }
 }
 
-async function getProductsCatalog(req, res) {
+async function getProductsCatalog(req, res, next) {
   try {
     const productsCatalog = await ProductService.getProducts({
       isActiveInCatalog: true,
     });
-    res.status(200).json({
-      status: "success",
-      data: productsCatalog,
-      message:
-        rewards.length > 0
-          ? "Productos  de catálogo encontrados."
-          : "No se encontraron productos de catálogo.",
-    });
+    sendResponse(
+      res,
+      200,
+      productsCatalog,
+      productsCatalog.length > 0
+        ? "Productos de catálogo encontrados."
+        : "No se encontraron productos de catálogo."
+    );
   } catch (error) {
     next(error);
   }
 }
 
-async function updateProduct(req, res) {
+async function updateProduct(req, res, next) {
   try {
     const updatedProduct = await ProductService.updateProduct(
       req.params.id,
       req.body
     );
-    res.status(200).json({
-      status: "success",
-      data: updatedProduct,
-      message: "Producto actualizado con éxito.",
-    });
+    sendResponse(res, 200, updatedProduct, "Producto actualizado con éxito.");
   } catch (error) {
-    if (error instanceof NotFoundError) {
-      return res.status(404).json(error);
-    }
     next(error);
   }
 }
 
-async function deleteProduct(req, res) {
+async function deleteProduct(req, res, next) {
   try {
     await ProductService.deleteProduct(req.params.id);
-
-    res.status(200).json({
-      status: "success",
-      message: "Producto eliminado con éxito.",
-    });
+    sendResponse(res, 200, null, "Producto eliminado con éxito.");
   } catch (error) {
-    if (error instanceof NotFoundError) {
-      return res.status(404).json(error);
-    }
     next(error);
   }
 }

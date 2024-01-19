@@ -12,7 +12,7 @@ class ProductSaleService {
 
       const product = await Product.findById(productSaleData.productId);
       if (!product) {
-        throw new NotFoundError("Product not found");
+        throw new NotFoundError("Producto no encontrado.");
       }
 
       product.quantitiesSold += productSaleData.quantity;
@@ -21,7 +21,7 @@ class ProductSaleService {
 
       return newProductSale;
     } catch (error) {
-      throw new DatabaseError("An error occurred while saving the sale.");
+      throw new DatabaseError("Ha ocurrido un error al crear la venta.");
     }
   }
 
@@ -30,7 +30,7 @@ class ProductSaleService {
       const products = await ProductSale.find();
       return products;
     } catch (error) {
-      throw new DatabaseError("Error al obtener los productos");
+      throw new DatabaseError("Error al obtener las ventas.");
     }
   }
 
@@ -38,7 +38,7 @@ class ProductSaleService {
     try {
       const sale = await ProductSale.findById(id);
       if (!sale) {
-        throw new NotFoundError("Venta no encontrada");
+        throw new NotFoundError("Venta no encontrada.");
       }
       const { status, returnReason, exchangeProductId } = returnData;
       
@@ -47,7 +47,7 @@ class ProductSaleService {
         if (!exchangeProduct) {
           return res.status(404).json({
             result: "error",
-            message: "Producto de intercambio no encontrado",
+            message: "Producto de intercambio no encontrado.",
           });
         }
 
@@ -73,7 +73,7 @@ class ProductSaleService {
       if (error instanceof NotFoundError) {
         throw error;
       }
-      throw new DatabaseError("Hubo un error al manejar la devolución");
+      throw new DatabaseError("Hubo un error al manejar la devolución.");
     }
   }
 }

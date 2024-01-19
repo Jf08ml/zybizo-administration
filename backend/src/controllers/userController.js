@@ -1,55 +1,44 @@
 import jwt from "jsonwebtoken";
-const { JWT_SECRET, JWT_REFRESH_SECRET } = process.env;
+import UserService from "../services/user.service";
+import RoleService from "../services/role.service";
+import sendResponse from "../utils/response";
 import User from "../models/users";
 import Role from "../models/roles";
+import CustomErrors from "../errors/CustomErrors.js";
+
+const { NotFoundError, DuplicateKeyError } = CustomErrors;
+
+const { JWT_SECRET, JWT_REFRESH_SECRET } = process.env;
 
 async function signup(req, res) {
   try {
     const { email, password } = req.body;
 
-    const standardRole = await Role.findOne({ name: "Administrator" });
+    const standardRole = await RoleService.getRoles({ name: "Administrator" });
 
-    if (!standardRole) {
-      return res
-        .status(500)
-        .json({ result: "error", message: "Server error role" });
-    }
-
-    const existingUser = await User.findOne({
-      $or: [{ email: email }],
-    });
-
-    if (existingUser) {
-      if (existingUser.email === email) {
-        return res
-          .status(400)
-          .json({ result: "errorEmail", message: "Email already exists" });
-      }
-    }
-
-    const user = new User({
+    const user = {
       email,
       password,
       role: standardRole._id,
-    });
+    };
+    const createUser = await UserService.createUser(user);
 
-    await user.save();
+    const { token, refreshToken } = configurarTokens(createUser);
 
-    const token = jwt.sign({ id: user._id, role: user.role }, JWT_SECRET, {
-      expiresIn: "1h",
-    });
-    const refreshToken = jwt.sign(
-      { id: user._id, role: user.role },
-      JWT_REFRESH_SECRET,
-      {
-        expiresIn: "24h",
-      }
-    );
+    const accessToken = {
+      token,
+      refreshToken,
+    };
 
-    res.status(201).json({ result: "success", token, refreshToken });
-  } catch (err) {
-    console.error(err);
-    res.status(500).json({ result: "error", message: "Server error" });
+    sendResponse(res, 201, accessToken, "User created successfully");
+  } catch (error) {
+    if (error instanceof NotFoundError) {
+      return sendResponse(res, 404, null, error.message);
+    }
+    if (error instanceof DuplicateKeyError) {
+      return sendResponse(res, 409, null, error.message);
+    }
+    next(error);
   }
 }
 
@@ -58,25 +47,19 @@ async function login(req, res) {
     const { identifier, password } = req.body;
 
     // Buscar al usuario por email o nickname
-    const user = await User.findOne({
+    const user = await UserService.getUser({
       $or: [{ email: identifier }],
     });
-
-    // Si el usuario no existe
-    if (!user) {
-      return res.status(401).json({
-        result: "errorNotFound",
-        message: "User not found. Please check your email address or nickname.",
-      });
-    }
 
     // Verificar la contraseña
     const isMatch = await user.comparePassword(password);
     if (!isMatch) {
-      return res.status(401).json({
-        result: "errorPassword",
-        message: "Invalid password. Please check your password.",
-      });
+      return sendResponse(
+        res,
+        401,
+        null,
+        "Invalid password. Please check your password"
+      );
     }
 
     const role = await Role.findById(user.role);
@@ -254,6 +237,27 @@ async function userRole(req, res) {
   } catch (error) {
     res.status(500).json({ message: "servidor error" });
   }
+}
+
+// Funciones auxiliares
+function configurarTokens(createUser) {
+  const token = jwt.sign(
+    { id: createUser._id, role: createUser.role },
+    JWT_SECRET,
+    {
+      expiresIn: "1h",
+    }
+  );
+
+  const refreshToken = jwt.sign(
+    { id: createUser._id, role: createUser.role },
+    JWT_REFRESH_SECRET,
+    {
+      expiresIn: "24h",
+    }
+  );
+
+  return refreshToken, token;
 }
 
 export {

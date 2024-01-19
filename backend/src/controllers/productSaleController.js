@@ -1,15 +1,17 @@
 import productSaleService from "../services/productSale.service.js";
+import sendResponse from "../utils/response.js";
 
 async function createProductSale(req, res, next) {
   try {
     const newProductSale = await productSaleService.createProductSale(
       req.body.productSale
     );
-    res.status(201).json({
-      status: "success",
-      data: newProductSale,
-      message: "Venta de producto creada exitosamente.",
-    });
+    sendResponse(
+      res,
+      201,
+      newProductSale,
+      "Venta de producto creada exitosamente."
+    );
   } catch (error) {
     next(error);
   }
@@ -18,14 +20,14 @@ async function createProductSale(req, res, next) {
 async function getProductsSale(req, res, next) {
   try {
     const productSales = await productSaleService.getProductsSale();
-    res.status(200).json({
-      status: "success",
-      data: productSales,
-      message:
-        productSales.length > 0
-          ? "Ventas de productos encontradas."
-          : "No se encontraron ventas de productos.",
-    });
+    sendResponse(
+      res,
+      200,
+      productSales,
+      productSales.length > 0
+        ? "Ventas de productos encontradas."
+        : "No se encontraron ventas de productos."
+    );
   } catch (error) {
     next(error);
   }
@@ -37,11 +39,7 @@ async function handleReturn(req, res, next) {
 
   try {
     const sale = await productSaleService.handleReturn(id, returnData);
-    res.status(200).json({
-      status: "success",
-      data: sale,
-      message: "Devolución manejada exitosamente.",
-    });
+    sendResponse(res, 200, sale, "Devolución realizada exitosamente.");
   } catch (error) {
     next(error);
   }
