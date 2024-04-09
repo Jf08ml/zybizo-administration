@@ -1,7 +1,7 @@
 import User from "../models/users.js";
 import CustomErrors from "../errors/CustomErrors.js";
 
-const { DatabaseError, NotFoundError, ValidationError } = CustomErrors;
+const { DatabaseError, NotFoundError, DuplicateKeyError } = CustomErrors;
 
 class UserService {
   async createUser(data) {
@@ -19,9 +19,16 @@ class UserService {
       }
 
       const newUser = new User(data);
-      return await newUser.save();
+      const savedUser = await newUser.save();
+
+      const populatedUser = await User.findById({ _id: savedUser._id })
+        .select("-password")
+        .populate("role")
+        .exec();
+
+      return populatedUser;
     } catch (error) {
-      throw new DatabaseError("Error al crear el usuario.");
+      throw new DatabaseError("Error al crear el usuario.", error);
     }
   }
 
@@ -29,19 +36,22 @@ class UserService {
     try {
       return await User.find(options);
     } catch (error) {
-      throw new DatabaseError("Error al obtener los usuarios.");
+      throw new DatabaseError("Error al obtener los usuarios.", error);
     }
   }
 
   async getUser(options = {}) {
     try {
-      const user = await User.findOne(options);
+      const user = await User.findOne(options).populate("role").exec();
       if (!user) {
         throw new NotFoundError("Usuario no encontrado.");
       }
       return user;
     } catch (error) {
-      throw new DatabaseError("Error al actualizar el usuario."); 
+      if (error instanceof NotFoundError) {
+        throw error;
+      }
+      throw new DatabaseError("Error al obtener el usuario.", error);
     }
   }
 

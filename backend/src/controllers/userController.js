@@ -10,16 +10,15 @@ const { NotFoundError, DuplicateKeyError } = CustomErrors;
 
 const { JWT_SECRET, JWT_REFRESH_SECRET } = process.env;
 
-async function signup(req, res) {
+async function signup(req, res, next) {
   try {
     const { email, password } = req.body;
 
-    const standardRole = await RoleService.getRoles({ name: "Administrator" });
-
+    const standardRole = await RoleService.getRoles({ name: "Standard" });
     const user = {
       email,
       password,
-      role: standardRole._id,
+      role: standardRole[0]._id,
     };
     const createUser = await UserService.createUser(user);
 
@@ -30,11 +29,9 @@ async function signup(req, res) {
       refreshToken,
     };
 
-    sendResponse(res, 201, accessToken, "User created successfully");
+    const data = { user, accessToken };
+    sendResponse(res, 201, data, "User created successfully");
   } catch (error) {
-    if (error instanceof NotFoundError) {
-      return sendResponse(res, 404, null, error.message);
-    }
     if (error instanceof DuplicateKeyError) {
       return sendResponse(res, 409, null, error.message);
     }
@@ -42,14 +39,12 @@ async function signup(req, res) {
   }
 }
 
-async function login(req, res) {
+async function login(req, res, next) {
   try {
-    const { identifier, password } = req.body;
+    const { email, password } = req.body;
 
-    // Buscar al usuario por email o nickname
-    const user = await UserService.getUser({
-      $or: [{ email: identifier }],
-    });
+    // Buscar al usuario por email
+    const user = await UserService.getUser({ email });
 
     // Verificar la contraseña
     const isMatch = await user.comparePassword(password);
@@ -58,48 +53,25 @@ async function login(req, res) {
         res,
         401,
         null,
-        "Invalid password. Please check your password"
+        "Verifique credenciales, email o contraseña incorrectos."
       );
     }
 
-    const role = await Role.findById(user.role);
+    const { token, refreshToken } = configurarTokens(user);
 
-    // Generar tokens
-    const token = jwt.sign({ id: user._id, role: role.name }, JWT_SECRET, {
-      expiresIn: "1h",
-    });
-    const refreshToken = jwt.sign(
-      { id: user._id, role: user.role },
-      JWT_REFRESH_SECRET,
-      {
-        expiresIn: "24h",
-      }
-    );
+    const accessToken = {
+      token,
+      refreshToken,
+    };
 
-    const tokenDuration = 3600; // duración del token en segundos (1 hora)
-    const refreshTokenDuration = 86400; // duración del refresh token en segundos (24 horas)
-    const now = new Date();
-    const tokenExpiration = new Date(now.getTime() + tokenDuration * 1000);
-    const refreshTokenExpiration = new Date(
-      now.getTime() + refreshTokenDuration * 1000
-    );
+    const data = { user, accessToken };
 
-    // Enviar respuesta
-    res.status(200).json({
-      result: "success",
-      token: token,
-      refreshToken: refreshToken,
-      role: role.name,
-      issuedAt: now,
-      tokenExpire: tokenExpiration,
-      refreshTokenExpire: refreshTokenExpiration,
-    });
-  } catch (err) {
-    console.error(err);
-    res.status(500).json({
-      result: "error",
-      message: "Internal server error. Please try again later.",
-    });
+    sendResponse(res, 201, data, "The user has logged in successfully.");
+  } catch (error) {
+    if (error instanceof NotFoundError) {
+      return sendResponse(res, 404, null, error.message);
+    }
+    next(error);
   }
 }
 
@@ -240,24 +212,28 @@ async function userRole(req, res) {
 }
 
 // Funciones auxiliares
-function configurarTokens(createUser) {
-  const token = jwt.sign(
-    { id: createUser._id, role: createUser.role },
-    JWT_SECRET,
-    {
-      expiresIn: "1h",
-    }
-  );
+function configurarTokens(user) {
+  const token = jwt.sign({ id: user._id, role: user.role.name }, JWT_SECRET, {
+    expiresIn: "1h",
+  });
 
   const refreshToken = jwt.sign(
-    { id: createUser._id, role: createUser.role },
+    { id: user._id, role: user.role.name },
     JWT_REFRESH_SECRET,
     {
       expiresIn: "24h",
     }
   );
 
-  return refreshToken, token;
+  const tokenDuration = 3600;
+  const refreshTokenDuration = 86400;
+  const now = new Date();
+  const tokenExpiration = new Date(now.getTime() + tokenDuration * 1000);
+  const refreshTokenExpiration = new Date(
+    now.getTime() + refreshTokenDuration * 1000
+  );
+
+  return { token, refreshToken, tokenExpiration, refreshTokenExpiration };
 }
 
 export {

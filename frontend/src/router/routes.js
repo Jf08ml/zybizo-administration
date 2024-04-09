@@ -41,8 +41,29 @@ const routes = [
         component: () => import("pages/lottery/LotteryView.vue"),
       },
       {
-        path: "/Login",
-        component: () => import("pages/Login/LoginUsers.vue"),
+        name: "Login",
+        path: "/login",
+        component: () => import("pages/Authentication/LoginUsers.vue"),
+      },
+      {
+        name: "Register",
+        path: "/register",
+        component: () => import("pages/Authentication/RegisterUser.vue"),
+      },
+      {
+        name: "Profile",
+        path: "/profile",
+        component: () => import("pages/Profile/ProfilePage.vue"),
+      },
+      {
+        name: "DetailProduct",
+        path: "/detailproduct/:productId",
+        component: () => import("pages/DetailProduct/DetailProduct.vue"),
+      },
+      {
+        name: "PaymentPage",
+        path: "/payment",
+        component: () => import("pages/Payments/PaymentsPage.vue"),
       },
     ],
   },

@@ -217,7 +217,7 @@ const addProduct = async (product) => {
 const getAllProducts = async () => {
   try {
     const response = await getProducts();
-    products.value = response.products;
+    products.value = response.data;
   } catch (error) {
     console.error(error);
   }

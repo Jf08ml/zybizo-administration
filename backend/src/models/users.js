@@ -4,7 +4,7 @@ import { genSalt, hash as _hash, compare } from "bcryptjs";
 const userSchema = new Schema({
   _id: {
     type: Schema.Types.ObjectId,
-    default: () => new Types.ObjectId(), // Esto generará un nuevo ObjectId único por defecto
+    default: () => new Types.ObjectId(),
   },
   email: {
     type: String,
@@ -37,7 +37,11 @@ userSchema.pre("save", async function (next) {
 });
 
 userSchema.methods.comparePassword = async function (password) {
-  return await compare(password, this.password);
+  try {
+    return await compare(password, this.password);
+  } catch (error) {
+    throw error;
+  }
 };
 
 export default model("User", userSchema);

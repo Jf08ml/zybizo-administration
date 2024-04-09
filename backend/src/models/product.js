@@ -49,6 +49,10 @@ const productSchema = new Schema({
     default: "",
     required: false,
   },
+  references: {
+    type: Object,
+    required: false,
+  },
   basePrice: {
     type: Number,
     default: 0,
@@ -58,6 +62,11 @@ const productSchema = new Schema({
     type: Number,
     default: 0,
     required: true,
+  },
+  rating: {
+    type: Number,
+    default: 0,
+    required: false,
   },
   uploadData: {
     type: Date,

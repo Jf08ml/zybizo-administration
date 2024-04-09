@@ -26,6 +26,20 @@ async function getProducts(req, res, next) {
   }
 }
 
+async function getProduct(req, res, next) {
+  try {
+    const product = await ProductService.getProduct(req.params.id);
+    sendResponse(
+      res,
+      200,
+      product,
+      "Producto encontrado."
+    );
+  } catch (error) {
+    next(error);
+  }
+}
+
 async function getProductsCatalog(req, res, next) {
   try {
     const productsCatalog = await ProductService.getProducts({
@@ -68,6 +82,7 @@ async function deleteProduct(req, res, next) {
 export {
   createProduct,
   getProducts,
+  getProduct,
   getProductsCatalog,
   updateProduct,
   deleteProduct,

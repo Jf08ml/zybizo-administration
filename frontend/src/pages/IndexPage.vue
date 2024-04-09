@@ -7,7 +7,7 @@
       class="text-h3 text-weight-bold q-my-md text-center clandestine-neon"
       style="color: #3e454f"
     >
-      <p>Bienvenido a la tienda clandestina</p>
+      <p>Bienvenido a la tienda</p>
       <p class="clandestine-neon-red">Zybizo Bazar</p>
     </header>
 

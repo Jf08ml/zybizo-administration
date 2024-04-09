@@ -2,21 +2,17 @@
   <q-page class="flex flex-center">
     <q-card class="my-card">
       <q-card-section>
-        <div class="text-h6">Acceso a la plataforma</div>
+        <div class="text-h6">Acceso a la tienda</div>
       </q-card-section>
 
       <q-card-section>
-        <q-form @submit="onSubmit" @reset="onReset" class="q-gutter-md">
+        <q-form @submit.prevent="onSubmit" @reset="onReset" class="q-gutter-md">
           <q-input
             filled
-            v-model="loginInfo.identifier"
-            label="Usuario o correo electrónico"
+            v-model="loginInfo.email"
+            label="Correo electrónico"
             lazy-rules
-            :rules="[
-              (val) =>
-                (val && val.length > 0) ||
-                'Por favor ingrese su usuario o correo electrónico',
-            ]"
+            :rules="emailRules"
           />
           <q-input
             filled
@@ -24,12 +20,11 @@
             label="Contraseña"
             type="password"
             lazy-rules
-            :rules="[
-              (val) =>
-                (val && val.length > 0) || 'Por favor ingrese su contraseña',
-            ]"
+            :rules="passwordRules"
           />
-
+          <div v-if="errorMessage" class="q-pa-md text-negative" align="center">
+            {{ errorMessage }}
+          </div>
           <div align="center">
             <q-btn label="Iniciar sesión" type="submit" color="primary" />
           </div>
@@ -43,26 +38,46 @@
 import { ref } from "vue";
 import { login } from "../../services/auth.js";
 import { useRouter } from "vue-router";
+import { useAuthStore } from "src/stores/auth";
 
+const authStore = useAuthStore();
 const $router = useRouter();
 const loginInfo = ref({
-  identifier: "",
+  email: "",
   password: "",
 });
+const errorMessage = ref("");
+
+const emailRules = [
+  (val) =>
+    (val && val.length > 0) ||
+    "Por favor ingrese su usuario o correo electrónico",
+];
+const passwordRules = [
+  (val) => (val && val.length > 0) || "Por favor ingrese su contraseña",
+];
 
 const onSubmit = async () => {
   try {
     const response = await login(loginInfo.value);
-    if (response.result === "success") {
+    if (
+      response.status === "success" &&
+      authStore.$state.userRole === "Administrator"
+    ) {
       $router.push({ name: "ManageProducts" });
+    } else {
+      $router.push({ name: "Catalogue" });
     }
   } catch (error) {
+    errorMessage.value = error.message;
     console.error(error);
   }
 };
+
 const onReset = () => {
   loginInfo.value.identifier = "";
   loginInfo.value.password = "";
+  errorMessage.value = "";
 };
 </script>
 
