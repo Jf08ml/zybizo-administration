@@ -2,6 +2,11 @@ import axios from "axios";
 import { refreshToken } from "./refreshToken";
 import EventBus from "../utils/eventBus";
 
+const API_BASE_URL =
+  process.env.NODE_ENV === "production"
+    ? import.meta.env.VUE_APP_BASE_URL_PRODUCTION
+    : import.meta.env.VITE_APP_URL_DEPLOYMENT;
+
 const createAxiosInstance = (baseURL) => {
   const api = axios.create({
     baseURL,
@@ -31,28 +36,10 @@ const createAxiosInstance = (baseURL) => {
   return api;
 };
 
-const apiAuth = createAxiosInstance(
-  "https://api.zybizobazar.com/api/auth"
-);
-const apiProduct = createAxiosInstance(
-  "https://api.zybizobazar.com/api/product"
-);
-const apiProductSale = createAxiosInstance(
-  "https://api.zybizobazar.com/api/productSale"
-);
-const apiExpense = createAxiosInstance(
-  "https://api.zybizobazar.com/api/expense"
-);
-const apiRewards = createAxiosInstance(
-  "https://api.zybizobazar.com/api/rewards"
-);
-
-// const apiAuth = createAxiosInstance("http://localhost:5000/api/auth");
-// const apiProduct = createAxiosInstance("http://localhost:5000/api/product");
-// const apiProductSale = createAxiosInstance(
-//   "http://localhost:5000/api/productSale"
-// );
-// const apiExpense = createAxiosInstance("http://localhost:5000/api/expense");
-// const apiRewards = createAxiosInstance("http://localhost:5000/api/rewards");
+const apiAuth = createAxiosInstance(`${API_BASE_URL}/api/auth`);
+const apiProduct = createAxiosInstance(`${API_BASE_URL}/api/product`);
+const apiProductSale = createAxiosInstance(`${API_BASE_URL}/api/productSale`);
+const apiExpense = createAxiosInstance(`${API_BASE_URL}/api/expense`);
+const apiRewards = createAxiosInstance(`${API_BASE_URL}/api/rewards`);
 
 export { apiAuth, apiProduct, apiProductSale, apiExpense, apiRewards };
