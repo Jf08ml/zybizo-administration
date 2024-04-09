@@ -9,14 +9,13 @@ import {
   updatePassword,
   userRole,
 } from "../controllers/userController";
-import verifyToken from "../middleware/auth.js";
 
 router.post("/signup", signup);
 router.post("/login", login);
 router.post("/refreshtokens", refreshTokens);
-router.get("/getuser", verifyToken, getUser);
-router.put("/updateuser", verifyToken, updateUser);
-router.put("/updatepassword", verifyToken, updatePassword);
-router.get("/userrole", verifyToken, userRole);
+router.get("/getuser", getUser);
+router.put("/updateuser", updateUser);
+router.put("/updatepassword", updatePassword);
+router.get("/userrole", userRole);
 
 export default router;
