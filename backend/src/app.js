@@ -2,7 +2,7 @@ import "./config/db.js";
 import express from "express";
 import morgan from "morgan";
 import cors from "cors";
-import authRoutes from "./routes/auth";
+import authRoutes from "./routes/auth.js";
 import productRoutes from "./routes/product.js";
 import productSaleRoutes from "./routes/productSale.js";
 import expenseRoutes from "./routes/expense.js";
