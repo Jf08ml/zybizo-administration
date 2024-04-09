@@ -9,7 +9,7 @@ import {
   updatePassword,
   userRole,
 } from "../controllers/userController";
-import verifyToken from "../middleware/auth";
+import verifyToken from "../middleware/auth.js";
 
 router.post("/signup", signup);
 router.post("/login", login);
