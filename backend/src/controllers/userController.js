@@ -1,122 +1,77 @@
 import jwt from "jsonwebtoken";
-const { JWT_SECRET, JWT_REFRESH_SECRET } = process.env;
+import UserService from "../services/user.service";
+import RoleService from "../services/role.service";
+import sendResponse from "../utils/response";
 import User from "../models/users";
 import Role from "../models/roles";
+import CustomErrors from "../errors/CustomErrors.js";
 
-async function signup(req, res) {
+const { NotFoundError, DuplicateKeyError } = CustomErrors;
+
+const { JWT_SECRET, JWT_REFRESH_SECRET } = process.env;
+
+async function signup(req, res, next) {
   try {
     const { email, password } = req.body;
 
-    const standardRole = await Role.findOne({ name: "Administrator" });
-
-    if (!standardRole) {
-      return res
-        .status(500)
-        .json({ result: "error", message: "Server error role" });
-    }
-
-    const existingUser = await User.findOne({
-      $or: [{ email: email }],
-    });
-
-    if (existingUser) {
-      if (existingUser.email === email) {
-        return res
-          .status(400)
-          .json({ result: "errorEmail", message: "Email already exists" });
-      }
-    }
-
-    const user = new User({
+    const standardRole = await RoleService.getRoles({ name: "Standard" });
+    const user = {
       email,
       password,
-      role: standardRole._id,
-    });
+      role: standardRole[0]._id,
+    };
+    const createUser = await UserService.createUser(user);
 
-    await user.save();
+    const { token, refreshToken } = configurarTokens(createUser);
 
-    const token = jwt.sign({ id: user._id, role: user.role }, JWT_SECRET, {
-      expiresIn: "1h",
-    });
-    const refreshToken = jwt.sign(
-      { id: user._id, role: user.role },
-      JWT_REFRESH_SECRET,
-      {
-        expiresIn: "24h",
-      }
-    );
+    const accessToken = {
+      token,
+      refreshToken,
+    };
 
-    res.status(201).json({ result: "success", token, refreshToken });
-  } catch (err) {
-    console.error(err);
-    res.status(500).json({ result: "error", message: "Server error" });
+    const data = { user, accessToken };
+    sendResponse(res, 201, data, "User created successfully");
+  } catch (error) {
+    if (error instanceof DuplicateKeyError) {
+      return sendResponse(res, 409, null, error.message);
+    }
+    next(error);
   }
 }
 
-async function login(req, res) {
+async function login(req, res, next) {
   try {
-    const { identifier, password } = req.body;
+    const { email, password } = req.body;
 
-    // Buscar al usuario por email o nickname
-    const user = await User.findOne({
-      $or: [{ email: identifier }],
-    });
-
-    // Si el usuario no existe
-    if (!user) {
-      return res.status(401).json({
-        result: "errorNotFound",
-        message: "User not found. Please check your email address or nickname.",
-      });
-    }
+    // Buscar al usuario por email
+    const user = await UserService.getUser({ email });
 
     // Verificar la contraseña
     const isMatch = await user.comparePassword(password);
     if (!isMatch) {
-      return res.status(401).json({
-        result: "errorPassword",
-        message: "Invalid password. Please check your password.",
-      });
+      return sendResponse(
+        res,
+        401,
+        null,
+        "Verifique credenciales, email o contraseña incorrectos."
+      );
     }
 
-    const role = await Role.findById(user.role);
+    const { token, refreshToken } = configurarTokens(user);
 
-    // Generar tokens
-    const token = jwt.sign({ id: user._id, role: role.name }, JWT_SECRET, {
-      expiresIn: "1h",
-    });
-    const refreshToken = jwt.sign(
-      { id: user._id, role: user.role },
-      JWT_REFRESH_SECRET,
-      {
-        expiresIn: "24h",
-      }
-    );
+    const accessToken = {
+      token,
+      refreshToken,
+    };
 
-    const tokenDuration = 3600; // duración del token en segundos (1 hora)
-    const refreshTokenDuration = 86400; // duración del refresh token en segundos (24 horas)
-    const now = new Date();
-    const tokenExpiration = new Date(now.getTime() + tokenDuration * 1000);
-    const refreshTokenExpiration = new Date(
-      now.getTime() + refreshTokenDuration * 1000
-    );
+    const data = { user, accessToken };
 
-    // Enviar respuesta
-    res.status(200).json({
-      result: "success",
-      token: token,
-      refreshToken: refreshToken,
-      role: role.name,
-      issuedAt: now,
-      tokenExpire: tokenExpiration,
-      refreshTokenExpire: refreshTokenExpiration,
-    });
-  } catch (err) {
-    console.error(err);
-    res.status(500).json({
-      result: "error",
-      message: "Internal server error. Please try again later.",
-    });
+    sendResponse(res, 201, data, "The user has logged in successfully.");
+  } catch (error) {
+    if (error instanceof NotFoundError) {
+      return sendResponse(res, 404, null, error.message);
+    }
+    next(error);
   }
 }
 
@@ -125,7 +80,6 @@ async function refreshTokens(req, res) {
     const { refreshTokenUser } = req.body;
     jwt.verify(refreshTokenUser, JWT_REFRESH_SECRET, async (err, decoded) => {
       if (err) {
-        console.log(err);
         return res
           .status(401)
           .json({ error: "RefreshTokenError", message: err.name });
@@ -255,6 +209,31 @@ async function userRole(req, res) {
   } catch (error) {
     res.status(500).json({ message: "servidor error" });
   }
+}
+
+// Funciones auxiliares
+function configurarTokens(user) {
+  const token = jwt.sign({ id: user._id, role: user.role.name }, JWT_SECRET, {
+    expiresIn: "1h",
+  });
+
+  const refreshToken = jwt.sign(
+    { id: user._id, role: user.role.name },
+    JWT_REFRESH_SECRET,
+    {
+      expiresIn: "24h",
+    }
+  );
+
+  const tokenDuration = 3600;
+  const refreshTokenDuration = 86400;
+  const now = new Date();
+  const tokenExpiration = new Date(now.getTime() + tokenDuration * 1000);
+  const refreshTokenExpiration = new Date(
+    now.getTime() + refreshTokenDuration * 1000
+  );
+
+  return { token, refreshToken, tokenExpiration, refreshTokenExpiration };
 }
 
 export {

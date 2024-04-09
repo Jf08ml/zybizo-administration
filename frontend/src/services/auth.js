@@ -7,18 +7,19 @@ const useAuth = useAuthStore();
 export async function login(loginInfo) {
   try {
     showLoading();
-    const { identifier, password } = loginInfo;
-    const response = await apiAuth.post(`/login`, { identifier, password });
-    
-    // Usar directamente de response.data para asegurarse que son los valores actualizados
-    localStorage.setItem("accessToken", response.data.token);
-    localStorage.setItem("refreshToken", response.data.refreshToken);
+    const { email, password } = loginInfo;
+    const response = await apiAuth.post(`/login`, { email, password });
+  
+    localStorage.setItem("accessToken", response.data.data.accessToken.token);
+    localStorage.setItem(
+      "refreshToken",
+      response.data.data.accessToken.refreshToken
+    );
 
-    // Ahora actualizamos el estado de auth store con los nuevos valores
     useAuth.setCredentials(
-      response.data.token,
-      response.data.refreshToken,
-      response.data.role
+      response.data.data.accessToken.token,
+      response.data.data.accessToken.refreshToken,
+      response.data.data.user.role.name
     );
 
     return response.data;
@@ -29,12 +30,12 @@ export async function login(loginInfo) {
   }
 }
 
-export async function signup(email, password) {
+export async function signup(registerInfo) {
+  const { email, password } = registerInfo;
   try {
     const response = await apiAuth.post(
       `/signup`,
       {
-        nickname,
         email,
         password,
       },
@@ -44,14 +45,23 @@ export async function signup(email, password) {
         },
       }
     );
+    console.log(response);
+    localStorage.setItem("accessToken", response.data.data.accessToken.token);
+    localStorage.setItem(
+      "refreshToken",
+      response.data.data.accessToken.refreshToken
+    );
+    useAuth.setCredentials(
+      response.data.data.accessToken.token,
+      response.data.data.accessToken.refreshToken,
+      response.data.data.createUser.role.name
+    );
 
-    useAuth.token = response.data.token;
-    useAuth.refreshTokenUser = response.data.refreshToken;
-    localStorage.setItem("accessToken", useAuth.token);
-    localStorage.setItem("refreshToken", useAuth.refreshTokenUser);
     return response.data;
   } catch (error) {
-    return await Promise.reject(error.response.data);
+    return Promise.reject(error.response.data);
+  } finally {
+    hideLoading();
   }
 }
 
@@ -122,7 +132,7 @@ export async function getUserRole() {
         Authorization: token,
       },
     });
-    useAuth.userRolName = response.data.rol.name;
+    useAuth.userRole = response.data.rol.name;
     return response.data.rol;
   } catch (error) {
     return await Promise.reject(error.response.data);

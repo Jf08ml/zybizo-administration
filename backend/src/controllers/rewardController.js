@@ -1,77 +1,82 @@
-import Reward from "../models/rewards";
+import RewardService from "../services/reward.service";
+import CustomErrors from "../errors/CustomErrors.js";
+import sendResponse from "../utils/response";
 
-export const createReward = async (req, res) => {
+const { NotFoundError, ValidationError } = CustomErrors;
+
+export const createReward = async (req, res, next) => {
   try {
-    const { phoneNumber, usernameInsta } = req.body.reward;
-
-    const phoneExists = await Reward.findOne({ phoneNumber });
-    if (phoneExists) {
-      return res
-        .status(400)
-        .json({ message: "El número de teléfono ya está registrado." });
-    }
-
-    const usernameExists = await Reward.findOne({ usernameInsta });
-    if (usernameExists) {
-      return res.status(400).json({
-        message: "El nombre de usuario de Instagram ya está registrado.",
-      });
-    }
-
-    const newReward = new Reward(req.body.reward);
-    await newReward.save();
-    res
-      .status(201)
-      .json({
-        newReward, message: "Recompensa guardada y disponible para reclamar, escribenos!"
-      });
-  } catch (error) {
-    res.status(400).json({ message: error.message });
-  }
-};
-
-// Obtener todos los Rewards
-export const getAllRewards = async (req, res) => {
-  try {
-    const rewards = await Reward.find();
-    res.status(200).json(rewards);
-  } catch (error) {
-    res.status(404).json({ message: error.message });
-  }
-};
-
-// Obtener un Reward por ID
-export const getRewardById = async (req, res) => {
-  try {
-    const reward = await Reward.findById(req.params.id);
-    if (!reward) res.status(404).json({ message: "Reward no encontrado" });
-    res.status(200).json(reward);
-  } catch (error) {
-    res.status(404).json({ message: error.message });
-  }
-};
-
-// Actualizar un Reward
-export const updateReward = async (req, res) => {
-  try {
-    const updatedReward = await Reward.findByIdAndUpdate(
-      req.params.id,
-      req.body.reward,
-      { new: true }
+    const newReward = await RewardService.createReward(req.body.reward);
+    sendResponse(
+      res,
+      201,
+      newReward,
+      "Recompensa guardada y disponible para reclamar, ¡escríbenos!"
     );
-    res.status(200).json({ updatedReward, message: "Recompensa guardada y disponible para reclamar, escribenos!" });
   } catch (error) {
-    res.status(400).json({ message: error.message });
+    if (error instanceof ValidationError) {
+      return sendResponse(res, 400, null, error.message);
+    }
+    next(error);
   }
 };
 
-// Eliminar un Reward
-export const deleteReward = async (req, res) => {
+export const getRewards = async (req, res, next) => {
   try {
-    const reward = await Reward.findByIdAndDelete(req.params.id);
-    if (!reward) res.status(404).json({ message: "Reward no encontrado" });
-    res.status(200).json({ message: "Reward eliminado con éxito" });
+    const rewards = await RewardService.getRewards();
+    sendResponse(
+      res,
+      200,
+      rewards,
+      rewards.length > 0
+        ? "Recompensas encontradas."
+        : "No se encontraron recompensas."
+    );
   } catch (error) {
-    res.status(400).json({ message: error.message });
+    next(error);
+  }
+};
+
+export const getRewardById = async (req, res, next) => {
+  try {
+    const reward = await RewardService.getReward(req.params.id);
+    sendResponse(res, 200, reward, "Recompensa encontrada.");
+  } catch (error) {
+    if (error instanceof NotFoundError) {
+      return sendResponse(res, 404, null, error.message);
+    }
+    next(error);
+  }
+};
+
+export const updateReward = async (req, res, next) => {
+  try {
+    const updatedReward = await RewardService.updateReward(
+      req.params.id,
+      req.body.reward
+    );
+    sendResponse(
+      res,
+      200,
+      updatedReward,
+      "Recompensa actualizada y disponible para reclamar, ¡escríbenos!"
+    );
+  } catch (error) {
+    if (error instanceof NotFoundError) {
+      return sendResponse(res, 404, null, error.message);
+    }
+    next(error);
+  }
+};
+
+export const deleteReward = async (req, res, next) => {
+  try {
+    await RewardService.deleteReward(req.params.id);
+    sendResponse(res, 200, null, "Recompensa eliminada con éxito.");
+  } catch (error) {
+    if (error instanceof NotFoundError) {
+      return sendResponse(res, 404, null, error.message);
+    }
+    next(error);
   }
 };

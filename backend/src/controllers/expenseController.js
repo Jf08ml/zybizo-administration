@@ -1,22 +1,26 @@
-import Expense from "../models/expense.js";
+import expenseService from "../services/expense.service.js";
+import sendResponse from "../utils/response.js";
 
 async function createExpense(req, res) {
-  const spent = req.body.spent;
   try {
-    const expense = new Expense(spent);
-    await expense.save();
-    res.status(200).json({ message: "Expense saved successfully", expense });
+    const newExpense = await expenseService.createExpense(req.body.spent);
+    sendResponse(res, 201, newExpense, "Gasto creado exitosamente.");
   } catch (error) {
-    res.status(500).json({ message: "Error saving expense", error });
+    next(error);
   }
 }
 
-async function getExpenses(req, res) {
+async function getExpenses(req, res, next) {
   try {
-    const expenses = await Expense.find();
-    res.status(200).json(expenses);
+    const expenses = await expenseService.getExpenses();
+    sendResponse(
+      res,
+      200,
+      expenses,
+      expenses.length > 0 ? "Gastos encontrados." : "No se encontraron gastos."
+    );
   } catch (error) {
-    res.status(500).json({ message: "Error fetching expenses", error });
+    next(error);
   }
 }
 

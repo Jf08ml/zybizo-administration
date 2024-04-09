@@ -35,6 +35,21 @@ export async function getProducts() {
   }
 }
 
+export async function getProduct(id) {
+  try {
+    showLoading();
+    const response = await apiProduct.get(`/productDetail/${id}`, {
+      headers: { "Cache-Control": "no-cache" },
+    });
+
+    return response.data;
+  } catch (error) {
+    return await Promise.reject(error.response.data);
+  } finally {
+    hideLoading();
+  }
+}
+
 export async function getProductsCatalog() {
   try {
     showLoading();

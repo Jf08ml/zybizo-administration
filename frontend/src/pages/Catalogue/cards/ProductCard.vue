@@ -1,21 +1,31 @@
 <template>
   <q-card class="bg-grey-1" align="left">
-    <q-img
-      :src="product.images[0]"
-      height="200px"
-      @click="openCarousel(product.images)"
-    />
+    <q-carousel
+      v-model="fullScreenSlide"
+      class="fullscreen-carousel"
+      swipeable
+      animated
+      thumbnails
+      infinite
+    >
+      <q-carousel-slide
+        v-for="(image, index) in product.images"
+        :name="index"
+        :key="index"
+        :img-src="image"
+        @click="redirectDetailProduct"
+      />
+    </q-carousel>
 
-    <q-card-section>
+    <q-card-section @click="redirectDetailProduct">
       <div class="text-h6 text-grey-9">{{ product.namePublic }}</div>
-      <q-expansion-item label="Descripción" icon="description">
-        <div class="text-caption text-justify q-mt-md text-blue-grey-7">
-          {{ product.characteristics }}
-        </div>
-      </q-expansion-item>
     </q-card-section>
 
-    <q-card-section v-if="product.stock > 0" class="row items-center">
+    <q-card-section
+      v-if="product.stock > 0"
+      class="row items-center"
+      @click="redirectDetailProduct"
+    >
       <div class="col-4">
         <div class="text-subtitle2">
           <q-chip square>
@@ -23,25 +33,31 @@
             {{ formatPrice(product.salePrice) }}
           </q-chip>
         </div>
+
         <div class="text-caption">
           <q-chip size="sm" square>
             {{ product.quantitiesSold }} Vendidos
           </q-chip>
         </div>
       </div>
-      <div class="col-6 flex justify-end">
-        <q-btn
-          flat
-          round
-          @click="redirectToWhatsApp(product)"
-          class="q-ma-md social-button"
-        >
-          <q-icon name="bi-whatsapp " size="xl" color="teal"></q-icon>
-        </q-btn>
+
+      <div class="col-8 flex justify-end">
+        <q-rating
+          v-model="product.rating"
+          max="5"
+          size="2rem"
+          color="yellow-7"
+          icon="star_border"
+          icon-selected="star"
+          icon-half="star_half"
+          no-dimming
+          readonly
+        />
       </div>
     </q-card-section>
-    <q-card-section v-else align="left">
-      <div class="flex justify-end">
+
+    <q-card-section v-else>
+      <div>
         <q-chat-message
           avatar="https://i.ibb.co/njBrkRL/logo.png"
           text-color="white"
@@ -58,18 +74,25 @@
 <script setup>
 import { ref } from "vue";
 import { formatPrice } from "../../../utils/utilsFunctions.js";
+import { useRouter } from "vue-router";
+
+const $router = useRouter();
+
+const redirectDetailProduct = () => {
+  $router.push({ name: "DetailProduct", params: { productId: product._id } });
+};
 
 const props = defineProps({
   product: Object,
 });
-console.log(props.product);
-const emit = defineEmits(["open-carousel", "redirect-to-whatsApp"]);
 
-const openCarousel = (images) => {
-  emit("open-carousel", images);
-};
-const redirectToWhatsApp = (product) => {
-  emit("redirect-to-whatsApp", product);
-};
+const fullScreenSlide = ref(0);
 const product = props.product;
 </script>
+
+<style scoped>
+.fullscreen-carousel {
+  width: 100%;
+  height: 40vh;
+}
+</style>

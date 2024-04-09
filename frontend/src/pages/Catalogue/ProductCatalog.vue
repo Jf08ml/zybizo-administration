@@ -1,16 +1,12 @@
 <template>
   <q-page padding>
-    <div class="row q-col-gutter-md" align="center">
+    <div class="row q-col-gutter-xs" align="center">
       <div
-        class="col-xs-12 col-md-6 col-lg-4"
+        class="col-xs-12 col-sm-4 col-md-4 col-lg-4 q-pa-sm"
         v-for="product in products"
         :key="product.id"
       >
-        <ProductCard
-          :product="product"
-          @open-carousel="openFullScreenCarousel"
-          @redirect-to-whatsApp="redirectToWhatsApp"
-        />
+        <ProductCard :product="product" />
       </div>
     </div>
   </q-page>
@@ -39,25 +35,25 @@ onBeforeMount(async () => {
 const getAllProducts = async () => {
   try {
     const response = await getProductsCatalog();
-    products.value = response.products.map((product) => ({
+    products.value = response.data.map((product) => ({
       ...product,
-      slideIndex: 0, // Agrega un nuevo campo para rastrear el índice de la diapositiva
+      slideIndex: 0,
     }));
   } catch (error) {
     console.error(error);
   }
 };
 
-const redirectToWhatsApp = (product) => {
-  const defaultMessage = `Hola, estoy interesado en ${product.namePublic}.`;
-  const encodedMessage = encodeURIComponent(defaultMessage);
-  window.open(`https://wa.me/+573165892611?text=${encodedMessage}`, "_blank");
-};
+// const redirectToWhatsApp = (product) => {
+//   const defaultMessage = `Hola, estoy interesado en ${product.namePublic}.`;
+//   const encodedMessage = encodeURIComponent(defaultMessage);
+//   window.open(`https://wa.me/+573165892611?text=${encodedMessage}`, "_blank");
+// };
 
-const openFullScreenCarousel = (images) => {
-  currentImages.value = images;
-  fullScreenCarouselOpen.value = true;
-};
+// const openFullScreenCarousel = (images) => {
+//   currentImages.value = images;
+//   fullScreenCarouselOpen.value = true;
+// };
 </script>
 
 <style>
@@ -74,7 +70,8 @@ const openFullScreenCarousel = (images) => {
 }
 
 .q-card {
-  max-width: 350px;
+  width: 100%;
+  height: 100%;
 }
 
 .fullscreen-carousel {
@@ -99,7 +96,8 @@ const openFullScreenCarousel = (images) => {
 
 @media (max-width: 600px) {
   .q-card {
-    max-width: 100%;
+    width: 100%;
+    height: 100%;
   }
 
   .fullscreen-carousel {

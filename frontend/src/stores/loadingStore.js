@@ -1,4 +1,3 @@
-// loadingStore.js
 import { reactive } from 'vue';
 
 export const loadingStore = reactive({
