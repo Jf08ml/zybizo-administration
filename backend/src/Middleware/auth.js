@@ -1,4 +1,4 @@
-import { verify } from "jsonwebtoken";
+import jwt from "jsonwebtoken";
 import Role from "../models/roles";
 
 const JWT_SECRET = process.env.JWT_SECRET;
@@ -10,7 +10,7 @@ function verifyToken(req, res, next) {
   }
 
   try {
-    const decodedToken = verify(token, JWT_SECRET);
+    const decodedToken = jwt.verify(token, JWT_SECRET);
     req.userId = decodedToken.id;
     Role.findById(decodedToken.role).then((role) => {
       if(!role){
