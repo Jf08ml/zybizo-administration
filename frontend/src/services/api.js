@@ -3,10 +3,10 @@ import { refreshToken } from "./refreshToken";
 import EventBus from "../utils/eventBus";
 
 const API_BASE_URL =
-  process.env.NODE_ENV === "production"
-    ? import.meta.env.VUE_APP_BASE_URL_PRODUCTION
+  process.env.NODE_ENV !== "production"
+    ? import.meta.env.VITE_APP_URL_PRODUCTION
     : import.meta.env.VITE_APP_URL_DEPLOYMENT;
-
+console.log(import.meta.env.VITE_APP_URL_PRODUCTION);
 const createAxiosInstance = (baseURL) => {
   const api = axios.create({
     baseURL,
