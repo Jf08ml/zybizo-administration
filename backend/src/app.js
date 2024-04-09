@@ -10,19 +10,19 @@ import rewardRoutes from "./routes/rewards.js";
 
 const app = express();
 
-const allowedOrigins = ["http://localhost:9000", "https://www.zybizobazar.com"];
+// const allowedOrigins = ["http://localhost:9000", "https://www.zybizobazar.com"];
 
-const corsOptions = {
-  origin: function (origin, callback) {
-    if (!origin || allowedOrigins.indexOf(origin) !== -1) {
-      callback(null, true);
-    } else {
-      callback(new Error("Origen no permitido por CORS"));
-    }
-  },
-};
+// const corsOptions = {
+//   origin: function (origin, callback) {
+//     if (!origin || allowedOrigins.indexOf(origin) !== -1) {
+//       callback(null, true);
+//     } else {
+//       callback(new Error("Origen no permitido por CORS"));
+//     }
+//   },
+// };
 
-app.use(cors(corsOptions));
+app.use(cors({ origin: "*" }));
 
 app.use(morgan("dev"));
 app.use(express.json());
