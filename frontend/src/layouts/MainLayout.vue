@@ -27,7 +27,11 @@
           @click="redirectToRegister"
         />
 
-        <div v-if="isAuthenticated" class="q-pa-xs q-ma-xs rounded-borders shadow-2 icon-container">
+        <div
+          v-if="isAuthenticated"
+          @click="goToPay"
+          class="q-pa-xs q-ma-xs rounded-borders shadow-2 icon-container cursor-pointer"
+        >
           <span class="icon-number">{{ itemsCar }}</span>
           <q-icon name="bi-cart3" size="md" />
         </div>
@@ -57,6 +61,7 @@
           v-for="link in filteredLinksList"
           :key="link.title"
           v-bind="link"
+          @click="leftDrawerOpen = false"
         />
       </q-list>
     </q-drawer>
@@ -82,6 +87,13 @@ const isAuthenticated = computed(() => authStore.isAuthenticated);
 const itemsCar = computed(() => carStore.$state.car);
 
 const leftDrawerOpen = ref(false);
+
+const goToPay = () => {
+  $router.push({
+    name: "PaymentPage",
+    query: { type: "car", time: Date.now() },
+  });
+};
 
 const redirectToLogin = () => {
   $router.push({ name: "Login" });

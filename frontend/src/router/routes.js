@@ -65,6 +65,16 @@ const routes = [
         path: "/payment",
         component: () => import("pages/Payments/PaymentsPage.vue"),
       },
+      {
+        name: "PrivacyPolicy",
+        path: "/privacypolicy",
+        component: () => import("pages/PrivacyPolicy.vue"),
+      },
+      {
+        name: "TermsOfService",
+        path: "/termservice",
+        component: () => import("pages/TermsOfService.vue"),
+      },
     ],
   },
   {
