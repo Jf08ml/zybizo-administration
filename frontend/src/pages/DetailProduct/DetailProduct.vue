@@ -1,6 +1,6 @@
 <template>
   <q-page
-    class="flex flex-center column items-center justify-space-between q-pa-md full-width"
+    class="flex flex-center column items-center justify-space-between q-pa-sm full-width"
   >
     <div class="row full-width shadow-1" :class="{ dimmed: showDrawer }">
       <div class="col-xs-12 col-md-6 col-lg-6 q-pa-xs">
@@ -92,11 +92,15 @@ const buyItem = () => {
 
   itemToBuy.value = {
     _id: product.value._id,
+    name: product.value.name,
+    image: product.value.images[0],
     references: product.value?.references.map((reference) => ({
       name: reference.name,
       selectedOption: reference.selectedOption,
     })),
     quantity: quantity.value,
+    priceUnit: product.value.salePrice,
+    totalPrice: quantity.value * product.value.salePrice,
   };
 
   showDrawer.value = true;
@@ -104,7 +108,7 @@ const buyItem = () => {
 
 const goToPay = () => {
   carStore.setOrder(itemToBuy.value);
-  $router.push({ name: "PaymentPage" });
+  $router.push({ name: "PaymentPage", query: { type: "buy", time: Date.now() } });
 };
 
 const addCar = () => {
@@ -125,11 +129,15 @@ const addCar = () => {
 
   itemToBuy.value = {
     _id: product.value._id,
-    references: product.value.references.map((reference) => ({
+    name: product.value.name,
+    image: product.value.images[0],
+    references: product.value?.references.map((reference) => ({
       name: reference.name,
       selectedOption: reference.selectedOption,
     })),
     quantity: quantity.value,
+    priceUnit: product.value.salePrice,
+    totalPrice: quantity.value * product.value.salePrice,
   };
 
   carStore.setCar(itemToBuy.value);

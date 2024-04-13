@@ -5,7 +5,7 @@
     overlay
     bordered
     side="right"
-    class="q-pa-sm"
+    class="q-pa-xs"
     :width="drawerWidth"
     :breakpoint="500"
     v-if="itemToBuy != null"
@@ -15,7 +15,8 @@
       <q-separator></q-separator>
     </div>
     <div style="height: 68%" class="q-pa-xs">
-      <q-card class="full-width" flat bordered>
+      <div>
+        <q-card class="full-width" flat bordered>
         <q-card-section horizontal>
           <q-card-section class="q-pt-xs">
             <div class="text-overline q-mt-sm q-mb-xs">
@@ -47,6 +48,7 @@
           <span class="text-h6"> {{ formatPrice(totalPrice) }} </span>
         </q-card-actions>
       </q-card>
+      </div>
     </div>
     <q-separator />
     <div
