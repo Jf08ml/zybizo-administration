@@ -2,8 +2,8 @@
   <q-page
     class="flex flex-center column items-center justify-space-between q-pa-sm full-width"
   >
-    <div class="row full-width shadow-1" :class="{ dimmed: showDrawer }">
-      <div class="col-xs-12 col-md-6 col-lg-6 q-pa-xs">
+    <div class="row full-width" :class="{ dimmed: showDrawer }">
+      <div class="col-xs-12 col-md-5 col-lg-6 q-pa-xs">
         <CarouselDetailItem :product="product" />
       </div>
 
@@ -16,11 +16,11 @@
       />
     </div>
 
-    <div class="row full-width shadow-1 q-mt-xs q-pa-lg">
+    <div class="row full-width q-mt-xs q-pa-lg">
       <span class="text-h4 q-mb-md">Detalles</span>
       <div class="col-12 text-justify q-mb-lg">
-        <span class="text-body2 text-deep-orange-9"
-          >El envió para la ciudad de Neiva es $4.000, para otras ciudades tiene
+        <span class="text-body2 text-pink"
+          >El envió para la ciudad de Neiva es gratis al tiempo, para otras ciudades tiene
           un costo apróximado de $20.000.</span
         >
       </div>

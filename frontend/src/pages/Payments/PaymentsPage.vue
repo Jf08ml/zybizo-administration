@@ -48,7 +48,7 @@
                 >
                   Envió:
                 </span>
-                <span class="text-subtitle1 text-primary text-weight-bold"
+                <span class="text-subtitle1 text-pink text-weight-bold"
                   >Total a pagar:
                 </span>
               </div>
@@ -64,7 +64,7 @@
                 >
                   {{ shippingCost }}
                 </span>
-                <span class="text-subtitle1 text-primary text-weight-bold">
+                <span class="text-subtitle1 text-pink text-weight-bold">
                   {{ formatPrice(totalPayment) }}</span
                 >
               </div>
@@ -74,7 +74,7 @@
             <q-btn
               @click="sendOrder()"
               label="Realizar pedido"
-              color="green"
+              color="pink"
               class="full-width"
             />
           </q-card-actions>
@@ -108,7 +108,7 @@
             <div class="row justify-between">
               <span class="text-h6">Total a pagar:</span>
 
-              <span class="text-subtitle1 text-primary text-weight-bold">
+              <span class="text-subtitle1 text-pink text-weight-bold">
                 <q-btn
                   flat
                   @click="showSummaryDetails = !showSummaryDetails"
@@ -116,7 +116,7 @@
                 />
                 {{ formatPrice(totalPayment) }}
               </span>
-              <q-btn label="Realizar pedido" color="green" class="full-width" />
+              <q-btn label="Realizar pedido" color="pink" class="full-width" />
             </div>
           </q-card-section>
         </q-card>

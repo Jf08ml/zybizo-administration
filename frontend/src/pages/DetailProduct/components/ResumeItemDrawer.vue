@@ -10,16 +10,17 @@
     :breakpoint="500"
     v-if="itemToBuy != null"
   >
-    <div style="height: 10%" align="center">
+    <div class="q-ma-sm" align="center">
       <span class="text-h6">Resumen</span>
-      <q-separator></q-separator>
     </div>
-    <div style="height: 68%" class="q-pa-xs">
-      <div>
-        <q-card class="full-width" flat bordered>
+
+    <q-separator />
+
+    <div class="q-pa-xs">
+      <q-card class="full-width" flat bordered>
         <q-card-section horizontal>
           <q-card-section class="q-pt-xs">
-            <div class="text-overline q-mt-sm q-mb-xs">
+            <div class="q-mt-sm q-mb-xs">
               {{ product.name }}
             </div>
             <div class="text-caption text-grey">
@@ -45,64 +46,44 @@
         <q-separator />
 
         <q-card-actions align="center">
-          <span class="text-h6"> {{ formatPrice(totalPrice) }} </span>
+          <span class="text-subtitle1 text-pink text-weight-bold">
+            {{ formatPrice(totalPrice) }}
+          </span>
         </q-card-actions>
       </q-card>
-      </div>
     </div>
-    <q-separator />
+
     <div
-      style="
-        display: flex;
-        flex-direction: row;
-        justify-content: center;
-        align-items: center;
-        height: 10%;
-      "
+      class="flex justify-center align-center q-py-sm fixed-bottom full-width shadow-up-1"
     >
-      <div style="display: flex; flex-direction: column">
-        <span class="text-caption text-blue-grey-8">Productos:</span>
-        <span class="text-caption text-blue-grey-8">Envio:</span>
-        <span class="text-subtitle2 text-deep-orange-14">Total a pagar:</span>
+      <div class="flex row justify-center full-width">
+        <div class="flex column">
+          <span class="text-subtitle1 text-pink text-weight-bold">Total a pagar:</span>
+        </div>
+
+        <div class="flex column q-mx-md">
+          <span class="text-subtitle1 text-pink text-weight-bold">{{
+            formatPrice(totalPrice)
+          }}</span>
+        </div>
       </div>
-      <div style="display: flex; flex-direction: column; margin-inline: 15px">
-        <span class="text-caption text-blue-grey-8">{{
-          formatPrice(totalPrice)
-        }}</span>
-        <span class="text-caption text-blue-grey-8">{{
-          formatPrice(20000)
-        }}</span>
-        <span class="text-subtitle2 text-deep-orange-14">{{
-          formatPrice(totalPrice + 20000)
-        }}</span>
-      </div>
-    </div>
-    <div align="center" style="width: 80%; margin: auto">
-      <span class="text-caption text-blue-grey-10"
-        >Nota: El costo del envió se ajusta al ir a pagar.</span
-      >
-    </div>
-    <q-separator />
-    <div
-      style="
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        height: 8%;
-      "
-    >
+
+      <div class="q-pa-sm" align="center">
+          <span class="text-caption text-blue-grey-10"
+            >Nota: No se incluye el costo del envió.</span
+          >
+        </div>
+
       <q-btn
-        style="margin: auto"
         class="q-mx-xs"
         label="Ir a pagar"
-        color="primary"
+        color="pink"
         rounded
         @click="handleGoToPay"
       />
       <q-btn
-        style="margin: auto"
         label="Cancelar"
-        color="primary"
+        color="black"
         outline
         rounded
         @click="handleDrawerChange(false)"

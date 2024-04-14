@@ -1,24 +1,23 @@
 <template>
-  <div class="col-xs-12 col-md-6 col-lg-6 q-pa-md column full-height-on-mobile">
-    <div class="q-ma-auto text-center" style="height: 10%">
+  <div class="col-xs-12 col-md-7 col-lg-6 q-pa-md column full-height-on-mobile">
+    <q-separator />
+    <div class="q-ma-auto q-my-sm text-center">
       <span class="text-h5 text-weight-medium">{{ product.name }}</span>
     </div>
-    <q-separator class="q-mb-md" />
-    <div
-      style="height: 40%"
-      v-if="product?.references && product?.references.length > 0"
-    >
+    <q-separator />
+
+    <div v-if="product?.references && product?.references.length > 0">
       <div
         v-for="(reference, index) in product.references"
         :key="index"
-        class="q-pb-md"
+        class="q-py-sm"
       >
-        <span class="text-weight-medium">{{ reference.name }} </span>
-        <div class="q-pt-xs" style="width: 100%">
+        <div>
+          <span class="text-weight-medium q-mr-md">{{ reference.name }} :</span>
           <q-btn-toggle
             v-model="reference.selectedOption"
             @update:model-value="updateReferenceOption(index, $event)"
-            toggle-color="primary"
+            toggle-color="black"
             :options="reference.options"
           />
         </div>
@@ -34,19 +33,17 @@
         min="1"
       />
       <q-chip class="q-my-md q-pa-sm shadow-3" square>
-        <q-avatar icon="sell" color="red" text-color="white" />
-        <span class="text-h6 text-deep-orange-13">{{
-          formatPrice(totalPrice)
-        }}</span>
+        <q-avatar icon="sell" color="pink" text-color="white" />
+        <span class="text-h5 text-pink">{{ formatPrice(totalPrice) }}</span>
       </q-chip>
     </div>
 
-    <q-separator class="q-mb-md" />
+    <q-separator />
 
-    <div class="flex justify-center" style="height: 10%">
+    <div class="flex justify-center q-my-md">
       <q-btn
         rounded
-        color="primary"
+        color="pink"
         label="Comprar"
         class="q-mx-xs"
         @click="buyItem"
@@ -54,12 +51,14 @@
       <q-btn
         outline
         rounded
-        color="primary"
+        color="black"
         label="Añadir a la cesta"
         class="q-mx-xs"
         @click="addCar"
       />
     </div>
+
+    <q-separator />
   </div>
 </template>
 
