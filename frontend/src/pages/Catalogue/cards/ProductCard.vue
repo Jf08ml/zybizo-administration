@@ -18,7 +18,7 @@
     </q-carousel>
 
     <q-card-section @click="redirectDetailProduct">
-      <div class="text-h6 text-grey-9">{{ product.namePublic }}</div>
+      <div class="text-h6">{{ product.namePublic }}</div>
     </q-card-section>
 
     <q-card-section
@@ -27,16 +27,16 @@
       @click="redirectDetailProduct"
     >
       <div class="col-4">
-        <div class="text-subtitle2">
-          <q-chip square>
-            <q-avatar icon="sell" color="red" text-color="white" />
+        <div class="text-body1">
+          <q-chip class="text-pink text-weight-bolder" square>
+            <q-avatar icon="sell" color="pink" text-color="white" />
             {{ formatPrice(product.salePrice) }}
           </q-chip>
         </div>
 
         <div class="text-caption">
-          <q-chip size="sm" square>
-            {{ product.quantitiesSold }} Vendidos
+          <q-chip size="sm" quare>
+            {{ product.quantitiesSold }} vendidos
           </q-chip>
         </div>
       </div>
@@ -46,7 +46,7 @@
           v-model="product.rating"
           max="5"
           size="2rem"
-          color="yellow-7"
+          color="pink-5"
           icon="star_border"
           icon-selected="star"
           icon-half="star_half"

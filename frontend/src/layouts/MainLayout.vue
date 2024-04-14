@@ -1,7 +1,7 @@
 <template>
-  <q-layout view="lHh Lpr lFf">
+  <q-layout view="hHh Lpr lff">
     <q-header elevated>
-      <q-toolbar>
+      <q-toolbar class="bg-black text-white">
         <q-btn
           flat
           dense
@@ -52,7 +52,13 @@
       </q-toolbar>
     </q-header>
 
-    <q-drawer v-model="leftDrawerOpen" bordered>
+    <q-drawer
+      v-model="leftDrawerOpen"
+      overlay
+      bordered
+      :width="250"
+      :breakpoint="500"
+    >
       <q-list>
         <q-item-label header> Menú </q-item-label>
 
@@ -62,6 +68,7 @@
           v-bind="link"
           @click="leftDrawerOpen = false"
         />
+
       </q-list>
     </q-drawer>
 
@@ -107,7 +114,7 @@ const linksList = [
     title: "Inicio",
     caption: "",
     icon: "bi-house",
-    link: "/",
+    link: "/home",
   },
   {
     title: "Catálogo",

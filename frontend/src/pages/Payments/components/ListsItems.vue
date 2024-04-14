@@ -2,7 +2,7 @@
   <div>
     <q-card class="q-ma-md full-width">
       <q-card-section>
-        <div class="text-h6">Lista de productos</div>
+        <div class="text-h6 text-pink">Lista de productos</div>
         <q-separator />
         <div
           class="card-item q-mt-sm"
@@ -15,16 +15,28 @@
                 class="flex flex-grow column justify-between full-width"
               >
                 <div>
-                  <div class="text-overline q-mt-sm q-mb-xs">
+                  <div class="q-mt-sm q-mb-xs">
                     {{ itemToBuy.name }}
                   </div>
 
-                  <div class="text-caption text-grey">
-                    Cantidad:
-                    <input
-                      v-model="itemToBuy.quantity"
-                      style="width: 30px; text-align: center"
-                      @change="reCalculate(index)"
+                  <div class="text-caption">
+                    <span class="text-grey q-mr-sm">Cantidad:</span>
+                    <q-btn
+                      btn
+                      round
+                      size="xs"
+                      icon="remove"
+                      class="text-body2 text-pink"
+                      @click="changeQuantity(itemToBuy, index, -1)"
+                    />
+                    <span class="q-mx-sm">{{ itemToBuy.quantity }}</span>
+                    <q-btn
+                      btn
+                      round
+                      size="xs"
+                      icon="add"
+                      class="text-body2 text-pink"
+                      @click="changeQuantity(itemToBuy, index, 1)"
                     />
                   </div>
 
@@ -43,21 +55,20 @@
                 </div>
 
                 <div
-                  class="flex justify-center text-h6 q-mt-xs q-mb-xs text-primary shadow-2"
+                  class="flex justify-center align-center text-body1 shadow-1 rounded-borders"
                   align="center"
                 >
-                  <span class="q-mt-xs">{{
+                  <span class="text-weight-bold" style="margin-top: 1.3px;">{{
                     formatPrice(itemToBuy.totalPrice)
                   }}</span>
-                  <div>
-                    <q-btn
-                      flat
-                      round
-                      color="red"
-                      icon="delete"
-                      @click="removeItem(index)"
-                    />
-                  </div>
+                  <q-btn
+                    flat
+                    round
+                    size="sm"
+                    color="red"
+                    icon="delete"
+                    @click="removeItem(index)"
+                  />
                 </div>
               </q-card-section>
 
@@ -84,11 +95,20 @@ const props = defineProps({
 
 const emit = defineEmits(["reCalculate", "removeItem"]);
 
+const changeQuantity = (item, index, increment) => {
+  if (increment === 1) {
+    item.quantity++;
+    reCalculate(index);
+  } else if (increment === -1 && item.quantity > 1) {
+    item.quantity--;
+    reCalculate(index);
+  }
+};
 const reCalculate = (index) => {
   emit("reCalculate", index);
 };
 
 const removeItem = (index) => {
-    emit("removeItem", index)
-}
+  emit("removeItem", index);
+};
 </script>

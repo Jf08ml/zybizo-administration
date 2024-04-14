@@ -4,17 +4,19 @@
     style="height: 100%; box-sizing: border-box"
   >
     <header
-      class="text-h3 text-weight-bold q-my-md text-center clandestine-neon"
+      class="text-h3 text-weight-bold q-my-md text-center"
       style="color: #3e454f"
     >
       <p>Bienvenido a la tienda</p>
-      <p class="clandestine-neon-red">Zybizo Bazar</p>
+      <p class="text-h4 text-blue text-weight-bold" >
+        Zybizo Bazar
+      </p>
     </header>
 
-    <main class="q-pa-md description-text">
+    <main class="q-pa-md description-text text-center">
       <p>
         En nuestra tienda, ofrecemos productos garantizados de alta calidad a
-        precios competitivos. ¡Explora nuestro catálogo y descubre los mejores
+        precios competitivos. ¡Explora nuestro <a href="/catalogozybizo">catálogo</a> y descubre los mejores
         precios!
       </p>
     </main>
@@ -22,33 +24,37 @@
     <q-img
       alt="Zybizo Bazar"
       src="https://i.ibb.co/Gxr3GSs/fondo.jpg"
-      class="my-picture"
+      class="my-picture rounded-borders"
+      style="width: 220px;"
     />
 
-    <div class="q-mt-lg">
+    <div class="q-mt-lg flex flex-center">
       <q-btn
         flat
         round
         @click="redirectToWhatsApp"
         class="q-ma-md social-button"
+        style="background: #25d366; color: white"
       >
-        <q-icon name="bi-whatsapp" size="xl" color="teal"></q-icon>
+        <q-icon name="bi-whatsapp" size="xl"></q-icon>
       </q-btn>
       <q-btn
         flat
         round
         @click="redirectToInstagram"
         class="q-ma-md social-button"
+        style="background: #e1306c; color: white"
       >
-        <q-icon name="bi-instagram" size="xl" color="pink"></q-icon>
+        <q-icon name="bi-instagram" size="xl"></q-icon>
       </q-btn>
       <q-btn
         flat
         round
         @click="redirectToFacebook"
         class="q-ma-md social-button"
+        style="background: #3b5998; color: white"
       >
-        <q-icon name="bi-facebook" size="xl" color="blue"></q-icon>
+        <q-icon name="bi-facebook" size="xl"></q-icon>
       </q-btn>
     </div>
   </q-page>
@@ -79,8 +85,15 @@ useMeta(() => ({
     },
     keywords: {
       name: "keywords",
-      content: "zybizo, tienda, bazar, productos de calidad, precios competitivos",
+      content:
+        "zybizo, tienda, bazar, productos de calidad, precios competitivos",
     },
   },
 }));
 </script>
+
+<style>
+.rounded-borders {
+  border-radius: 8px;
+}
+</style>

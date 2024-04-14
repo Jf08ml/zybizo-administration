@@ -46,8 +46,8 @@
   
   const $router = useRouter();
   const registerInfo = ref({
-    email: "lassojuanfe@gmail.com",
-    password: "123456",
+    email: "",
+    password: "",
   });
   
   const onSubmit = async () => {

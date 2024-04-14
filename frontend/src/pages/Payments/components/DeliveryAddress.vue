@@ -6,6 +6,7 @@
         v-model="isExpanded"
         class="full-width text-uppercase"
         icon="bi-signpost"
+        header-class="text-pink"
         label="Dirección de entrega"
         :caption="viewAddress()"
       >
@@ -83,11 +84,11 @@
                 <q-btn
                   label="Limpiar campos"
                   type="reset"
-                  color="primary"
+                  color="black"
                   flat
                   class="q-ml-sm"
                 />
-                <q-btn label="Guardar" type="submit" rounded color="primary" />
+                <q-btn label="Guardar" type="submit" rounded color="pink" />
               </div>
             </q-form>
           </q-card-section> </q-card
@@ -97,19 +98,19 @@
 </template>
 
 <script setup>
-import { ref, onMounted, watch } from "vue";
+import { ref } from "vue";
 
 const props = defineProps({});
 
 const emit = defineEmits(['updateDeliveryAddress']);
 
 const deliveryAddress = ref({
-  contactName: "Juan Mosquera",
-  phoneContact: "3132735116",
-  department: "Huila",
-  city: "Neiva",
-  neighborhood: "Jardin",
-  address: "Calle 2c # 5a - 32",
+  contactName: "",
+  phoneContact: "",
+  department: "",
+  city: "",
+  neighborhood: "",
+  address: "",
 });
 
 const isExpanded = ref(true);
