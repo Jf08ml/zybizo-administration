@@ -14,6 +14,7 @@
         :listItems="listItems"
         @reCalculate="reCalculate"
         @removeItem="removeItem"
+        class="q-mb-lg"
       />
     </div>
 
@@ -116,7 +117,12 @@
                 />
                 {{ formatPrice(totalPayment) }}
               </span>
-              <q-btn label="Realizar pedido" color="pink" class="full-width" />
+              <q-btn
+                @click="sendOrder()"
+                label="Realizar pedido"
+                color="pink"
+                class="full-width"
+              />
             </div>
           </q-card-section>
         </q-card>

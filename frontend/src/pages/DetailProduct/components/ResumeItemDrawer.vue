@@ -58,7 +58,9 @@
     >
       <div class="flex row justify-center full-width">
         <div class="flex column">
-          <span class="text-subtitle1 text-pink text-weight-bold">Total a pagar:</span>
+          <span class="text-subtitle1 text-pink text-weight-bold"
+            >Total a pagar:</span
+          >
         </div>
 
         <div class="flex column q-mx-md">
@@ -68,26 +70,28 @@
         </div>
       </div>
 
-      <div class="q-pa-sm" align="center">
-          <span class="text-caption text-blue-grey-10"
-            >Nota: No se incluye el costo del envió.</span
-          >
-        </div>
+      <div class="flex column q-pa-sm" align="center">
+        <span class="text-caption text-blue-grey-10"
+          >Nota: No se incluye el costo del envió.</span
+        >
+      </div>
 
-      <q-btn
-        class="q-mx-xs"
-        label="Ir a pagar"
-        color="pink"
-        rounded
-        @click="handleGoToPay"
-      />
-      <q-btn
-        label="Cancelar"
-        color="black"
-        outline
-        rounded
-        @click="handleDrawerChange(false)"
-      />
+      <div>
+        <q-btn
+          class="q-mx-xs"
+          label="Ir a pagar"
+          color="pink"
+          rounded
+          @click="handleGoToPay"
+        />
+        <q-btn
+          label="Cerrar"
+          color="black"
+          outline
+          rounded
+          @click="handleDrawerChange(false)"
+        />
+      </div>
     </div>
   </q-drawer>
 </template>
