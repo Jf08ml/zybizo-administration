@@ -15,7 +15,7 @@
         <q-btn
           v-if="!isAuthenticated"
           outline
-          class="text-no-wrapq-mx-sm"
+          class="text-no-wrap"
           label="Iniciar sesión"
           @click="redirectToLogin"
         />
@@ -28,7 +28,6 @@
         />
 
         <div
-          v-if="isAuthenticated"
           @click="goToPay"
           class="q-pa-xs q-ma-xs rounded-borders shadow-2 icon-container cursor-pointer"
         >
@@ -84,7 +83,7 @@ const authStore = useAuthStore();
 const carStore = useCarStore();
 const isAuthenticated = computed(() => authStore.isAuthenticated);
 
-const itemsCar = computed(() => carStore.$state.car);
+const itemsCar = computed(() => carStore.itemCount);
 
 const leftDrawerOpen = ref(false);
 

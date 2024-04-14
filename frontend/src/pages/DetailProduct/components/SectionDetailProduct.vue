@@ -1,7 +1,7 @@
 <template>
   <div class="col-xs-12 col-md-6 col-lg-6 q-pa-md column full-height-on-mobile">
     <div class="q-ma-auto text-center" style="height: 10%">
-      <span class="text-h6">{{ product.name }}</span>
+      <span class="text-h5 text-weight-medium">{{ product.name }}</span>
     </div>
     <q-separator class="q-mb-md" />
     <div
@@ -33,7 +33,7 @@
         type="number"
         min="1"
       />
-      <q-chip class="q-mt-md" square>
+      <q-chip class="q-my-md q-pa-sm shadow-3" square>
         <q-avatar icon="sell" color="red" text-color="white" />
         <span class="text-h6 text-deep-orange-13">{{
           formatPrice(totalPrice)

@@ -107,7 +107,7 @@ const buyItem = () => {
 };
 
 const goToPay = () => {
-  carStore.setOrder(itemToBuy.value);
+  carStore.addOrder(itemToBuy.value);
   $router.push({ name: "PaymentPage", query: { type: "buy", time: Date.now() } });
 };
 
@@ -140,7 +140,7 @@ const addCar = () => {
     totalPrice: quantity.value * product.value.salePrice,
   };
 
-  carStore.setCar(itemToBuy.value);
+  carStore.addItem(itemToBuy.value);
 
   Notify.create({
     type: "positive",
