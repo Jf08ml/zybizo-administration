@@ -3,205 +3,35 @@
     <!-- Primera columna -->
     <div class="col-xs-12 col-md-6 col-lg-6 q-pa-md">
       <!-- Sección de dirección de entrega -->
-      <div>
-        <q-list class="rounded-borders full-width shadow-1">
-          <q-expansion-item
-            expand-separator
-            v-model="isExpanded"
-            class="full-width text-uppercase"
-            icon="bi-signpost"
-            label="Dirección de entrega"
-            :caption="viewAddress()"
-          >
-            <q-card class="full-width">
-              <q-card-section>
-                <q-form
-                  @submit.prevent="onSaveAddress"
-                  @reset="onReset"
-                  class="q-gutter-md"
-                  align="center"
-                >
-                  <div class="row q-gutter-x-xs">
-                    <q-input
-                      class="col"
-                      dense
-                      filled
-                      v-model="deliveryAddress.contactName"
-                      label="Nombre de quien recibe"
-                      required
-                    />
 
-                    <q-input
-                      class="col"
-                      dense
-                      filled
-                      type="number"
-                      v-model="deliveryAddress.phoneContact"
-                      label="Telefono de contacto"
-                      required
-                    />
-                  </div>
-
-                  <div class="row q-gutter-x-xs">
-                    <q-input
-                      class="col"
-                      dense
-                      filled
-                      v-model="deliveryAddress.department"
-                      label="Departamento"
-                      required
-                    />
-
-                    <q-input
-                      class="col"
-                      dense
-                      filled
-                      v-model="deliveryAddress.city"
-                      label="Ciudad"
-                      required
-                    />
-                  </div>
-
-                  <div class="row q-gutter-x-xs">
-                    <q-input
-                      class="col"
-                      dense
-                      filled
-                      v-model="deliveryAddress.neighborhood"
-                      label="Barrio"
-                      required
-                    />
-
-                    <q-input
-                      class="col"
-                      dense
-                      filled
-                      v-model="deliveryAddress.address"
-                      label="Dirección de entrega"
-                      required
-                      hint="Ejemplo: Calle 5 sur # 1a - 81"
-                    />
-                  </div>
-                  <div class="flex justify-end">
-                    <q-btn
-                      label="Limpiar campos"
-                      type="reset"
-                      color="primary"
-                      flat
-                      class="q-ml-sm"
-                    />
-                    <q-btn
-                      label="Guardar"
-                      type="submit"
-                      rounded
-                      color="primary"
-                    />
-                  </div>
-                </q-form>
-              </q-card-section> </q-card
-          ></q-expansion-item>
-        </q-list>
-      </div>
+      <DeliveryAddress @updateDeliveryAddress="updateDeliveryAddress" />
 
       <!-- Sección de método de pago -->
-      <div>
-        <q-card class="q-ma-md full-width">
-          <q-card-section>
-            <div class="text-h6">Método de pago</div>
-            <q-separator class="q-my-xs" />
-            <span class="text-caption"
-              >El pago del pedido es contraentrega, una vez se de clic en
-              "Realizar pedido", nos comunicaremos por Whatsapp o llamada al
-              número ingresado en la dirección para confirmar el envió del
-              pedido.</span
-            >
-          </q-card-section>
-        </q-card>
-      </div>
+      <PaymentMethod />
 
       <!-- Sección de lista de cosas a comprar -->
-      <div>
-        <q-card class="q-ma-md full-width">
-          <q-card-section>
-            <div class="text-h6">Lista de productos</div>
-            <q-separator />
-            <div
-              class="q-mt-sm"
-              v-for="(itemToBuy, index) in listItems"
-              :key="itemToBuy._id"
-            >
-              <q-card flat>
-                <q-card-section horizontal class="full-width">
-                  <q-card-section
-                    class="flex flex-grow column justify-between full-width"
-                  >
-                    <div>
-                      <div class="text-overline q-mt-sm q-mb-xs">
-                        {{ itemToBuy.name }}
-                      </div>
-
-                      <div class="text-caption text-grey">
-                        Cantidad:
-                        <input
-                          v-model="itemToBuy.quantity"
-                          style="width: 30px; text-align: center"
-                          @change="reCalculate(index)"
-                        />
-                      </div>
-
-                      <div
-                        class="text-caption text-grey"
-                        v-if="
-                          itemToBuy.references &&
-                          itemToBuy.references.length > 0
-                        "
-                      >
-                        {{
-                          itemToBuy.references
-                            .map((reference) => reference.selectedOption)
-                            .join(", ")
-                        }}
-                      </div>
-                    </div>
-
-                    <div
-                      class="flex justify-center text-h6 q-mt-xs q-mb-xs text-primary shadow-2"
-                      align="center"
-                    >
-                      <span class="q-mt-xs">{{
-                        formatPrice(itemToBuy.totalPrice)
-                      }}</span>
-                      <div>
-                        <q-btn
-                          flat
-                          round
-                          color="red"
-                          icon="delete"
-                          @click="removeItem(itemToBuy._id)"
-                        />
-                      </div>
-                    </div>
-                  </q-card-section>
-
-                  <q-card-section
-                    v-if="itemToBuy.image"
-                    class="col-xs-6 col-md-4 col-lg-3 flex flex-center"
-                  >
-                    <q-img class="rounded-borders" :src="itemToBuy?.image" />
-                  </q-card-section>
-                </q-card-section>
-              </q-card>
-            </div>
-          </q-card-section>
-        </q-card>
-      </div>
+      <ListItems
+        :listItems="listItems"
+        @reCalculate="reCalculate"
+        @removeItem="removeItem"
+      />
     </div>
 
     <!-- Segunda columna -->
     <div class="col-xs-12 col-md-6 col-lg-6 q-pa-md">
       <!-- Sección de resumen y botón de realizar pedido -->
       <div v-if="!isMobile">
-        <q-card class="q-ma-5">
+        <q-card
+          class="q-ma-5"
+          style="
+            position: fixed;
+            top: 67px;
+            right: 10px;
+            width: calc(50% - 10px);
+            max-width: 650px;
+            max-height: 210px;
+          "
+        >
           <q-card-section>
             <div class="text-h6">Resumen</div>
             <q-separator class="q-my-xs" />
@@ -210,37 +40,43 @@
                 <span class="text-subtitle1 text-blue-grey-8">
                   Productos:
                 </span>
-                <span class="text-subtitle1 text-blue-grey-8"> Envió: </span>
+                <span
+                  v-if="
+                    deliveryAddress.city && deliveryAddress.city.length >= 4
+                  "
+                  class="text-subtitle1 text-blue-grey-8"
+                >
+                  Envió:
+                </span>
                 <span class="text-subtitle1 text-primary text-weight-bold"
                   >Total a pagar:
                 </span>
               </div>
               <div class="col flex column">
                 <span class="text-subtitle1 text-blue-grey-8">
-                  {{ formatPrice(getTotalToPay()) }}
+                  {{ formatPrice(getTotalProducts()) }}
                 </span>
-                <span class="text-subtitle1 text-blue-grey-8">
-                  {{
-                    formatPrice(
-                      deliveryAddress.city.toLowerCase() === "neiva" ? 0 : 20000
-                    )
-                  }}
+                <span
+                  v-if="
+                    deliveryAddress.city && deliveryAddress.city.length >= 4
+                  "
+                  class="text-subtitle1 text-blue-grey-8"
+                >
+                  {{ shippingCost }}
                 </span>
                 <span class="text-subtitle1 text-primary text-weight-bold">
-                  {{
-                    formatPrice(
-                      getTotalToPay() +
-                        (deliveryAddress.city.toLowerCase() === "neiva"
-                          ? 0
-                          : 20000)
-                    )
-                  }}</span
+                  {{ formatPrice(totalPayment) }}</span
                 >
               </div>
             </div>
           </q-card-section>
           <q-card-actions>
-            <q-btn label="Realizar pedido" color="green" class="full-width" />
+            <q-btn
+              @click="sendOrder()"
+              label="Realizar pedido"
+              color="green"
+              class="full-width"
+            />
           </q-card-actions>
         </q-card>
       </div>
@@ -258,16 +94,10 @@
                 </div>
                 <div class="col flex column" align="right">
                   <span class="text-subtitle1 text-blue-grey-8">
-                    {{ formatPrice(getTotalToPay()) }}
+                    {{ formatPrice(getTotalProducts()) }}
                   </span>
                   <span class="text-subtitle1 text-blue-grey-8">
-                    {{
-                      formatPrice(
-                        deliveryAddress.city.toLowerCase() === "neiva"
-                          ? 0
-                          : 20000
-                      )
-                    }}
+                    {{ shippingCost }}
                   </span>
                 </div>
               </div>
@@ -284,14 +114,7 @@
                   @click="showSummaryDetails = !showSummaryDetails"
                   icon="expand_more"
                 />
-                {{
-                  formatPrice(
-                    getTotalToPay() +
-                      (deliveryAddress.city.toLowerCase() === "neiva"
-                        ? 0
-                        : 20000)
-                  )
-                }}
+                {{ formatPrice(totalPayment) }}
               </span>
               <q-btn label="Realizar pedido" color="green" class="full-width" />
             </div>
@@ -303,27 +126,30 @@
 </template>
 
 <script setup>
-import { ref, onMounted, watch } from "vue";
+import { ref, onMounted, watch, computed } from "vue";
 import { formatPrice } from "src/utils/utilsFunctions";
 import { useCarStore } from "src/stores/car";
 import { useRoute } from "vue-router";
+import DeliveryAddress from "./components/DeliveryAddress.vue";
+import PaymentMethod from "./components/PaymentMethod.vue";
+import ListItems from "./components/ListsItems.vue";
 
 const carStore = useCarStore();
 const $route = useRoute();
 
 const deliveryAddress = ref({
-  contactName: "Juan Mosquera",
-  phoneContact: 3132735116,
-  department: "Huila",
-  city: "Neiva",
-  neighborhood: "Fortalecillas",
-  address: "Calle 5 # 1 - 81",
+  contactName: "",
+  phoneContact: "",
+  department: "",
+  city: "",
+  neighborhood: "",
+  address: "",
 });
 
-const isExpanded = ref(false);
 const showSummaryDetails = ref(false);
 const isMobile = ref(false);
-const listItems = ref(null);
+
+const listItems = ref([]);
 
 function updateDrawerWidth() {
   const breakpoint = 768;
@@ -332,13 +158,16 @@ function updateDrawerWidth() {
   isMobile.value = mobile;
 }
 
-const removeItem = (itemId) => {
-  const index = listItems.value.findIndex((item) => item._id === itemId);
-  if (index !== -1) {
-    listItems.value.splice(index, 1);
-  }
-  carStore.removeFromItems(itemId);
+const removeItem = (index) => {
+  carStore.removeItem(index);
   asignItemOrder();
+};
+
+const reCalculate = (index) => {
+  const newPrice =
+    listItems.value[index].priceUnit *
+    parseInt(listItems.value[index].quantity);
+  listItems.value[index].totalPrice = newPrice;
 };
 
 onMounted(() => {
@@ -347,11 +176,8 @@ onMounted(() => {
   window.addEventListener("resize", updateDrawerWidth);
 });
 
-const reCalculate = (index) => {
-  const newPrice =
-    listItems.value[index].priceUnit *
-    parseInt(listItems.value[index].quantity);
-  listItems.value[index].totalPrice = newPrice;
+const updateDeliveryAddress = (newAddress) => {
+  deliveryAddress.value = { ...newAddress };
 };
 
 const asignItemOrder = () => {
@@ -362,7 +188,7 @@ const asignItemOrder = () => {
   }
 };
 
-const getTotalToPay = () => {
+const getTotalProducts = () => {
   if (listItems.value) {
     const total = listItems.value.reduce(
       (acc, item) => acc + item.totalPrice,
@@ -372,25 +198,27 @@ const getTotalToPay = () => {
   }
 };
 
-const onSaveAddress = () => {
-  isExpanded.value = false;
-};
+const shippingCost = computed(() => {
+  return formatPrice(
+    deliveryAddress.value.city.toLowerCase() === "neiva" ? 0 : 20000
+  );
+});
 
-const viewAddress = () => {
-  if (deliveryAddress.value.address) {
-    return deliveryAddress.value.address;
-  }
-};
+const totalPayment = computed(() => {
+  const total =
+    getTotalProducts() +
+    (deliveryAddress.value.city && deliveryAddress.value.city.length >= 4
+      ? deliveryAddress.value.city.toLowerCase() === "neiva"
+        ? 0
+        : 20000
+      : 0);
+  return total;
+});
 
-const onReset = () => {
-  deliveryAddress.value = {
-    contactName: "",
-    phoneContact: 0,
-    department: "",
-    city: "",
-    neighborhood: "",
-    address: "",
-  };
+const sendOrder = () => {
+  console.log(deliveryAddress.value);
+  console.log(listItems.value);
+  console.log(totalPayment.value);
 };
 
 watch(
