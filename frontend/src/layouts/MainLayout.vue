@@ -14,6 +14,7 @@
         <q-toolbar-title> {{ fullTitle }}</q-toolbar-title>
         <q-btn
           v-if="!isAuthenticated"
+          :size="reSize"
           outline
           class="text-no-wrap"
           label="Iniciar sesión"
@@ -21,6 +22,7 @@
         />
         <q-btn
           v-if="!isAuthenticated"
+          :size="reSize"
           outline
           class="q-mx-sm"
           label="Registrarse"
@@ -68,7 +70,6 @@
           v-bind="link"
           @click="leftDrawerOpen = false"
         />
-
       </q-list>
     </q-drawer>
 
@@ -84,11 +85,21 @@ import { useRouter } from "vue-router";
 import { useAuthStore } from "src/stores/auth";
 import { useCarStore } from "src/stores/car.js";
 import EssentialLink from "components/EssentialLink.vue";
+import { useQuasar } from "quasar";
 
 const $router = useRouter();
 const authStore = useAuthStore();
 const carStore = useCarStore();
 const isAuthenticated = computed(() => authStore.isAuthenticated);
+const $q = useQuasar();
+
+const reSize = computed(() => {
+  if ($q.screen.lt.sm) {
+    return "sm";
+  } else {
+    return "md";
+  }
+});
 
 const itemsCar = computed(() => carStore.itemCount);
 
