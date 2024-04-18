@@ -1,5 +1,5 @@
 <template>
-  <div class="col-xs-12 col-md-7 col-lg-6 q-pa-md column full-height-on-mobile">
+  <div class="col-xs-12 col-md-7 col-lg-8 q-pa-md column full-height-on-mobile">
     <q-separator />
     <div class="q-ma-auto q-my-sm text-center">
       <span class="text-h5 text-weight-medium">{{ product.name }}</span>

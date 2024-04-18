@@ -1,10 +1,10 @@
 <template>
-  <q-card class="full-width">
+  <q-card class="full-width q-mb-lg" style="height: auto">
     <q-card-section>
-      <div class="text-h6 text-pink">Lista de productos</div>
+      <div class="text-body1 text-pink">Lista de productos</div>
       <q-separator />
       <div
-        class="card-item q-mt-sm"
+        class="card-item q-mt-sm custom-padding-x"
         v-for="(itemToBuy, index) in listItems"
         :key="itemToBuy._id"
       >
@@ -14,11 +14,11 @@
               class="flex flex-grow column full-width justify-between"
             >
               <div>
-                <div class="text-caption q-mt-sm q-mb-xs">
+                <div class="custom-text q-mt-sm q-mb-xs">
                   {{ itemToBuy.name }}
                 </div>
 
-                <div class="text-caption">
+                <div class="custom-text">
                   <span class="text-grey q-mr-sm">Cantidad:</span>
                   <q-btn
                     btn
@@ -40,7 +40,7 @@
                 </div>
 
                 <div
-                  class="text-caption text-grey"
+                  class="custom-text text-grey"
                   v-if="itemToBuy.references && itemToBuy.references.length > 0"
                 >
                   {{
@@ -79,6 +79,16 @@
           </q-card-actions>
         </q-card>
       </div>
+      <div>
+        <div
+          v-if="listItems.length === 0"
+          class="text-body1 text-black q-mt-md"
+          align="center"
+        >
+          ¡No has agregado productos, revisa el
+          <a href="/catalogozybizo">cátalogo</a>!
+        </div>
+      </div>
     </q-card-section>
   </q-card>
 </template>
@@ -109,3 +119,31 @@ const removeItem = (index) => {
   emit("removeItem", index);
 };
 </script>
+
+<style scoped>
+/* Estilos por defecto para dispositivos móviles pequeños */
+.custom-text {
+  font-size: 13px;
+}
+
+.custom-padding-x {
+  padding: 0;
+}
+
+/* Estilos para tablets y pantallas medianas */
+@media (min-width: 600px) {
+  .custom-text {
+    font-size: 14px;
+  }
+}
+
+/* Estilos para pantallas grandes y desktop */
+@media (min-width: 1024px) {
+  .custom-text {
+    font-size: 15px;
+  }
+  .custom-padding-x {
+    padding-inline: 30px;
+  }
+}
+</style>

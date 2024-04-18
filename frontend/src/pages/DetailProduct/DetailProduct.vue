@@ -1,9 +1,9 @@
 <template>
-  <q-page
-    class="flex flex-center column items-center justify-space-between q-pa-sm full-width"
+  <q-page 
+    class="flex flex-center column items-center justify-space-between q-pa-md full-width"
   >
     <div class="row full-width" :class="{ dimmed: showDrawer }">
-      <div class="col-xs-12 col-md-5 col-lg-6 q-pa-xs">
+      <div class="col-xs-12 col-md-5 col-lg-4 q-pa-xs">
         <CarouselDetailItem :product="product" />
       </div>
 
@@ -16,15 +16,15 @@
       />
     </div>
 
-    <div class="row full-width q-mt-xs q-pa-lg">
-      <span class="text-h4 q-mb-md">Detalles</span>
-      <div class="col-12 text-justify q-mb-lg">
+    <div class="row full-width q-mt-xs q-pa-sm">
+      <span class="col-12 text-h4 q-mb-md">Detalles</span>
+      <div class="lg:col-6 md:col-6 sm:col-12 xs:col-12 text-justify q-mb-lg">
         <span class="text-body2 text-pink"
-          >El envió para la ciudad de Neiva es gratis al tiempo, para otras ciudades tiene
-          un costo apróximado de $20.000.</span
+          >El envió para la ciudad de Neiva es gratis, para otras ciudades tiene
+          un costo apróximado entre $10.000 a $20.000.</span
         >
       </div>
-      <div class="col-12 text-justify q-mb-lg">
+      <div class="lg:col-6 md:col-6 sm:col-12 xs:col-12 text-justify q-pl-lg">
         <span class="text-body2">{{ product.characteristics }}</span>
       </div>
     </div>
@@ -68,6 +68,11 @@ onMounted(async () => {
 const getDetailProduct = async () => {
   try {
     const response = await getProduct(productId.value);
+    response.data.references.forEach((reference) => {
+      if (reference.options.length === 1) {
+        reference.selectedOption = reference.options[0].value;
+      }
+    });
     product.value = response.data;
   } catch (error) {
     console.error(error);
@@ -108,7 +113,10 @@ const buyItem = () => {
 
 const goToPay = () => {
   carStore.addOrder(itemToBuy.value);
-  $router.push({ name: "PaymentPage", query: { type: "buy", time: Date.now() } });
+  $router.push({
+    name: "PaymentPage",
+    query: { type: "buy", time: Date.now() },
+  });
 };
 
 const addCar = () => {
@@ -154,7 +162,6 @@ const addCar = () => {
 const updateReferenceOption = (reference) => {
   product.value.references[reference.referenceIndex].selectedOption =
     reference.selectedOption;
-  console.log(product.value);
 };
 
 const updateQuantity = (newVal) => {
