@@ -1,8 +1,8 @@
 <template>
   <q-page padding>
-    <div class="row q-col-gutter-xs" align="center">
+    <div class="row q-col-gutter-md" align="center">
       <div
-        class="col-xs-12 col-sm-4 col-md-4 col-lg-4 q-pa-sm"
+        class="col-xs-12 col-sm-4 col-md-4 col-lg-4"
         v-for="product in products"
         :key="product.id"
       >

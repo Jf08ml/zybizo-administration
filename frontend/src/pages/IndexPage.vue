@@ -8,23 +8,37 @@
       style="color: #3e454f"
     >
       <p>Bienvenido a la tienda</p>
-      <p class="text-h4 text-blue text-weight-bold">Zybizo Bazar</p>
+      <p class="text-h4 text-pink text-weight-bold">Zybizo Bazar</p>
     </header>
 
     <main class="q-pa-md description-text text-center">
-      <p>
+      <p class="text-body1">
         En nuestra tienda, ofrecemos productos garantizados de alta calidad a
         precios competitivos. ¡Explora nuestro
         <a href="/catalogozybizo">catálogo</a> y descubre los mejores precios!
       </p>
+      <p class="text-h6">
+        Ven y conoce nuestra alianza con la nueva marca de pestañas,
+        <strong>Galaxia Glamour Lashes</strong>, para lashitstas profesionales!
+      </p>
     </main>
-
-    <q-img
-      alt="Zybizo Bazar"
-      src="https://i.ibb.co/Gxr3GSs/fondo.jpg"
-      class="my-picture rounded-borders"
-      style="width: 220px"
-    />
+    <div align="center">
+      <q-img
+        alt="Lashes pestañas"
+        src="https://i.ibb.co/f0hpwQn/1.jpg"
+        class="rounded-borders custom-width-img"
+      />
+      <q-img
+        alt="Lashes pestañas"
+        src="https://i.ibb.co/RYyFBYq/presentation.jpg"
+        class="rounded-borders q-ma-xs custom-width-img"
+      />
+      <q-img
+        alt="Lashes pestañas"
+        src="https://i.ibb.co/3M2ywsn/yy.jpg"
+        class="rounded-borders custom-width-img"
+      />
+    </div>
   </q-page>
 </template>
 
@@ -51,5 +65,22 @@ useMeta(() => ({
 <style>
 .rounded-borders {
   border-radius: 8px;
+}
+
+.custom-width-img {
+  width: 220px;
+}
+
+@media (min-width: 600px) {
+  .custom-width-img {
+    width: 30px;
+  }
+}
+
+/* Estilos para pantallas grandes y desktop */
+@media (min-width: 1024px) {
+  .custom-width-img {
+    width: 220px;
+  }
 }
 </style>

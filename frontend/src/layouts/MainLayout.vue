@@ -183,13 +183,13 @@ const linksList = [
     title: "Whatsapp",
     caption: "@ZybizoBazar",
     icon: "bi-whatsapp",
-    link: "https://wa.me/+573165892611",
+    link: "https://wa.me/message/LRMCRWYN6JRNO1",
   },
   {
     title: "Zybizo page",
     caption: "Page official",
     icon: "bi-globe-americas",
-    link: "https://www.zybizobazar.com/#/catalogozybizo",
+    link: "https://www.zybizobazar.com/catalogozybizo",
   },
 ];
 

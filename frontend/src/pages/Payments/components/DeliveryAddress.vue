@@ -1,56 +1,54 @@
 <template>
   <div>
-    <q-list class="rounded-borders full-width shadow-1">
+    <q-list bordered class="rounded-borders full-width shadow-1">
       <q-expansion-item
         expand-separator
         v-model="isExpanded"
-        class="full-width text-uppercase"
+        class="full-width"
         icon="bi-signpost"
-        header-class="text-pink"
+        header-class="text-pink text-body1"
         label="Dirección de entrega"
         :caption="viewAddress()"
+        dense
       >
-        <q-card class="full-width">
+        <q-card flat class="q-pa-xs">
           <q-card-section>
             <q-form
               @submit.prevent="onSaveAddress"
               @reset="onReset"
               class="q-gutter-md"
-              align="center"
             >
-              <div class="row q-gutter-x-xs">
+              <div>
                 <q-input
-                  class="col"
+                  class="col-12 col-md-6 full-width"
                   dense
                   filled
                   v-model="deliveryAddress.contactName"
                   label="Nombre de quien recibe"
                   required
                 />
-
                 <q-input
-                  class="col"
+                  class="col-12 col-md-6 full-width"
                   dense
                   filled
                   type="number"
                   v-model="deliveryAddress.phoneContact"
-                  label="Telefono de contacto"
+                  label="Teléfono de contacto"
                   required
                 />
               </div>
 
-              <div class="row q-gutter-x-xs">
+              <div>
                 <q-input
-                  class="col"
+                  class="col-12 col-md-6 full-width"
                   dense
                   filled
                   v-model="deliveryAddress.department"
                   label="Departamento"
                   required
                 />
-
                 <q-input
-                  class="col"
+                  class="col-12 col-md-6 full-width"
                   dense
                   filled
                   v-model="deliveryAddress.city"
@@ -59,18 +57,17 @@
                 />
               </div>
 
-              <div class="row q-gutter-x-xs">
+              <div>
                 <q-input
-                  class="col"
+                  class="col-12 col-md-6 full-width"
                   dense
                   filled
                   v-model="deliveryAddress.neighborhood"
                   label="Barrio"
                   required
                 />
-
                 <q-input
-                  class="col"
+                  class="col-12 col-md-6 full-width"
                   dense
                   filled
                   v-model="deliveryAddress.address"
@@ -80,7 +77,7 @@
                 />
               </div>
 
-              <div class="flex justify-end">
+              <div class="flex justify-end q-gutter-sm">
                 <q-btn
                   label="Limpiar campos"
                   type="reset"
@@ -91,8 +88,9 @@
                 <q-btn label="Guardar" type="submit" rounded color="pink" />
               </div>
             </q-form>
-          </q-card-section> </q-card
-      ></q-expansion-item>
+          </q-card-section>
+        </q-card>
+      </q-expansion-item>
     </q-list>
   </div>
 </template>
@@ -100,9 +98,7 @@
 <script setup>
 import { ref } from "vue";
 
-const props = defineProps({});
-
-const emit = defineEmits(['updateDeliveryAddress']);
+const isExpanded = ref(true);
 
 const deliveryAddress = ref({
   contactName: "",
@@ -113,27 +109,20 @@ const deliveryAddress = ref({
   address: "",
 });
 
-const isExpanded = ref(true);
+const emit = defineEmits(["updateDeliveryAddress"]);
 
 const onSaveAddress = () => {
   isExpanded.value = false;
-  emit('updateDeliveryAddress', deliveryAddress.value);
+  emit("updateDeliveryAddress", deliveryAddress.value);
 };
 
-const viewAddress = () => {
-  if (deliveryAddress.value.address) {
-    return deliveryAddress.value.address;
-  }
-};
+const viewAddress = () =>
+  deliveryAddress.value.address ||
+  "Por favor, completa la dirección de entrega.";
 
 const onReset = () => {
-  deliveryAddress.value = {
-    contactName: "",
-    phoneContact: 0,
-    department: "",
-    city: "",
-    neighborhood: "",
-    address: "",
-  };
+  Object.keys(deliveryAddress.value).forEach((key) => {
+    deliveryAddress.value[key] = key === "phoneContact" ? 0 : "";
+  });
 };
 </script>

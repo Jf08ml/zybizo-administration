@@ -8,6 +8,7 @@
     icon="chat"
     direction="left"
     class="fixed-bottom-right q-ma-md"
+    v-if="route.path !='/payment'"
   >
     <q-btn
       round
@@ -43,8 +44,10 @@ import { inject } from "@vercel/analytics";
 import Loading from "./components/LoadingView.vue";
 import EventBus from "./utils/eventBus";
 import { useAuthStore } from "./stores/auth.js";
+import { useRoute } from 'vue-router';
 
 const authStore = useAuthStore();
+const route = useRoute();
 
 inject();
 
@@ -55,7 +58,7 @@ onMounted(() => {
 });
 
 const redirectToWhatsApp = () => {
-  window.open("https://wa.me/+573165892611", "_blank");
+  window.open("https://wa.me/message/LRMCRWYN6JRNO1", "_blank");
 };
 
 const redirectToInstagram = () => {

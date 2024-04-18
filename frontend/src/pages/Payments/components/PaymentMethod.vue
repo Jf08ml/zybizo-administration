@@ -2,7 +2,7 @@
   <div>
     <q-card class="q-ma-md full-width">
       <q-card-section>
-        <div class="text-h6 text-pink">Método de pago</div>
+        <div class="text-body1 text-pink">Método de pago</div>
         <q-separator class="q-my-xs" />
         <span class="text-caption"
           >El pago del pedido es contraentrega, una vez se de clic en

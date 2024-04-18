@@ -1,7 +1,7 @@
 <template>
-  <q-page class="row">
+  <q-page class="row" padding>
     <!-- Primera columna -->
-    <div class="col-xs-12 col-md-6 col-lg-6 q-pa-md">
+    <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6 q-pa-md">
       <!-- Sección de dirección de entrega -->
 
       <DeliveryAddress @updateDeliveryAddress="updateDeliveryAddress" />
@@ -14,7 +14,6 @@
         :listItems="listItems"
         @reCalculate="reCalculate"
         @removeItem="removeItem"
-        class="q-mb-lg"
       />
     </div>
 
@@ -26,14 +25,14 @@
           class="q-ma-5"
           style="
             position: fixed;
-            top: 67px;
-            right: 10px;
-            width: calc(50% - 10px);
-            max-width: 650px;
-            max-height: 210px;
+            top: 13%;
+            right: 40px;
+            width: calc(50% - 15px);
+            max-width: 46%;
+            height: auto;
           "
         >
-          <q-card-section>
+          <q-card-section align="center">
             <div class="text-h6">Resumen</div>
             <q-separator class="q-my-xs" />
             <div class="row">

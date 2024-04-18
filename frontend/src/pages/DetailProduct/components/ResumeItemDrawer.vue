@@ -70,27 +70,27 @@
         </div>
       </div>
 
-      <div class="flex column q-pa-sm" align="center">
+      <div class="flex column" align="center">
         <span class="text-caption text-blue-grey-10"
           >Nota: No se incluye el costo del envió.</span
         >
-      </div>
-
-      <div>
-        <q-btn
-          class="q-mx-xs"
-          label="Ir a pagar"
-          color="pink"
-          rounded
-          @click="handleGoToPay"
-        />
-        <q-btn
-          label="Cerrar"
-          color="black"
-          outline
-          rounded
-          @click="handleDrawerChange(false)"
-        />
+        <div class="q-mt-md">
+          <q-btn
+            class="q-mx-md"
+            label="Ir a pagar"
+            color="pink"
+            rounded
+            @click="handleGoToPay"
+          />
+          <q-btn
+          class="q-mx-md"
+            label="Cerrar"
+            color="black"
+            outline
+            rounded
+            @click="handleDrawerChange(false)"
+          />
+        </div>
       </div>
     </div>
   </q-drawer>
