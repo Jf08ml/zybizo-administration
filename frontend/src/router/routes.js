@@ -76,6 +76,11 @@ const routes = [
         path: "termservice",
         component: () => import("pages/TermsOfService.vue"),
       },
+      {
+        name: "OrderSend",
+        path: "ordersend",
+        component: () => import("components/SuccessOrder.vue"),
+      },
     ],
   },
   {

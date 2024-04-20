@@ -69,9 +69,50 @@
                 >
               </div>
             </div>
+            <div
+              class="flex full-width"
+              style="
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+              "
+            >
+              <div style="flex-grow: 1; margin-right: 8px">
+                <q-input
+                  class="q-mt-md"
+                  dense
+                  filled
+                  v-model="cupon"
+                  label="Cupón de descuento"
+                  required
+                  :disable="inputCuponDisabled"
+                />
+              </div>
+              <div>
+                <q-btn
+                  v-if="!inputCuponDisabled"
+                  @click="aplicarDescuento()"
+                  label="Aplicar"
+                  color="pink"
+                  style="margin-top: 13px"
+                />
+                <q-btn
+                  v-else
+                  @click="
+                    (inputCuponDisabled = false),
+                      (cupon = ''),
+                      (cuponDiscount = 0)
+                  "
+                  label="Quitar"
+                  color="pink"
+                  style="margin-top: 13px"
+                />
+              </div>
+            </div>
           </q-card-section>
           <q-card-actions>
             <q-btn
+            :disable="deliveryAddress.address === '' ? true : false"
               @click="sendOrder()"
               label="Realizar pedido"
               color="pink"
@@ -90,15 +131,68 @@
                   <span class="text-subtitle1 text-blue-grey-8">
                     Productos:
                   </span>
-                  <span class="text-subtitle1 text-blue-grey-8"> Envió: </span>
+                  <span
+                    v-if="
+                      deliveryAddress.city && deliveryAddress.city.length >= 4
+                    "
+                    class="text-subtitle1 text-blue-grey-8"
+                  >
+                    Envió:
+                  </span>
                 </div>
                 <div class="col flex column" align="right">
                   <span class="text-subtitle1 text-blue-grey-8">
                     {{ formatPrice(getTotalProducts()) }}
                   </span>
-                  <span class="text-subtitle1 text-blue-grey-8">
+                  <span
+                    v-if="
+                      deliveryAddress.city && deliveryAddress.city.length >= 4
+                    "
+                    class="text-subtitle1 text-blue-grey-8"
+                  >
                     {{ shippingCost }}
                   </span>
+                </div>
+              </div>
+              <div
+                class="flex full-width"
+                style="
+                  display: flex;
+                  align-items: center;
+                  justify-content: space-between;
+                  padding-inline: 10px;
+                "
+              >
+                <div style="flex-grow: 1; margin-right: 8px">
+                  <q-input
+                    class="q-mt-md"
+                    dense
+                    filled
+                    v-model="cupon"
+                    label="Cupón de descuento"
+                    required
+                    :disable="inputCuponDisabled"
+                  />
+                </div>
+                <div>
+                  <q-btn
+                    v-if="!inputCuponDisabled"
+                    @click="aplicarDescuento()"
+                    label="Aplicar"
+                    color="pink"
+                    style="margin-top: 13px"
+                  />
+                  <q-btn
+                    v-else
+                    @click="
+                      (inputCuponDisabled = false),
+                        (cupon = ''),
+                        (cuponDiscount = 0)
+                    "
+                    label="Quitar"
+                    color="pink"
+                    style="margin-top: 13px"
+                  />
                 </div>
               </div>
             </div>
@@ -117,6 +211,7 @@
                 {{ formatPrice(totalPayment) }}
               </span>
               <q-btn
+                :disable="deliveryAddress.address === '' ? true : false"
                 @click="sendOrder()"
                 label="Realizar pedido"
                 color="pink"
@@ -132,16 +227,20 @@
 
 <script setup>
 import { ref, onMounted, watch, computed } from "vue";
+import { searchReward } from "src/services/rewardService";
+import { createOrder } from "src/services/orderService";
 import { formatPrice } from "src/utils/utilsFunctions";
 import { useCarStore } from "src/stores/car";
+import { useRouter } from "vue-router";
 import { useRoute } from "vue-router";
 import DeliveryAddress from "./components/DeliveryAddress.vue";
 import PaymentMethod from "./components/PaymentMethod.vue";
 import ListItems from "./components/ListsItems.vue";
+import { Notify } from "quasar";
 
 const carStore = useCarStore();
 const $route = useRoute();
-
+const $router = useRouter();
 const deliveryAddress = ref({
   contactName: "",
   phoneContact: "",
@@ -150,6 +249,10 @@ const deliveryAddress = ref({
   neighborhood: "",
   address: "",
 });
+
+const cupon = ref("");
+const cuponDiscount = ref(0);
+const inputCuponDisabled = ref(false);
 
 const showSummaryDetails = ref(false);
 const isMobile = ref(false);
@@ -210,20 +313,48 @@ const shippingCost = computed(() => {
 });
 
 const totalPayment = computed(() => {
-  const total =
-    getTotalProducts() +
-    (deliveryAddress.value.city && deliveryAddress.value.city.length >= 4
+  const productsTotal = getTotalProducts();
+  const shipping =
+    deliveryAddress.value.city && deliveryAddress.value.city.length >= 4
       ? deliveryAddress.value.city.toLowerCase() === "neiva"
         ? 0
         : 20000
-      : 0);
+      : 0;
+
+  const total = productsTotal + shipping - cuponDiscount.value;
   return total;
 });
 
-const sendOrder = () => {
-  console.log(deliveryAddress.value);
-  console.log(listItems.value);
-  console.log(totalPayment.value);
+const aplicarDescuento = async () => {
+  try {
+    if (cupon.value === "") {
+      return;
+    }
+    const response = await searchReward({ "cupon.codeCupon": cupon.value });
+    if (response.data.cupon.used === true) {
+      Notify.create({
+        icon: "info",
+        message: "El cupon ya ha sido usado.",
+        color: "negative",
+      });
+      return;
+    }
+    cuponDiscount.value = response.data.cupon.valorCupon;
+    inputCuponDisabled.value = true;
+  } catch (error) {
+    console.error(error);
+  }
+};
+
+const sendOrder = async () => {
+  const response = await createOrder({
+    deliveryAddress: deliveryAddress.value,
+    items: listItems.value,
+    totalToPay: totalPayment.value,
+  });
+  if (response.data.status === "success") {
+    $router.push({ name: "OrderSend" });
+  }
 };
 
 watch(

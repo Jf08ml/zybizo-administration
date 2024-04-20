@@ -15,7 +15,7 @@ export const createReward = async (req, res, next) => {
     );
   } catch (error) {
     if (error instanceof ValidationError) {
-      return sendResponse(res, 400, null, error.message);
+      return sendResponse(res, 400, "Error", error.message);
     }
     next(error);
   }
@@ -42,6 +42,20 @@ export const getRewardById = async (req, res, next) => {
     const reward = await RewardService.getReward(req.params.id);
     sendResponse(res, 200, reward, "Recompensa encontrada.");
   } catch (error) {
+    if (error instanceof NotFoundError) {
+      return sendResponse(res, 404, null, error.message);
+    }
+    next(error);
+  }
+};
+
+export const getRewardByField = async (req, res, next) => {
+  try {
+    console.log(req.query);
+    const reward = await RewardService.getRewardByField(req.query);
+    sendResponse(res, 200, reward, "Recompensas encontradas.");
+  } catch (error) {
+    console.log(error);
     if (error instanceof NotFoundError) {
       return sendResponse(res, 404, null, error.message);
     }

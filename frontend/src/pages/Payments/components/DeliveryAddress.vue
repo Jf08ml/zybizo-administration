@@ -35,6 +35,7 @@
                   v-model="deliveryAddress.phoneContact"
                   label="Teléfono de contacto"
                   required
+                  hint="Nota: El teléfono debe tener WhatsApp"
                 />
               </div>
 
@@ -75,6 +76,14 @@
                   required
                   hint="Ejemplo: Calle 5 sur # 1a - 81"
                 />
+                <q-input
+                  class="col-12 col-md-6 full-width"
+                  dense
+                  filled
+                  v-model="deliveryAddress.indications"
+                  label="Indicaciones"
+                  hint="Ejemplo: Salón de Belleza Bellas Artes"
+                />
               </div>
 
               <div class="flex justify-end q-gutter-sm">
@@ -107,6 +116,7 @@ const deliveryAddress = ref({
   city: "",
   neighborhood: "",
   address: "",
+  indications: "",
 });
 
 const emit = defineEmits(["updateDeliveryAddress"]);

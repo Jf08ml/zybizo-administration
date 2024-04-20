@@ -52,6 +52,23 @@ class RewardService {
     }
   }
 
+  async getRewardByField(searchParams) {
+    try {
+      const rewards = await Reward.findOne(searchParams);
+      if (rewards.length === 0) {
+        throw new NotFoundError(
+          "No se encontraron recompensas con los criterios especificados."
+        );
+      }
+      return rewards;
+    } catch (error) {
+      if (error instanceof NotFoundError) {
+        throw error;
+      }
+      throw new DatabaseError("Error al buscar las recompensas.");
+    }
+  }
+
   async updateReward(rewardId, updateData) {
     try {
       const updatedReward = await Reward.findByIdAndUpdate(

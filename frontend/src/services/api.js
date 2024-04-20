@@ -41,5 +41,13 @@ const apiProduct = createAxiosInstance(`${API_BASE_URL}/api/product`);
 const apiProductSale = createAxiosInstance(`${API_BASE_URL}/api/productSale`);
 const apiExpense = createAxiosInstance(`${API_BASE_URL}/api/expense`);
 const apiRewards = createAxiosInstance(`${API_BASE_URL}/api/rewards`);
+const apiOrder = createAxiosInstance(`${API_BASE_URL}/api/orders`);
 
-export { apiAuth, apiProduct, apiProductSale, apiExpense, apiRewards };
+export {
+  apiAuth,
+  apiProduct,
+  apiProductSale,
+  apiExpense,
+  apiRewards,
+  apiOrder,
+};

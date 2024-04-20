@@ -58,7 +58,8 @@ onBeforeMount(async () => {
 
 const getGifts = async () => {
   try {
-    giftsClaimed.value = await getAllRewards();
+    const response = await getAllRewards();
+    giftsClaimed.value = response.data;
   } catch (error) {
     console.error(error);
   }
@@ -100,7 +101,17 @@ const changeWelcomeCard = (state) => {
 const saveCompetitor = async (competitor) => {
   infoParticipante.value = { ...competitor };
   const response = await createReward(infoParticipante.value);
-  rewardCreated.value = response.newReward;
+  if (response.data == "Error") {
+    Notify.create({
+      icon: "error",
+      type: 'negative',
+      message: response.message,
+      textColor: "white",
+      position: "top",
+    });
+    return;
+  }
+  rewardCreated.value = response.data.data;
   showRoulette.value = true;
   showFormCompetitor.value = false;
 };

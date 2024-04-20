@@ -1,12 +1,6 @@
 <template>
-  <q-page
-    class="flex flex-center column items-center justify-space-between q-pa-md"
-    style="height: 100%; box-sizing: border-box"
-  >
-    <header
-      class="text-h3 text-weight-bold q-my-md text-center"
-      style="color: #3e454f"
-    >
+  <q-page class="flex flex-center column items-center justify-space-between">
+    <header class="text-h3 text-weight-bold q-my-md text-center">
       <p>Bienvenido a la tienda</p>
       <p class="text-h4 text-pink text-weight-bold">Zybizo Bazar</p>
     </header>
@@ -77,7 +71,6 @@ useMeta(() => ({
   }
 }
 
-/* Estilos para pantallas grandes y desktop */
 @media (min-width: 1024px) {
   .custom-width-img {
     width: 220px;

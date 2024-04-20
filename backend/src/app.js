@@ -7,6 +7,7 @@ import productRoutes from "./routes/product.js";
 import productSaleRoutes from "./routes/productSale.js";
 import expenseRoutes from "./routes/expense.js";
 import rewardRoutes from "./routes/rewards.js";
+import orderRoutes from "./routes/order.js";
 
 const app = express();
 
@@ -34,6 +35,7 @@ app.use("/api/product", productRoutes);
 app.use("/api/productSale", productSaleRoutes);
 app.use("/api/expense", expenseRoutes);
 app.use("/api/rewards", rewardRoutes);
+app.use("/api/orders", orderRoutes);
 
 app.get("/", (req, res) => {
   res.send("API zybizo");

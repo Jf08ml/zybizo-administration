@@ -1,12 +1,12 @@
-import { apiRewards } from "./api.js";
+import { apiOrder } from "./api.js";
 import { showLoading, hideLoading } from "../stores/loadingStore.js";
 
-export async function createReward(reward) {
+export async function createOrder(order) {
   try {
     showLoading();
-    const response = await apiRewards.post(
-      "/rewards",
-      { reward },
+    const response = await apiOrder.post(
+      "/order",
+      { order },
       {
         headers: { "Content-Type": "application/json" },
       }
@@ -21,12 +21,12 @@ export async function createReward(reward) {
   }
 }
 
-export async function updatedReward(rewardId, reward) {
+export async function updatedOrder(orderId, order) {
   try {
     showLoading();
-    const response = await apiRewards.put(
-      `/rewards/${rewardId}`,
-      { reward },
+    const response = await apiOrder.put(
+      `/order/${orderId}`,
+      { order },
       {
         headers: { "Content-Type": "application/json" },
       }
@@ -40,9 +40,9 @@ export async function updatedReward(rewardId, reward) {
   }
 }
 
-export async function getAllRewards() {
+export async function getAllOrders() {
   try {
-    const response = await apiRewards.get(`/rewards`, {
+    const response = await apiOrder.get(`/order`, {
       headers: { "Cache-Control": "no-cache" },
     });
 
@@ -52,9 +52,9 @@ export async function getAllRewards() {
   }
 }
 
-export async function searchReward(queryParams) {
+export async function searchOrder(queryParams) {
   try {
-    const response = await apiRewards.get(`/rewards/by-field`, {
+    const response = await apiOrder.get(`/order/by-field`, {
       params: queryParams,
       headers: { "Cache-Control": "no-cache" },
     });
