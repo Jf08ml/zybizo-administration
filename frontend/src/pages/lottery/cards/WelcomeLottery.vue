@@ -1,21 +1,21 @@
 <template>
   <q-card class="my-card q-pa-sm full-width">
     <q-card-section class="bg-light text-dark" align="center">
-      <div class="text-h4 text-center text-primary q-pb-md">
+      <div class="text-h5 text-center text-pink q-pb-md">
         ¡Bienvenido al sorteo de ofertas y artículos!
       </div>
       <q-separator />
       <div class="text-h6 text-center">
         <p class="q-pt-md">
-          Premio mayor: <span class="text-green">GM2 Pro</span>
+          Premio mayor: <span class="text-primary">Kit de insumos.</span>
         </p>
         <q-img
           alt="Zybizo Bazar"
-          src="https://i.ibb.co/zN0PqdC/img-sorteo.jpg"
-          class="img-sorteo"
+          src="https://i.ibb.co/8X54Wy3/imagen-2024-04-20-121915809.png"
+          class="img-lottery shadow-23 q-ma-md"
         />
       </div>
-      <p class="text-body1 text-justify q-mt-md">
+      <p class="text-body1 text-center q-mt-md">
         <span class="text-red text-weight-bolder">Nota: </span>Síguenos en
         nuestras redes sociales para poder recibir tus recompensas.
       </p>
@@ -26,7 +26,8 @@
       <span class="text-body1 text-justify q-mb-sm">¿Quieres participar?</span>
       <q-btn
         rounded
-        color="light-blue"
+        color="pink"
+        size="md"
         label="¡Haz clic aquí!"
         @click="changeWelcomeCard"
       />
@@ -47,8 +48,21 @@ const changeWelcomeCard = () => {
 </script>
 
 <style scoped>
-.img-sorteo {
-  box-shadow: 0 0 5px gold;
-  width: 100%;
+.img-lottery {
+  width: 80%;
+}
+
+/* Estilos para tablets y pantallas medianas */
+@media (min-width: 600px) {
+  .img-lottery {
+    width: 80%;
+  }
+}
+
+/* Estilos para pantallas grandes y desktop */
+@media (min-width: 1024px) {
+  .img-lottery {
+    width: 40%;
+  }
 }
 </style>

@@ -2,13 +2,14 @@
   <router-view />
   <SpeedInsights />
   <loading />
+  
   <q-fab
     color="pink"
     text-color="white"
     icon="chat"
     direction="left"
     class="fixed-bottom-right q-ma-md"
-    v-if="route.path !='/payment'"
+    v-if="showButtonAction()"
   >
     <q-btn
       round
@@ -57,12 +58,21 @@ onMounted(() => {
   });
 });
 
+const showButtonAction = () => {
+  if (route.path != '/payment' && route.path != '/ordersend') {
+    return true;
+  } else {
+    return false;
+  }
+}
+
+
 const redirectToWhatsApp = () => {
   window.open("https://wa.me/message/LRMCRWYN6JRNO1", "_blank");
 };
 
 const redirectToInstagram = () => {
-  window.open("https://www.instagram.com/zybizobazar", "_blank");
+  window.open("https://www.facebook.com/zybizo.bazar", "_blank");
 };
 
 const redirectToFacebook = () => {

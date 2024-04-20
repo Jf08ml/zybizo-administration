@@ -27,7 +27,7 @@
       @click="redirectDetailProduct"
     >
       <div class="col-4">
-        <div class="text-body1">
+        <div>
           <q-chip class="text-pink text-weight-bolder" square>
             <q-avatar icon="sell" color="pink" text-color="white" />
             {{ formatPrice(product.salePrice) }}
@@ -67,6 +67,11 @@
           bg-color="red-5"
         />
       </div>
+    </q-card-section>
+    <q-card-section style="background-color: pink; padding: 0;" align="center">
+      <span class="text-body2 text-pink text-weight-bolder">
+        ¡Precio de oferta por lanzamiento de marca!
+      </span>
     </q-card-section>
   </q-card>
 </template>

@@ -17,7 +17,10 @@
                 Giros disponibles:
               </q-item-label>
               <q-item-label>
-                <span :style="giros !== 0 ? 'color: green' : 'color: red'">
+                <span
+                  class="text-weight-bold"
+                  :style="giros !== 0 ? 'color: green' : 'color: red'"
+                >
                   {{ giros }} / 3</span
                 >
               </q-item-label>
@@ -31,7 +34,7 @@
       <q-card-actions>
         <q-btn
           push
-          color="primary"
+          color="pink"
           v-if="giros != 0"
           :disabled="spinning"
           @click="spin"
@@ -76,12 +79,13 @@ import CardWinOrLose from "../cards/WinOrLose.vue";
 const props = defineProps({
   competitorData: Object,
 });
+console.log(props.competitorData);
 
 const emit = defineEmits(["save-reward", "save-cupon"]);
 
 const symbols = ref([
-  "¡Auriculares + envió gratis!",
-  "¡Auriculares sin envió gratis!",
+  "¡Te llevas el premio mayor!",
+  "¡Te llevas una caja!",
   "¡Bono de $10.000!",
   "Descuento del 10%",
   "Descuento del 20%",
@@ -105,7 +109,7 @@ const submitReward = (selectedReward) => {
 };
 
 const saveCupon = () => {
-  emit("save-cupon", cuponGenerado.value);
+  emit("save-cupon", { codeCupon: cuponGenerado.value, valorCupon: 5000 });
 };
 
 const todosPerdidos = computed(() => {
@@ -190,7 +194,7 @@ const spin = () => {
       if (giros.value === 0) {
         verificarPremiosYGenerarCupon();
       }
-    }, 1000);
+    }, 3000);
   }
 };
 </script>
@@ -199,7 +203,7 @@ const spin = () => {
 .slot-column {
   width: 300px;
   height: 100%;
-  border: 2px solid #2d86e6;
+  border: 2px solid rgb(243, 89, 114);
   border-radius: 8px;
   display: flex;
   justify-content: center;
@@ -209,7 +213,7 @@ const spin = () => {
   padding: 10px;
   font-weight: bold;
   background-color: #fff;
-  color: #00aeff;
+  color: rgb(243, 89, 114);
   text-transform: uppercase;
 }
 </style>

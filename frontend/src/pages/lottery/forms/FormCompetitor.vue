@@ -2,12 +2,13 @@
   <q-card class="my-card q-pa-md">
     <q-card-section>
       <div class="text-h5 text-center q-pb-md">Registro del participante</div>
-      <p class="text-body2 text-primary text-sm text-justify">
+      <p class="text-body2 text-pink text-sm text-justify">
         Los datos siguientes serán usados para validar entrega de recompensas
       </p>
       <q-form @submit="saveCompetitor">
         <q-input
           filled
+          dense
           v-model="infoParticipante.participantName"
           class="q-mt-sm"
           label="Nombres completos"
@@ -15,6 +16,7 @@
         />
         <q-input
           filled
+          dense
           v-model="infoParticipante.phoneNumber"
           class="q-mt-sm"
           type="number"
@@ -23,14 +25,15 @@
         />
         <q-input
           filled
+          dense
           v-model="infoParticipante.usernameInsta"
           class="q-mt-sm"
           label="Nombre de usuario en instagram"
           required
         />
         <q-btn
-          color="primary"
-          class="q-mt-md"
+          color="pink"
+          class="q-mt-md rounded-borders"
           label="Confirmar"
           type="submit"
         />

@@ -18,7 +18,7 @@
       <q-btn
         unelevated
         rounded
-        color="light-blue"
+        color="pink"
         :disabled="!selectedReward"
         label="Reclamar recompensa"
         @click="submitReward"

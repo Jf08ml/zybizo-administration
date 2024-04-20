@@ -169,9 +169,9 @@ const linksList = [
   },
   {
     title: "Facebook",
-    caption: "/zybizo",
+    caption: "/zybizo.bazar",
     icon: "bi-facebook",
-    link: "https://www.facebook.com/zybizo",
+    link: "https://www.facebook.com/zybizo.bazar",
   },
   {
     title: "Instagram",

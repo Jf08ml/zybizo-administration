@@ -4,7 +4,11 @@
       <div class="text-h6">Lo sentimos!</div>
       <p class="text-justify">
         Como no has ganado ningún premio, te llevas un descuento de $ 5.000 en
-        tu próxima compra, <span class="text-weight-bolder">por favor guardalo tomando captura o copiando el codigo de tu cupón</span>.
+        tu próxima compra,
+        <span class="text-weight-bolder"
+          >por favor guardalo y da clic en el
+          <span class="text-pink">botón 'Enviar'</span></span
+        >.
       </p>
       <q-chip
         outline

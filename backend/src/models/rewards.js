@@ -22,7 +22,13 @@ const rewardSchema = new Schema({
     type: String,
   },
   cupon: {
-    type: String,
+    codeCupon: {
+      type: String,
+    },
+    valorCupon: {
+      type: Number,
+    },
+    used: { type: Boolean, default: false },
   },
   uploadData: {
     type: Date,
