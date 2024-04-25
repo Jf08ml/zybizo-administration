@@ -15,6 +15,31 @@
     :images="currentImages"
     v-model="fullScreenCarouselOpen"
   />
+
+  <q-dialog v-model="showPopup">
+    <q-card style="width: 300px; height: auto">
+      <q-card-section>
+        <div class="text-subtitle1 text-pink text-weight-bolder">
+          Información para hacer un pedido
+        </div>
+      </q-card-section>
+      <q-separator />
+      <q-card-section class="q-pt-none text-body2 text-justify q-ma-xs">
+        Haz clic en el producto de interés, puedes comprarlo o añadirlo a la cesta.
+        <span class="text-pink text-weight-bold text-uppercase"
+          >Recuerda que pagas al recibir el pedido</span
+        >, ya que manejamos pedidos únicamente en la modalidad contra entrega.
+      </q-card-section>
+      <q-card-section class="q-pt-none text-body2 text-primary text-justify q-ma-xs">
+        Para mayor información y precios al por mayor, comunícate con nosotros.
+        En nuestras redes sociales.
+      </q-card-section>
+      <q-separator />
+      <q-card-actions align="right" class="bg-white text-primary">
+        <q-btn color="positive" label="Entiendo" v-close-popup />
+      </q-card-actions>
+    </q-card>
+  </q-dialog>
 </template>
 
 <script setup>
@@ -24,6 +49,7 @@ import ProductCard from "./cards/ProductCard.vue";
 import FullScreenCarousel from "./cards/FullScreenCarousel.vue";
 
 const products = ref([]);
+const showPopup = ref(true);
 
 const fullScreenCarouselOpen = ref(false);
 const currentImages = ref([]);
@@ -43,17 +69,6 @@ const getAllProducts = async () => {
     console.error(error);
   }
 };
-
-// const redirectToWhatsApp = (product) => {
-//   const defaultMessage = `Hola, estoy interesado en ${product.namePublic}.`;
-//   const encodedMessage = encodeURIComponent(defaultMessage);
-//   window.open(`https://wa.me/+573165892611?text=${encodedMessage}`, "_blank");
-// };
-
-// const openFullScreenCarousel = (images) => {
-//   currentImages.value = images;
-//   fullScreenCarouselOpen.value = true;
-// };
 </script>
 
 <style>

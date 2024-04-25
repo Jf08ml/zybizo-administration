@@ -2,14 +2,15 @@
   <router-view />
   <SpeedInsights />
   <loading />
-  
+
   <q-fab
     color="pink"
     text-color="white"
-    icon="chat"
+    icon="bi-whatsapp"
     direction="left"
     class="fixed-bottom-right q-ma-md"
-    v-if="showButtonAction()"
+    glossy
+    v-if="hiddenButtonsActions()"
   >
     <q-btn
       round
@@ -39,13 +40,13 @@
 </template>
 
 <script setup>
-import { onMounted } from "vue";
+import { ref, onMounted } from "vue";
 import { SpeedInsights } from "@vercel/speed-insights/vue";
 import { inject } from "@vercel/analytics";
 import Loading from "./components/LoadingView.vue";
 import EventBus from "./utils/eventBus";
 import { useAuthStore } from "./stores/auth.js";
-import { useRoute } from 'vue-router';
+import { useRoute } from "vue-router";
 
 const authStore = useAuthStore();
 const route = useRoute();
@@ -58,14 +59,13 @@ onMounted(() => {
   });
 });
 
-const showButtonAction = () => {
-  if (route.path != '/payment' && route.path != '/ordersend') {
+const hiddenButtonsActions = () => {
+  if (route.path != "/payment" && route.path != "/ordersend") {
     return true;
   } else {
     return false;
   }
-}
-
+};
 
 const redirectToWhatsApp = () => {
   window.open("https://wa.me/message/LRMCRWYN6JRNO1", "_blank");
