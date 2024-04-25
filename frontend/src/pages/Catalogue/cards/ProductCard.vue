@@ -18,7 +18,9 @@
     </q-carousel>
 
     <q-card-section @click="redirectDetailProduct">
-      <div class="text-h6">{{ product.namePublic }}</div>
+      <span class="text-subtitle1 text-weight-bolder" style="font-size: 1.5rem;">{{
+        product.namePublic
+      }}</span>
     </q-card-section>
 
     <q-card-section
@@ -26,26 +28,26 @@
       class="row items-center"
       @click="redirectDetailProduct"
     >
-      <div class="col-4">
+      <div class="col-5">
         <div>
-          <q-chip class="text-pink text-weight-bolder" square>
+          <q-chip class="text-pink text-weight-bolder">
             <q-avatar icon="sell" color="pink" text-color="white" />
-            {{ formatPrice(product.salePrice) }}
+            <span>{{ formatPrice(product.salePrice) }}</span>
           </q-chip>
         </div>
 
-        <div class="text-caption">
+        <div class="text-caption" style="display: flex">
           <q-chip size="sm" quare>
             {{ product.quantitiesSold }} vendidos
           </q-chip>
         </div>
       </div>
 
-      <div class="col-8 flex justify-end">
+      <div class="col-7 flex justify-end">
         <q-rating
           v-model="product.rating"
           max="5"
-          size="2rem"
+          size="1.5rem"
           color="pink-5"
           icon="star_border"
           icon-selected="star"
@@ -53,6 +55,7 @@
           no-dimming
           readonly
         />
+        <q-chip size="sm" quare> Envió gratis para Neiva </q-chip>
       </div>
     </q-card-section>
 
@@ -68,7 +71,7 @@
         />
       </div>
     </q-card-section>
-    <q-card-section style="background-color: pink; padding: 0;" align="center">
+    <q-card-section style="background-color: pink; padding: 0" align="center">
       <span class="text-body2 text-pink text-weight-bolder">
         ¡Precio de oferta por lanzamiento de marca!
       </span>
