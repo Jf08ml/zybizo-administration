@@ -18,7 +18,7 @@
     </q-carousel>
 
     <q-card-section @click="redirectDetailProduct">
-      <span class="text-subtitle1 text-weight-bolder" style="font-size: 1.5rem;">{{
+      <span class="text-subtitle2 text-weight-bold" style="font-size: 1.5rem;">{{
         product.namePublic
       }}</span>
     </q-card-section>
