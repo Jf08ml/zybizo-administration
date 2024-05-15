@@ -7,33 +7,36 @@
           :name="product.stock > 0 ? 'check_circle' : 'new_releases'" />
       </div>
       <q-separator />
-      <div class="text-caption">Quantity: {{ product.quantity }}</div>
-      <div class="text-caption">Sold: {{ product.quantitiesSold }}</div>
+      <div class="text-caption">Cantidades: {{ product.quantity }}</div>
+      <div class="text-caption">Vendidas: {{ product.quantitiesSold }}</div>
       <div class="text-caption text-weight-bold">
-        Stock: {{ product.stock }}
+        Disponible: {{ product.stock }}
       </div>
-      <div class="text-caption">Batch: {{ product.batch }}</div>
+      <div class="text-caption">Lote: {{ product.batch }}</div>
       <q-separator />
       <div class="text-caption">
-        Base price: {{ formatPrice(product.basePrice) }}
+        Precio base: {{ formatPrice(product.basePrice) }}
       </div>
       <div class="text-caption text-weight-bold">
-        Price sale: {{ formatPrice(product.salePrice) }}
+        Precio de venta: {{ formatPrice(product.salePrice) }}
+      </div>
+      <div v-if="product.wholesalePrice" class="text-caption text-weight-bold">
+        Precio al por mayor: {{ formatPrice(product.wholesalePrice) }}
       </div>
       <q-separator />
     </q-card-section>
 
     <q-card-actions align="center" class="q-gutter-sm">
-      <q-btn v-if="product.stock != 0" @click="sellProduct(product)" label="Sell" color="green"
+      <q-btn v-if="product.stock != 0" @click="sellProduct(product)" label="Marcar venta" color="green"
         :disabled="product.stock === 0" class="full-width" />
       <template v-if="product.quantitiesSold === 0 || product.stock === 0">
-        <q-btn v-if="product.quantitiesSold === 0" @click="deleteProduct(product)" label="Delete" color="red"
+        <q-btn v-if="product.quantitiesSold === 0" @click="deleteProduct(product)" label="Eliminar" color="red"
           class="full-width" />
-        <q-btn v-if="product.stock === 0" @click="addStock(product)" label="Add stock" color="blue" class="full-width" />
+        <q-btn v-if="product.stock === 0" @click="addStock(product)" label="Añadir disponibles" color="blue" class="full-width" />
       </template>
       <q-btn @click="changeStateCatalog(product)" :label="product.isActiveInCatalog
-          ? 'Inactive in catalog'
-          : 'Active in catalog'
+          ? 'Inactivar en el catálogo'
+          : 'Activar en el catálogo'
         " :color="product.isActiveInCatalog ? 'orange' : 'green'" class="full-width" />
     </q-card-actions>
   </q-card>

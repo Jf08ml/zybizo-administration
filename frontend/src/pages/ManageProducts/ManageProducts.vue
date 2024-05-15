@@ -1,7 +1,7 @@
 <template>
   <q-page class="q-pa-md">
     <div class="q-mb-md">
-      <q-expansion-item label="Add Product" icon="add" default-closed>
+      <q-expansion-item label="Añadir producto" icon="add" default-closed>
         <AddNewProduct @add-product="addProduct" />
       </q-expansion-item>
       <q-separator />
@@ -93,7 +93,7 @@
         <q-card style="min-width: 350px">
           <q-card-section>
             <div class="text-h6">
-              Add information
+              Añadir información:
               <span class="text-positive">{{ productOfCatalog.name }}</span>
             </div>
           </q-card-section>
@@ -103,7 +103,7 @@
               <q-input
                 filled
                 v-model="productOfCatalog.namePublic"
-                label="Public name *"
+                label="Nombre en el catálogo *"
                 lazy-rules
                 :rules="[
                   (val) => (val && val.length > 0) || 'Please type something',
@@ -114,7 +114,7 @@
                 type="textarea"
                 filled
                 v-model="productOfCatalog.characteristics"
-                label="Description and Features *"
+                label="Caracteristicas y descripción *"
                 autogrow
                 lazy-rules
                 :rules="[
@@ -127,7 +127,7 @@
               <q-file
                 filled
                 multiple
-                label="Upload images"
+                label="Cargar imagenes *"
                 v-model="productOfCatalog.images"
                 :rules="[
                   (val) =>
@@ -140,16 +140,54 @@
               >
               </q-file>
 
+              <q-btn
+                @click="addReference"
+                label="Añadir referencia"
+                type="button"
+              />
+
+              <div
+                v-for="(reference, refIndex) in productOfCatalog.references"
+                :key="refIndex"
+              >
+                <q-input
+                  filled
+                  v-model="reference.name"
+                  label="Nombre de la referencia"
+                />
+                <q-btn
+                  @click="() => addOptionToReference(refIndex)"
+                  label="Añadir opción"
+                  type="button"
+                />
+
+                <div
+                  v-for="(option, optIndex) in reference.options"
+                  :key="optIndex"
+                >
+                  <q-input
+                    filled
+                    v-model="option.label"
+                    label="Etiqueta de la opción"
+                  />
+                  <q-input
+                    filled
+                    v-model="option.value"
+                    label="Valor de la opción"
+                  />
+                </div>
+              </div>
+
               <div align="right">
                 <q-btn
                   flat
-                  label="Cancel"
+                  label="Cerrar"
                   v-close-popup
                   @click="showFormProductCatalog"
                   color="primary"
                   class="q-ml-sm"
                 />
-                <q-btn label="Submit" type="submit" color="primary" />
+                <q-btn label="Activar" type="submit" color="primary" />
               </div>
             </q-form>
           </q-card-section>
@@ -183,7 +221,11 @@ const productSale = ref({
 const productUpdate = ref({});
 
 const productOfCatalog = ref({
+  name: "",
+  namePublic: "",
+  characteristics: "",
   images: [],
+  references: [{ name: "", options: [{ label: "", value: "" }] }],
 });
 
 const products = ref([]);
@@ -191,6 +233,7 @@ const products = ref([]);
 const originalProductSale = ref({});
 const originalProductUpdate = ref({});
 const originalProductOfCatalog = ref({});
+
 
 const loadingAdd = ref(false);
 const sellDialog = ref(false);
@@ -342,4 +385,19 @@ const changeStateCatalog = async () => {
 const resetProductCatalog = () => {
   productOfCatalog.value = { images: [], isActiveInCatalog: false };
 };
+
+function addReference() {
+  console.log(productOfCatalog.value);
+  productOfCatalog.value.references.push({
+    name: "",
+    options: [{ label: "", value: "" }],
+  });
+}
+
+function addOptionToReference(referenceIndex) {
+  productOfCatalog.value.references[referenceIndex].options.push({
+    label: "",
+    value: "",
+  });
+}
 </script>

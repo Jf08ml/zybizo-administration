@@ -1,5 +1,16 @@
 <template>
-  <q-page 
+  <div class="flex flex-start full-width">
+    <q-btn
+      flat
+      rounded
+      no-caps
+      size="md"
+      icon="arrow_back_ios"
+      label="Volver al catálogo"
+      @click="$router.push('/catalogozybizo')"
+    />
+  </div>
+  <q-page
     class="flex flex-center column items-center justify-space-between q-pa-md full-width"
   >
     <div class="row full-width" :class="{ dimmed: showDrawer }">

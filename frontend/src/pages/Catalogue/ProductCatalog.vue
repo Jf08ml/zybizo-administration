@@ -1,10 +1,23 @@
 <template>
   <q-page padding>
+    <div class="full-width q-mb-md" align="center">
+      <q-input
+        rounded
+        standout
+        v-model="searchTerm"
+        label="Buscar..."
+        style="width: 70%"
+      >
+        <template v-slot:append>
+          <q-icon name="search" />
+        </template>
+      </q-input>
+    </div>
     <div class="row q-col-gutter-md" align="center">
       <div
         class="col-xs-12 col-sm-4 col-md-4 col-lg-4"
-        v-for="product in products"
-        :key="product.id"
+        v-for="product in filteredProducts"
+        :key="product._id"
       >
         <ProductCard :product="product" />
       </div>
@@ -24,32 +37,43 @@
         </div>
       </q-card-section>
       <q-separator />
-      <q-card-section class="q-pt-none text-body2 text-justify q-ma-xs">
-        Haz clic en el producto de interés, puedes comprarlo o añadirlo a la cesta.
-        <span class="text-pink text-weight-bold text-uppercase"
-          >Recuerda que pagas al recibir el pedido</span
-        >, ya que manejamos pedidos únicamente en la modalidad contra entrega.
+      <q-card-section class="q-pt-none text-body2 text-center q-ma-xs">
+        <p>
+          ¡Haz <span class="text-weight-bold">clic en el producto</span> y
+          <span class="text-weight-bold">añade a la cesta</span>!
+        </p>
+
+        <q-img src="https://i.ibb.co/NrmnyZx/boton-contra-entrega-1.webp" />
       </q-card-section>
-      <q-card-section class="q-pt-none text-body2 text-primary text-justify q-ma-xs">
+      <q-card-section
+        class="q-pt-none text-body2 text-primary text-justify q-ma-xs"
+      >
         Para mayor información y precios al por mayor, comunícate con nosotros.
         En nuestras redes sociales.
       </q-card-section>
       <q-separator />
       <q-card-actions align="right" class="bg-white text-primary">
-        <q-btn color="positive" label="Entiendo" v-close-popup />
+        <q-btn color="pink" label="Entiendo" rounded v-close-popup />
       </q-card-actions>
     </q-card>
   </q-dialog>
 </template>
 
 <script setup>
-import { ref, onBeforeMount } from "vue";
+import { ref, onBeforeMount, onMounted, onUnmounted, computed } from "vue";
 import { getProductsCatalog } from "../../services/productService.js";
 import ProductCard from "./cards/ProductCard.vue";
 import FullScreenCarousel from "./cards/FullScreenCarousel.vue";
 
 const products = ref([]);
-const showPopup = ref(true);
+const searchTerm = ref("");
+const showPopup = ref(false);
+
+const filteredProducts = computed(() => {
+  return products.value.filter((product) =>
+    product.namePublic.toLowerCase().includes(searchTerm.value.toLowerCase())
+  );
+});
 
 const fullScreenCarouselOpen = ref(false);
 const currentImages = ref([]);
@@ -57,6 +81,26 @@ const currentImages = ref([]);
 onBeforeMount(async () => {
   await getAllProducts();
 });
+
+onMounted(() => {
+  checkFirstVisit();
+  window.addEventListener("beforeunload", clearLocalStorage);
+});
+
+onUnmounted(() => {
+  window.removeEventListener("beforeunload", clearLocalStorage);
+});
+
+const checkFirstVisit = () => {
+  if (!localStorage.getItem("hasVisited")) {
+    showPopup.value = true;
+    localStorage.setItem("hasVisited", "true");
+  }
+};
+
+const clearLocalStorage = () => {
+  localStorage.removeItem("hasVisited");
+};
 
 const getAllProducts = async () => {
   try {

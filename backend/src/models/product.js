@@ -50,7 +50,7 @@ const productSchema = new Schema({
     required: false,
   },
   references: {
-    type: Object,
+    type: Array,
     required: false,
   },
   basePrice: {
@@ -62,6 +62,11 @@ const productSchema = new Schema({
     type: Number,
     default: 0,
     required: true,
+  },
+  wholesalePrice: {
+    type: Number,
+    default: 0,
+    required: false,
   },
   rating: {
     type: Number,

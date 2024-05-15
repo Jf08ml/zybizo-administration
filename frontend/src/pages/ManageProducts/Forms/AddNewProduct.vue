@@ -1,33 +1,40 @@
 <template>
   <q-card>
     <q-card-section>
-      <q-input outlined v-model="product.name" label="Name" class="q-mb-md" />
+      <q-input outlined v-model="product.name" label="Nombre" class="q-mb-md" />
       <q-input
         outlined
         v-model="product.quantity"
         type="number"
-        label="Quantity"
+        label="Cantidad"
         class="q-mb-md"
       />
       <q-input
         outlined
         v-model="product.batch"
         type="number"
-        label="Batch"
+        label="Lote"
         class="q-mb-md"
       />
       <q-input
         outlined
         v-model="product.basePrice"
         type="number"
-        label="Base price"
+        label="Precio base"
         class="q-mb-md"
       />
       <q-input
         outlined
         v-model="product.salePrice"
         type="number"
-        label="Sale price"
+        label="Precio de venta"
+        class="q-mb-md"
+      />
+      <q-input
+        outlined
+        v-model="product.wholesalePrice"
+        type="number"
+        label="Precio al por mayor"
         class="q-mb-md"
       />
     </q-card-section>
@@ -35,7 +42,7 @@
       <q-btn
         size="md"
         style="width: 100px"
-        label="Add"
+        label="Añadir"
         @click="addProduct"
         :loading="loadingAdd"
       />
@@ -56,6 +63,7 @@ const product = ref({
   batch: 0,
   basePrice: 0,
   salePrice: 0,
+  wholesalePrice: 0
 });
 const emit = defineEmits(["add-product"]);
 
@@ -67,6 +75,7 @@ const addProduct = () => {
     batch: 0,
     basePrice: 0,
     salePrice: 0,
+    wholesalePrice: 0
   });
 };
 </script>
