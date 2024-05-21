@@ -93,7 +93,7 @@ const openReturnDialog = (sale) => {
 const getSaleProducts = async () => {
   try {
     const response = await getProductsSale();
-    sales.value = response.products;
+    sales.value = response.data;
   } catch (error) {
     console.error("Error fetching sales data:", error);
   }
@@ -102,7 +102,7 @@ const getSaleProducts = async () => {
 const listProducts = async () => {
   try {
     const response = await getProducts();
-    productsList.value = response.products.map((product) => ({
+    productsList.value = response.data.map((product) => ({
       label: product.name, // Asumiendo que cada producto tiene una propiedad 'name'
       value: product._id, // y una propiedad '_id'
     }));

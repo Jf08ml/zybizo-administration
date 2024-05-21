@@ -175,6 +175,11 @@
                     v-model="option.value"
                     label="Valor de la opción"
                   />
+                  <q-input
+                    filled
+                    v-model="option.stocks"
+                    label="Valor de existencias"
+                  />
                 </div>
               </div>
 
@@ -207,8 +212,8 @@ import {
 } from "../../services/productService.js";
 import { createProductSale } from "../../services/productSaleService.js";
 import { uploadImagesFile } from "../../services/uploadImages.js";
-import AddNewProduct from "./Forms/AddNewProduct.vue";
-import ProductCard from "./Cards/ProductCard.vue";
+import AddNewProduct from "./forms/AddNewProduct.vue";
+import ProductCard from "./cards/ProductCard.vue";
 
 const productSale = ref({
   name: "",
