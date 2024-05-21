@@ -212,8 +212,8 @@ import {
 } from "../../services/productService.js";
 import { createProductSale } from "../../services/productSaleService.js";
 import { uploadImagesFile } from "../../services/uploadImages.js";
-import AddNewProduct from "./forms/AddNewProduct.vue";
-import ProductCard from "./cards/ProductCard.vue";
+import AddNewProduct from "./Forms/AddNewProduct.vue";
+import ProductCard from "./Cards/ProductCard.vue";
 
 const productSale = ref({
   name: "",
@@ -238,7 +238,6 @@ const products = ref([]);
 const originalProductSale = ref({});
 const originalProductUpdate = ref({});
 const originalProductOfCatalog = ref({});
-
 
 const loadingAdd = ref(false);
 const sellDialog = ref(false);
