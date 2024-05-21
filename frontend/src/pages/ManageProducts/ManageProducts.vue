@@ -175,6 +175,11 @@
                     v-model="option.value"
                     label="Valor de la opción"
                   />
+                  <q-input
+                    filled
+                    v-model="option.stocks"
+                    label="Valor de existencias"
+                  />
                 </div>
               </div>
 
@@ -233,7 +238,6 @@ const products = ref([]);
 const originalProductSale = ref({});
 const originalProductUpdate = ref({});
 const originalProductOfCatalog = ref({});
-
 
 const loadingAdd = ref(false);
 const sellDialog = ref(false);

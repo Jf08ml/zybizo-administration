@@ -5,7 +5,7 @@
         <q-input v-model="expense.description" label="Descripción" outlined />
         <q-input
           v-model.number="expense.amount"
-          label="Cantiodad"
+          label="Cantidad"
           type="number"
           outlined
         />
@@ -73,7 +73,7 @@ const addExpense = async () => {
 const getAllExpenses = async () => {
   try {
     const response = await getExpenses();
-    expenses.value = response;
+    expenses.value = response.data;
   } catch (error) {
     console.error("Error fetching expenses:", error);
   }

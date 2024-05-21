@@ -27,7 +27,7 @@
     </q-card-section>
 
     <q-card-actions align="center" class="q-gutter-sm">
-      <q-btn v-if="product.stock != 0" @click="sellProduct(product)" label="Marcar venta" color="green"
+      <q-btn v-if="product.stock != 0" @click="sellProduct(product)" label="Marcar venta" color="pink"
         :disabled="product.stock === 0" class="full-width" />
       <template v-if="product.quantitiesSold === 0 || product.stock === 0">
         <q-btn v-if="product.quantitiesSold === 0" @click="deleteProduct(product)" label="Eliminar" color="red"
@@ -37,7 +37,7 @@
       <q-btn @click="changeStateCatalog(product)" :label="product.isActiveInCatalog
           ? 'Inactivar en el catálogo'
           : 'Activar en el catálogo'
-        " :color="product.isActiveInCatalog ? 'orange' : 'green'" class="full-width" />
+        " :color="product.isActiveInCatalog ? 'grey' : 'green'" class="full-width" />
     </q-card-actions>
   </q-card>
 </template>

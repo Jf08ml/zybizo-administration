@@ -74,15 +74,15 @@ const totalExpenses = ref(0);
 onBeforeMount(async () => {
   try {
     const productsResponse = await getProducts();
-    const productsData = productsResponse.products;
+    const productsData = productsResponse.data;
 
     const salesResponse = await getProductsSale();
-    const salesData = salesResponse.products;
+    const salesData = salesResponse.data;
 
     const expensesResponse = await getExpenses();
     const expensesData = expensesResponse;
 
-    expensesData.forEach((expense) => {
+    expensesData.data.forEach((expense) => {
       totalExpenses.value += expense.amount;
     });
 

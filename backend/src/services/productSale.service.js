@@ -15,7 +15,7 @@ class ProductSaleService {
         throw new NotFoundError("Producto no encontrado.");
       }
 
-      product.quantitiesSold += productSaleData.quantity;
+      product.quantitiesSold += parseInt(productSaleData.quantity);
       product.stock -= productSaleData.quantity;
       await product.save();
 
@@ -41,7 +41,7 @@ class ProductSaleService {
         throw new NotFoundError("Venta no encontrada.");
       }
       const { status, returnReason, exchangeProductId } = returnData;
-      
+
       if (status === "Refund" && returnReason === "Product exchange") {
         const exchangeProduct = await Product.findById(exchangeProductId);
         if (!exchangeProduct) {
