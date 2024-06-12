@@ -16,28 +16,34 @@
         <strong>Galaxia Glamour Lashes</strong>, para lashitstas profesionales!
       </p>
     </main>
-    <div align="center">
-      <q-img
-        alt="Lashes pestañas"
-        src="https://i.ibb.co/f0hpwQn/1.jpg"
-        class="rounded-borders custom-width-img"
-      />
-      <q-img
-        alt="Lashes pestañas"
-        src="https://i.ibb.co/RYyFBYq/presentation.jpg"
-        class="rounded-borders q-ma-xs custom-width-img"
-      />
-      <q-img
-        alt="Lashes pestañas"
-        src="https://i.ibb.co/3M2ywsn/yy.jpg"
-        class="rounded-borders custom-width-img"
-      />
+    <div style="width: 80%; height: auto; padding: 10px; overflow: auto">
+      <q-carousel
+        v-model="slide"
+        swipeable
+        animated
+        thumbnails
+        infinite
+        arrows
+        control-color="white"
+        :autoplay="true"
+        class="rounded-borders"
+      >
+        <q-carousel-slide name="1" img-src="https://i.ibb.co/f0hpwQn/1.jpg" />
+        <q-carousel-slide
+          name="2"
+          img-src="https://i.ibb.co/RYyFBYq/presentation.jpg"
+        />
+        <q-carousel-slide name="3" img-src="https://i.ibb.co/3M2ywsn/yy.jpg" />
+      </q-carousel>
     </div>
   </q-page>
 </template>
 
 <script setup>
+import { ref } from "vue";
 import { useMeta } from "quasar";
+
+const slide = ref("1");
 
 useMeta(() => ({
   title: "Zybizo Bazar - Tienda Online",
@@ -50,30 +56,10 @@ useMeta(() => ({
     keywords: {
       name: "keywords",
       content:
-        "zybizo, tienda, bazar, productos de calidad, precios competitivos",
+        "Zybizo Bazar, Zybizo tienda, Zybizobazar, productos de calidad, compras online, bazar online, Zybizo oferta, Zibizo, Zybyzo, Zybiso, Zibyzo, Sybizo, Zybizzo, Zyvizoo, Zyvizo, Zybiso, Zybeezo, Zibiso, Sybiso, Zibizo, Sibyso, Zybzio, sibiso, sybiso",
     },
   },
 }));
 </script>
 
-<style>
-.rounded-borders {
-  border-radius: 8px;
-}
-
-.custom-width-img {
-  width: 220px;
-}
-
-@media (min-width: 600px) {
-  .custom-width-img {
-    width: 30px;
-  }
-}
-
-@media (min-width: 1024px) {
-  .custom-width-img {
-    width: 220px;
-  }
-}
-</style>
+<style scoped></style>
