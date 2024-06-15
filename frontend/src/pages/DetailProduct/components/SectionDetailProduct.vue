@@ -74,7 +74,7 @@
             <span class="text-h5 text-pink">{{ formatPrice(totalPrice) }}</span>
           </q-chip>
         </div>
-        <div v-if="product.wholesaleQuantity > 0">
+        <div v-if="product.isWholesaleMix">
           <q-toggle
             v-model="buyWholesale"
             color="green"
@@ -82,15 +82,11 @@
             style="font-size: 0.7rem"
           />
           <p class="text-caption">
-            Precio mayorista
-            <span class="text-pink text-weight-bold">{{
-              formatPrice(product.wholesalePrice)
-            }}</span>
-            al comprar
+            Al comprar
             <span class="text-pink text-weight-bold">{{
               product.wholesaleQuantity
             }}</span>
-            o más unidades de diferente referencia, para hacer una compra mayorista debes añadir a la cesta los productos.
+            o más cajas de pestañas de diferente referencia obtienes el precio mayorista.
           </p>
         </div>
       </div>

@@ -110,12 +110,12 @@ import { ref } from "vue";
 const isExpanded = ref(true);
 
 const deliveryAddress = ref({
-  contactName: "Juan Mosquera",
-  phoneContact: "3132735116",
-  department: "Huila",
-  city: "Neiva",
-  neighborhood: "Candido",
-  address: "calle 5 # 1 - 81",
+  contactName: "",
+  phoneContact: "",
+  department: "",
+  city: "",
+  neighborhood: "",
+  address: "",
   indications: "",
 });
 
