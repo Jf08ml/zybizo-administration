@@ -1,80 +1,78 @@
 <template>
-  <q-card class="bg-grey-1" align="left">
+  <q-card
+    @click="redirectDetailProduct"
+    class="bg-grey-1 full-width full-height"
+  >
+    <div
+      v-if="product.isOffer"
+      :class="['bg-pink-5 opacity-25', getMessageClass('offer')]"
+    >
+      ¡Precios bajos!
+    </div>
+    <div
+      v-if="product.wholesalePrice != 0"
+      :class="['bg-pink-5', getMessageClass('wholesale')]"
+    >
+      Por mayor y detal
+    </div>
+
     <q-carousel
       v-model="fullScreenSlide"
-      class="fullscreen-carousel"
       swipeable
       animated
-      thumbnails
       infinite
+      arrows
+      width="100%"
+      height="180px"
     >
       <q-carousel-slide
         v-for="(image, index) in product.images"
         :name="index"
         :key="index"
         :img-src="image"
-        @click="redirectDetailProduct"
       />
     </q-carousel>
 
-    <q-card-section @click="redirectDetailProduct">
-      <span class="text-subtitle2 text-weight-bold" style="font-size: 1.5rem;">{{
-        product.namePublic
-      }}</span>
+    <q-card-section class="card-section">
+      <span class="product-name">{{ product.namePublic }}</span>
     </q-card-section>
 
-    <q-card-section
-      v-if="product.stock > 0"
-      class="row items-center"
-      @click="redirectDetailProduct"
-    >
-      <div class="col-5">
-        <div>
-          <q-chip class="text-pink text-weight-bolder">
+    <q-card-section v-if="product.stock > 0" class="card-section">
+      <div class="row items-center">
+        <div class="col-12">
+          <q-chip size="xs" class="text-pink text-weight-bolder">
             <q-avatar icon="sell" color="pink" text-color="white" />
-            <span>{{ formatPrice(product.salePrice) }}</span>
+            <span class="sale-price">{{ formatPrice(product.salePrice) }}</span>
           </q-chip>
-        </div>
-
-        <div class="text-caption" style="display: flex">
-          <q-chip size="sm" quare>
+          <q-chip size="xs" class="sold-quantity">
             {{ product.quantitiesSold }} vendidos
           </q-chip>
         </div>
-      </div>
-
-      <div class="col-7 flex justify-end">
-        <q-rating
-          v-model="product.rating"
-          max="5"
-          size="1.5rem"
-          color="pink-5"
-          icon="star_border"
-          icon-selected="star"
-          icon-half="star_half"
-          no-dimming
-          readonly
-        />
-        <q-chip size="sm" quare> Envió gratis para Neiva </q-chip>
+        <div class="col-12 flex justify-center">
+          <q-rating
+            v-model="product.rating"
+            max="5"
+            size="1rem"
+            color="grey"
+            icon="star_border"
+            icon-selected="star"
+            icon-half="star_half"
+            no-dimming
+            readonly
+          />
+        </div>
       </div>
     </q-card-section>
 
     <q-card-section v-else>
-      <div>
-        <q-chat-message
-          avatar="https://i.ibb.co/njBrkRL/logo.png"
-          text-color="white"
-          :text="['Lo sentimos, el producto se encuentra agotado.']"
-          stamp="Disponible pronto..."
-          sent
-          bg-color="red-5"
-        />
-      </div>
-    </q-card-section>
-    <q-card-section style="background-color: pink; padding: 0" align="center">
-      <span class="text-body2 text-pink text-weight-bolder">
-        ¡Precio de oferta por lanzamiento de marca!
-      </span>
+      <q-chat-message
+        avatar="https://i.ibb.co/njBrkRL/logo.png"
+        text-color="white"
+        :text="['Lo sentimos, el producto se encuentra agotado.']"
+        stamp="Disponible pronto..."
+        sent
+        bg-color="red-5"
+      />
     </q-card-section>
   </q-card>
 </template>
@@ -84,10 +82,10 @@ import { ref } from "vue";
 import { formatPrice } from "../../../utils/utilsFunctions.js";
 import { useRouter } from "vue-router";
 
-const $router = useRouter();
+const router = useRouter();
 
 const redirectDetailProduct = () => {
-  $router.push({ name: "DetailProduct", params: { productId: product._id } });
+  router.push({ name: "DetailProduct", params: { productId: product._id } });
 };
 
 const props = defineProps({
@@ -96,11 +94,55 @@ const props = defineProps({
 
 const fullScreenSlide = ref(0);
 const product = props.product;
+
+const getMessageClass = (type) => {
+  return product.isOffer && product.wholesalePrice
+    ? `${type}-message-multiple`
+    : "single-message";
+};
 </script>
 
 <style scoped>
-.fullscreen-carousel {
+.single-message,
+.offer-message-multiple,
+.wholesale-message-multiple {
+  position: absolute;
+  top: 10px;
+  right: -3px;
+  color: white;
+  padding: 5px 10px;
+  font-size: 0.5rem;
+  font-weight: bold;
+  border-radius: 5px;
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+  z-index: 1;
+  transform: rotate(-10deg);
+}
+
+.offer-message-multiple {
+  top: 10px;
+}
+
+.wholesale-message-multiple {
+  top: 30px;
+}
+
+.card-section {
   width: 100%;
-  height: 40vh;
+  padding: 4px;
+}
+
+.product-name {
+  font-size: 0.8rem;
+  width: 100%;
+  font-weight: bold;
+}
+
+.sale-price {
+  font-size: 0.7rem;
+}
+
+.sold-quantity {
+  font-size: 0.5rem;
 }
 </style>

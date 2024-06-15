@@ -20,7 +20,7 @@
             >
               <div>
                 <q-input
-                  class="col-12 col-md-6 full-width"
+                  class="col-12 col-md-6 full-width text-capitalize"
                   dense
                   filled
                   v-model="deliveryAddress.contactName"
@@ -41,7 +41,7 @@
 
               <div>
                 <q-input
-                  class="col-12 col-md-6 full-width"
+                  class="col-12 col-md-6 full-width text-capitalize"
                   dense
                   filled
                   v-model="deliveryAddress.department"
@@ -49,7 +49,7 @@
                   required
                 />
                 <q-input
-                  class="col-12 col-md-6 full-width"
+                  class="col-12 col-md-6 full-width text-capitalize"
                   dense
                   filled
                   v-model="deliveryAddress.city"
@@ -60,7 +60,7 @@
 
               <div>
                 <q-input
-                  class="col-12 col-md-6 full-width"
+                  class="col-12 col-md-6 full-width text-capitalize"
                   dense
                   filled
                   v-model="deliveryAddress.neighborhood"
@@ -110,12 +110,12 @@ import { ref } from "vue";
 const isExpanded = ref(true);
 
 const deliveryAddress = ref({
-  contactName: "",
-  phoneContact: "",
-  department: "",
-  city: "",
-  neighborhood: "",
-  address: "",
+  contactName: "Juan Mosquera",
+  phoneContact: "3132735116",
+  department: "Huila",
+  city: "Neiva",
+  neighborhood: "Candido",
+  address: "calle 5 # 1 - 81",
   indications: "",
 });
 

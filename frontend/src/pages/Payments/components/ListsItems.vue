@@ -100,6 +100,7 @@ const props = defineProps({
   listItems: Array,
 });
 
+
 const emit = defineEmits(["reCalculate", "removeItem"]);
 
 const changeQuantity = (item, index, increment) => {
@@ -111,6 +112,7 @@ const changeQuantity = (item, index, increment) => {
     reCalculate(index);
   }
 };
+
 const reCalculate = (index) => {
   emit("reCalculate", index);
 };

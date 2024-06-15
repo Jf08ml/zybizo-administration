@@ -21,7 +21,6 @@ export const useCarStore = defineStore("car", {
         this.itemCount--;
         localStorage.setItem("items", JSON.stringify(this.items));
       }
-      console.log(this.items);
     },
     removeOrder(orderId) {
       const index = this.order.findIndex((order) => order._id === orderId);

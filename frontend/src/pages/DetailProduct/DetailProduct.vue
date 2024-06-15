@@ -1,44 +1,82 @@
 <template>
-  <div class="flex flex-start full-width">
-    <q-btn
-      flat
-      rounded
-      no-caps
-      size="md"
-      icon="arrow_back_ios"
-      label="Volver al catálogo"
-      @click="$router.push('/catalogozybizo')"
-    />
-  </div>
   <q-page
-    class="flex flex-center column items-center justify-space-between q-pa-md full-width"
+    class="flex flex-center column items-center justify-space-between full-width"
   >
-    <div class="row full-width" :class="{ dimmed: showDrawer }">
-      <div class="col-xs-12 col-md-5 col-lg-4 q-pa-xs">
-        <CarouselDetailItem :product="product" />
-      </div>
-
-      <SectionDetailProduct
-        :product="product"
-        @buy-item="buyItem"
-        @add-car="addCar"
-        @update-reference-option="updateReferenceOption"
-        @update-quantity="updateQuantity"
+    <div class="flex flex-start full-width q-my-sm">
+      <q-btn
+        flat
+        rounded
+        no-caps
+        size="md"
+        icon="arrow_back_ios"
+        label="Volver al catálogo"
+        @click="$router.push('/catalogozybizo')"
       />
     </div>
+    <q-card>
+      <div
+        class="row full-width custom-padding"
+        :class="{ dimmed: showDrawer }"
+      >
+        <div class="col-xs-12 col-md-5 col-lg-5 q-mt-md">
+          <CarouselDetailItem :product="product" />
 
-    <div class="row full-width q-mt-xs q-pa-sm">
-      <span class="col-12 text-h4 q-mb-md">Detalles</span>
-      <div class="lg:col-6 md:col-6 sm:col-12 xs:col-12 text-justify q-mb-lg">
-        <span class="text-body2 text-pink"
-          >El envió para la ciudad de Neiva es gratis, para otras ciudades tiene
-          un costo apróximado entre $10.000 a $20.000.</span
-        >
+          <div class="flex full-width align-center justify-center q-mt-md">
+            <q-btn
+              rounded
+              color="pink"
+              label="Comprar"
+              class="q-mx-xs"
+              @click="buyItem"
+            />
+            <q-btn
+              outline
+              rounded
+              color="black"
+              label="Añadir a la cesta"
+              class="q-mx-xs"
+              @click="addCar"
+            />
+          </div>
+        </div>
+
+        <div class="col-xs-12 col-md-7 col-lg-7 q-my-md q-px-md">
+          <SectionDetailProduct
+            :product="product"
+            :totalPrice="totalPrice"
+            :buyWholesale="buyWholesale"
+            @buy-item="buyItem"
+            @add-car="addCar"
+            @update-reference-option="updateReferenceOption"
+            @update-quantity="updateQuantity"
+            @update-buy-wholesale="updateBuyWholesale"
+          />
+        </div>
       </div>
-      <div class="lg:col-6 md:col-6 sm:col-12 xs:col-12 text-justify q-pl-lg">
-        <span class="text-body2">{{ product.characteristics }}</span>
+
+      <div class="row full-width custom-padding q-mt-md">
+        <span class="col-12 text-h5 q-mb-md">Detalles de envió</span>
+        <div class="col-12 text-justify q-mb-lg">
+          <div>
+            <p class="text-body2 text-pink">
+              El envió para la ciudad de Neiva es gratis según disponibilidad y
+              para entrega inmediata tiene un costo adicional.
+            </p>
+            <p>
+              Para otras ciudades tiene un costo apróximado entre $10.000 a
+              $20.000.
+            </p>
+          </div>
+        </div>
       </div>
-    </div>
+
+      <div class="row full-width custom-padding">
+        <span class="col-12 text-h5 q-mb-md">Detalles del producto</span>
+        <div class="col-12 text-justify q-mb-lg">
+          <p class="text-body2">{{ product.characteristics }}</p>
+        </div>
+      </div>
+    </q-card>
 
     <ResumeItemDrawer
       :model-value="showDrawer"
@@ -51,7 +89,7 @@
 </template>
 
 <script setup>
-import { onMounted, ref } from "vue";
+import { onMounted, ref, computed } from "vue";
 import { Notify } from "quasar";
 import { useRoute } from "vue-router";
 import { useRouter } from "vue-router";
@@ -70,6 +108,7 @@ const product = ref({});
 const quantity = ref(1);
 const itemToBuy = ref(null);
 const showDrawer = ref(false);
+const buyWholesale = ref(false);
 
 onMounted(async () => {
   productId.value = $route.params.productId;
@@ -90,6 +129,22 @@ const getDetailProduct = async () => {
   }
 };
 
+const totalPrice = computed(() => {
+  const { salePrice, wholesalePrice, wholesaleQuantity } = product.value;
+
+  const unitPrice = buyWholesale.value
+    ? wholesalePrice
+    : quantity.value >= wholesaleQuantity && wholesaleQuantity > 0
+    ? wholesalePrice
+    : salePrice;
+
+  return quantity.value * unitPrice;
+});
+
+const updateBuyWholesale = (value) => {
+  buyWholesale.value = value;
+};
+
 const buyItem = () => {
   const allReferencesSelected = product.value?.references.every(
     (reference) => reference.selectedOption != null
@@ -101,7 +156,7 @@ const buyItem = () => {
       message: "Debes seleccionar las referencias",
       progress: true,
       textColor: "white",
-      position: "bottom-right",
+      position: "top-right",
     });
     return;
   }
@@ -116,7 +171,7 @@ const buyItem = () => {
     })),
     quantity: quantity.value,
     priceUnit: product.value.salePrice,
-    totalPrice: quantity.value * product.value.salePrice,
+    totalPrice: totalPrice,
   };
 
   showDrawer.value = true;
@@ -141,7 +196,7 @@ const addCar = () => {
       message: "Debes seleccionar las referencias",
       progress: true,
       textColor: "white",
-      position: "bottom-right",
+      position: "top-right",
     });
     return;
   }
@@ -155,8 +210,12 @@ const addCar = () => {
       selectedOption: reference.selectedOption,
     })),
     quantity: quantity.value,
+    wholesalePrice: product.value.wholesalePrice,
+    wholesaleQuantity: product.value.wholesaleQuantity,
+    isWholesaleMix: product.value.isWholesaleMix,
+    buyWholesale: buyWholesale.value,
     priceUnit: product.value.salePrice,
-    totalPrice: quantity.value * product.value.salePrice,
+    totalPrice: totalPrice,
   };
 
   carStore.addItem(itemToBuy.value);
@@ -166,7 +225,7 @@ const addCar = () => {
     message: "Añadido a la cesta.",
     progress: true,
     textColor: "white",
-    position: "bottom-right",
+    position: "top-right",
   });
 };
 
@@ -185,9 +244,15 @@ const updateQuantity = (newVal) => {
 </script>
 
 <style scoped>
+.custom-padding {
+  padding: 0 80px;
+}
 @media (max-width: 599px) {
   .full-height-on-mobile {
     height: 100%;
+  }
+  .custom-padding {
+    padding: 0 20px;
   }
 }
 </style>
