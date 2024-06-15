@@ -54,7 +54,7 @@
           <input
             v-model="quantity"
             @update:model-value="updateQuantity"
-            style="text-align: center; border: none; width: 20%"
+            style="text-align: center; border: none; width: 25%"
           />
           <q-btn
             btn
