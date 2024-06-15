@@ -81,7 +81,7 @@ const showRandomGifts = async () => {
           : `${gift.participantName} ha ganado un cupon.`,
         progress: true,
         textColor: "white",
-        position: "bottom-right",
+        position: "top-right",
       });
     }, index * 5000);
     timeoutIds.value.push(timeoutId);

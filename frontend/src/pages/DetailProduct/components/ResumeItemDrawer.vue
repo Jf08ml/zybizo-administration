@@ -71,9 +71,6 @@
       </div>
 
       <div class="flex column" align="center">
-        <span class="text-caption text-blue-grey-10"
-          >Nota: No se incluye el costo del envió.</span
-        >
         <div class="q-mt-md">
           <q-btn
             class="q-mx-md"
@@ -83,7 +80,7 @@
             @click="handleGoToPay"
           />
           <q-btn
-          class="q-mx-md"
+            class="q-mx-md"
             label="Cerrar"
             color="black"
             outline

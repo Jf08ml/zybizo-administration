@@ -68,6 +68,21 @@ const productSchema = new Schema({
     default: 0,
     required: false,
   },
+  wholesaleQuantity: {
+    type: Number,
+    default: 0,
+    required: false,
+  },
+  isWholesaleMix: {
+    type: Boolean,
+    default: false,
+    required: false,
+  },
+  isOffer: {
+    type: Boolean,
+    default: false,
+    required: false,
+  },
   rating: {
     type: Number,
     default: 0,

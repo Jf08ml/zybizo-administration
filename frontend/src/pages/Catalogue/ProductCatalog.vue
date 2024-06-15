@@ -1,21 +1,23 @@
 <template>
   <q-page padding>
-    <div class="full-width q-mb-md" align="center">
+    <div class="q-my-md row justify-center">
       <q-input
         rounded
+        dense
         standout
         v-model="searchTerm"
-        label="Buscar..."
-        style="width: 70%"
+        class="col-8 col-xs-11"
+        label="Busca aquí el producto que deseas"
       >
         <template v-slot:append>
           <q-icon name="search" />
         </template>
       </q-input>
     </div>
+
     <div class="row q-col-gutter-md" align="center">
       <div
-        class="col-xs-12 col-sm-4 col-md-4 col-lg-4"
+        class="col-xs-6 col-sm-3 col-md-2 col-lg-2"
         v-for="product in filteredProducts"
         :key="product._id"
       >
@@ -23,11 +25,6 @@
       </div>
     </div>
   </q-page>
-
-  <FullScreenCarousel
-    :images="currentImages"
-    v-model="fullScreenCarouselOpen"
-  />
 
   <q-dialog v-model="showPopup">
     <q-card style="width: 300px; height: auto">
@@ -63,7 +60,6 @@
 import { ref, onBeforeMount, onMounted, onUnmounted, computed } from "vue";
 import { getProductsCatalog } from "../../services/productService.js";
 import ProductCard from "./cards/ProductCard.vue";
-import FullScreenCarousel from "./cards/FullScreenCarousel.vue";
 
 const products = ref([]);
 const searchTerm = ref("");
@@ -74,9 +70,6 @@ const filteredProducts = computed(() => {
     product.namePublic.toLowerCase().includes(searchTerm.value.toLowerCase())
   );
 });
-
-const fullScreenCarouselOpen = ref(false);
-const currentImages = ref([]);
 
 onBeforeMount(async () => {
   await getAllProducts();
@@ -113,55 +106,10 @@ const getAllProducts = async () => {
     console.error(error);
   }
 };
+
 </script>
 
-<style>
-.text-h6 {
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  max-width: 100%;
-}
+<style scoped>
 
-.q-carousel-slide {
-  background-size: cover;
-  background-position: center;
-}
 
-.q-card {
-  width: 100%;
-  height: 100%;
-}
-
-.fullscreen-carousel {
-  width: 80vw;
-  height: 60vh;
-  max-width: 600px;
-  max-height: 400px;
-}
-
-.carousel-fullscreen {
-  width: 100%;
-  height: 100%;
-}
-
-.fullscreen-slide {
-  height: 100%;
-  width: 100%;
-  object-fit: scale-down;
-  background-position: center;
-  background-repeat: no-repeat;
-}
-
-@media (max-width: 600px) {
-  .q-card {
-    width: 100%;
-    height: 100%;
-  }
-
-  .fullscreen-carousel {
-    width: 100vw;
-    height: 50vh;
-  }
-}
 </style>

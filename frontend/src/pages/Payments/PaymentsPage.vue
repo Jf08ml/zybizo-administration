@@ -69,6 +69,17 @@
                 >
               </div>
             </div>
+
+            <div v-if="deliveryAddress.city.toLowerCase() === 'neiva'">
+              <q-select
+                borderless
+                v-model="deliveryType"
+                :options="optionsDeliveryType"
+                label="Seleccione tipo de domicilio"
+                 class="q-px-md"
+              />
+            </div>
+
             <div
               class="flex full-width"
               style="
@@ -112,7 +123,7 @@
           </q-card-section>
           <q-card-actions>
             <q-btn
-            :disable="deliveryAddress.address === '' ? true : false"
+              :disable="disableSendOrder"
               @click="sendOrder()"
               label="Realizar pedido"
               color="pink"
@@ -153,6 +164,15 @@
                     {{ shippingCost }}
                   </span>
                 </div>
+              </div>
+              <div v-if="deliveryAddress.city.toLowerCase() === 'neiva'">
+                <q-select
+                  borderless
+                  v-model="deliveryType"
+                  :options="optionsDeliveryType"
+                  label="Seleccione tipo de domicilio"
+                  class="q-px-md"
+                />
               </div>
               <div
                 class="flex full-width"
@@ -211,7 +231,7 @@
                 {{ formatPrice(totalPayment) }}
               </span>
               <q-btn
-                :disable="deliveryAddress.address === '' ? true : false"
+                :disable="disableSendOrder"
                 @click="sendOrder()"
                 label="Realizar pedido"
                 color="pink"
@@ -259,6 +279,24 @@ const isMobile = ref(false);
 
 const listItems = ref([]);
 
+const deliveryType = ref(null);
+const optionsDeliveryType = [
+  "Entrega normal (1 día habil sin costo)",
+  "Entrega inmediata (costo según domicilio)",
+];
+
+const disableSendOrder = computed(() => {
+  if (
+    deliveryAddress.value.address === "" ||
+    (deliveryAddress.value.city.toLowerCase() === "neiva" &&
+      deliveryType.value === null)
+  ) {
+    return true;
+  } else {
+    return false;
+  }
+});
+
 function updateDrawerWidth() {
   const breakpoint = 768;
 
@@ -271,11 +309,28 @@ const removeItem = (index) => {
   asignItemOrder();
 };
 
-const reCalculate = (index) => {
-  const newPrice =
-    listItems.value[index].priceUnit *
-    parseInt(listItems.value[index].quantity);
-  listItems.value[index].totalPrice = newPrice;
+const reCalculate = () => {
+  const updatedItems = listItems.value.map((item) => {
+    let newPrice = 0;
+
+    if (item.buyWholesale && item.isWholesaleMix) {
+      const itemsMix = listItems.value
+        .filter((item) => item.isWholesaleMix)
+        .reduce((acumulator, item) => acumulator + item.quantity, 0);
+
+      if (itemsMix >= item.wholesaleQuantity) {
+        newPrice = item.wholesalePrice * parseInt(item.quantity);
+      } else {
+        newPrice = item.priceUnit * item.quantity;
+      }
+    } else {
+      newPrice = item.priceUnit * item.quantity;
+    }
+
+    return { ...item, totalPrice: newPrice };
+  });
+
+  listItems.value = updatedItems;
 };
 
 onMounted(() => {
@@ -292,7 +347,25 @@ const asignItemOrder = () => {
   if ($route.query.type === "buy") {
     listItems.value = [...carStore.order];
   } else {
-    listItems.value = [...carStore.items];
+    let items = [...carStore.items];
+
+    const itemsMixFilter = items.filter((item) => item.isWholesaleMix);
+
+    const itemsMixTotal = itemsMixFilter.reduce(
+      (acumulator, item) => acumulator + item.quantity,
+      0
+    );
+
+    if (itemsMixTotal >= itemsMixFilter[0]?.wholesaleQuantity) {
+      listItems.value = items;
+    } else {
+      items = items.map((item) => ({
+        ...item,
+        totalPrice: item.quantity * item.priceUnit,
+      }));
+
+      listItems.value = items;
+    }
   }
 };
 
