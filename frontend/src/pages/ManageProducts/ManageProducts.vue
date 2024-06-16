@@ -212,8 +212,8 @@ import {
 } from "../../services/productService.js";
 import { createProductSale } from "../../services/productSaleService.js";
 import { uploadImagesFile } from "../../services/uploadImages.js";
-import AddNewProduct from "./forms/AddNewProduct.vue";
-import ProductCard from "./cards/ProductCard.vue";
+import ProductCard from "./Cards/ProductCard.vue";
+import AddNewProduct from "./Forms/AddNewProduct.vue";
 
 const productSale = ref({
   name: "",

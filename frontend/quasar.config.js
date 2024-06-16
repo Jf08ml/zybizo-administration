@@ -151,9 +151,9 @@ module.exports = configure(function (/* ctx */) {
       manifestFilename: "manifest.json",
       useCredentialsForManifestTag: false,
       manifest: {
-        name: `Nombre de tu Aplicación`,
-        short_name: `Nombre Corto`,
-        description: `Descripción de tu aplicación`,
+        name: `Zybizo Bazar`,
+        short_name: `ZyBo`,
+        description: `Tienda en línea de productos de belleza y cuidado personal`,
         display: "standalone",
         start_url: "/",
         theme_color: "#1976d2",
