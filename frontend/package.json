@@ -1,5 +1,5 @@
 {
-  "name": "Zybizo Bazar",
+  "name": "zybizobazar",
   "version": "0.0.1",
   "description": "ZyboBazar is a platform that allows you to buy and sell products online.",
   "productName": "ZyBo",
@@ -9,8 +9,8 @@
     "lint": "eslint --ext .js,.vue ./",
     "format": "prettier --write \"**/*.{js,vue,scss,html,md,json}\" --ignore-path .gitignore",
     "test": "echo \"No test specified\" && exit 0",
-    "dev": "quasar dev",
     "build": "npx quasar build -m pwa",
+    "dev": "quasar dev",
     "deploy": "vercel"
   },
   "dependencies": {

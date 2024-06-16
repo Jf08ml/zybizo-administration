@@ -1,7 +1,4 @@
 {
-  "builds": [
-    { "src": "package.json", "use": "@vercel/static-build", "config": { "distDir": "dist/pwa" } }
-  ],
   "routes": [
     { "handle": "filesystem" },
     { "src": "/.*", "dest": "/" }
