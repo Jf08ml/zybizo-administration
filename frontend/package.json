@@ -1,9 +1,9 @@
 {
-  "name": "frontend",
+  "name": "Zybizo Bazar",
   "version": "0.0.1",
-  "description": "A Quasar Project",
-  "productName": "Quasar App",
-  "author": "Juan Felipe Mosquera Lasso <desarrolladorerpsoftware7.itm@gmail.com>",
+  "description": "ZyboBazar is a platform that allows you to buy and sell products online.",
+  "productName": "ZyBo",
+  "author": "Juan Felipe Mosquera Lasso",
   "private": true,
   "scripts": {
     "lint": "eslint --ext .js,.vue ./",
@@ -14,6 +14,8 @@
     "deploy": "vercel"
   },
   "dependencies": {
+    "quasar": "^2.16.4",
+    "@quasar/cli": "^2.4.1",
     "@quasar/extras": "^1.16.4",
     "@vercel/analytics": "^1.1.1",
     "@vercel/speed-insights": "^1.0.1xxxxxxxxx",
