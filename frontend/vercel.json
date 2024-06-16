@@ -1,10 +1,6 @@
 {
-  "version": 2,
-  "builds": [
-    { "src": "src/**/*.js", "use": "@vercel/node" },
-    { "src": "dist/pwa/**/*", "use": "@vercel/static" }
-  ],
-  "routes": [
-    { "src": "/(.*)", "dest": "/dist/pwa/$1" }
-  ]
-}
+    "routes": [
+      { "handle": "filesystem" },
+      { "src": "/(.*)", "dest": "/dist/pwa/$1" }
+    ]
+  }
