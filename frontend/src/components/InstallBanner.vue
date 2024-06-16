@@ -1,17 +1,27 @@
 <template>
-  <q-banner
-    v-if="isInstallPromptAvailable"
-    class="bg-primary text-white"
-    inline-actions
-  >
-    <template v-slot:avatar>
-      <q-icon name="add" />
-    </template>
-    <div>
-      ¡Añade esta aplicación a tu pantalla de inicio para una mejor experiencia!
+  <q-banner v-if="showBanner" dense class="bg-primary text-white">
+    <div align="center">
+      ¡Puedes instalar la tienda como una aplicación en tu teléfono móvil para
+      mejorar tu experiencia!
     </div>
     <template v-slot:action>
-      <q-btn flat label="Añadir" color="white" @click="installApp" />
+      <div style="width: 100%" align="center">
+        <q-btn
+          rounded
+          outline
+          class="text-capitalize"
+          label="Añadir"
+          color="white"
+          @click="installApp"
+        />
+        <q-btn
+          class="text-capitalize"
+          flat
+          label="Cerrar"
+          color="white"
+          @click="showBanner = false"
+        />
+      </div>
     </template>
   </q-banner>
 </template>
@@ -19,15 +29,31 @@
 <script setup>
 import { ref, onMounted } from "vue";
 
-const isInstallPromptAvailable = ref(false);
-
-onMounted(() => {
-  isInstallPromptAvailable.value = window.$isInstallPromptAvailable;
-});
+const showBanner = ref(false);
+let deferredPrompt = null;
 
 const installApp = () => {
-  window.$showInstallPromotion();
+  if (deferredPrompt) {
+    deferredPrompt.prompt();
+    deferredPrompt.userChoice.then((choiceResult) => {
+      if (choiceResult.outcome === "accepted") {
+        console.log("User accepted the A2HS prompt");
+      } else {
+        console.log("User dismissed the A2HS prompt");
+      }
+      deferredPrompt = null;
+      showBanner.value = false;
+    });
+  }
 };
+
+onMounted(() => {
+  window.addEventListener("beforeinstallprompt", (e) => {
+    e.preventDefault();
+    deferredPrompt = e;
+    showBanner.value = true;
+  });
+});
 </script>
 
 <style scoped>
