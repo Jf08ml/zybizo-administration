@@ -1,8 +1,8 @@
 {
   "name": "zybizobazar",
   "version": "0.0.1",
-  "description": "ZyboBazar is a platform that allows you to buy and sell products online.",
-  "productName": "ZyBo",
+  "description": "Zybizo Bazar is a platform that allows you to buy and sell products online.",
+  "productName": "ZyBa",
   "author": "Juan Felipe Mosquera Lasso",
   "private": true,
   "scripts": {

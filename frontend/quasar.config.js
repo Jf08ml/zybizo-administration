@@ -27,7 +27,7 @@ module.exports = configure(function (/* ctx */) {
     // app boot file (/src/boot)
     // --> boot files are part of "main.js"
     // https://v2.quasar.dev/quasar-cli-vite/boot-files
-    boot: ["axios", "router"],
+    boot: ["axios", "router", "install-prompt"],
 
     // https://v2.quasar.dev/quasar-cli-vite/quasar-config-js#css
     css: ["app.scss"],
@@ -152,7 +152,7 @@ module.exports = configure(function (/* ctx */) {
       useCredentialsForManifestTag: false,
       manifest: {
         name: `Zybizo Bazar`,
-        short_name: `ZyBo`,
+        short_name: `ZyBa`,
         description: `Tienda en línea de productos de belleza y cuidado personal`,
         display: "standalone",
         start_url: "/",
