@@ -36,7 +36,10 @@
   function gtag() { dataLayer.push(arguments); }
   gtag('js', new Date());
 
-  gtag('config', 'G-7VW8DTFWVX');
+  // Verifica si no estás en un entorno local antes de configurar Google Analytics
+  if (window.location.hostname !== 'localhost') {
+    gtag('config', 'G-7VW8DTFWVX');
+  }
 </script>
 
 <body>
