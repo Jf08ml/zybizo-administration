@@ -26,7 +26,7 @@
             {{ errorMessage }}
           </div>
           <div align="center">
-            <q-btn label="Iniciar sesión" type="submit" color="primary" />
+            <q-btn rounded="" label="Iniciar sesión" type="submit" color="pink" />
           </div>
         </q-form>
       </q-card-section>
