@@ -31,7 +31,7 @@
             />
   
             <div align="center">
-              <q-btn label="Registrarse" type="submit" color="primary" />
+              <q-btn rounded label="Registrarse" type="submit" color="pink" />
             </div>
           </q-form>
         </q-card-section>

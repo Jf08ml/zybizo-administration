@@ -25,8 +25,22 @@
     content="Zybizo Bazar es tu destino para las mejores ofertas en electrónica y belleza. Compra con seguridad, testeamos nuestros productos antes de comercializarlos.">
   <meta property="og:image" content="https://i.ibb.co/Qcw6sfF/logo.png">
 
-  <!-- Favicon -->
-  <link rel="icon" type="image/x-icon" href="/favicon.ico">
+  <% if (ctx.mode.pwa) { %>
+    <meta name="theme-color" content="<%= pwaManifest.theme_color %>">
+    <link rel="mask-icon" href="icons/safari-pinned-tab.svg" color="<%= pwaManifest.theme_color %>">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="default">
+    <meta name="msapplication-TileImage" content="icons/ms-icon-144x144.png">
+    <meta name="msapplication-TileColor" content="#000000">
+    <meta name="apple-mobile-web-app-title" content="<%= pwaManifest.name %>">
+    <link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+    <link rel="apple-touch-icon" sizes="152x152" href="icons/apple-touch-icon.png">
+    <link rel="apple-touch-icon" sizes="167x167" href="icons/apple-touch-icon.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="icons/apple-touch-icon.png">
+    <% } %>
+
+      <!-- Favicon -->
+      <link rel="icon" type="image/x-icon" href="/favicon.ico">
 </head>
 
 <!-- Google tag (gtag.js) -->

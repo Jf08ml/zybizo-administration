@@ -47,11 +47,11 @@
                   v-model="deliveryAddress.department"
                   :options="filteredDepartments"
                   option-label="name"
-                  option-value="id"
+                  option-value="name"
                   label="Departamento"
                   use-input
-                  required
                   @filter="filterDepartments"
+                  @update:model-value="updateDepartment"
                 />
                 <q-select
                   class="col-12 col-md-6 full-width"
@@ -60,11 +60,11 @@
                   v-model="deliveryAddress.city"
                   :options="filteredCities"
                   option-label="name"
-                  option-value="id"
+                  option-value="name"
                   label="Ciudad"
                   use-input
-                  required
                   @filter="filterCities"
+                  @update:model-value="updateCity"
                 />
               </div>
 
@@ -115,8 +115,9 @@
 </template>
 
 <script setup>
-import { ref, onMounted, watch } from "vue";
+import { ref, onMounted } from "vue";
 import axios from "axios";
+import { Notify } from "quasar";
 
 const isExpanded = ref(true);
 
@@ -138,8 +139,16 @@ const filteredCities = ref([]);
 const emit = defineEmits(["updateDeliveryAddress"]);
 
 const onSaveAddress = () => {
-  isExpanded.value = false;
-  emit("updateDeliveryAddress", deliveryAddress.value);
+  if(!deliveryAddress.value.department || !deliveryAddress.value.city) {
+    Notify.create({
+      message: "Por favor, selecciona un departamento y una ciudad.",
+      color: "negative",
+    });
+    return;
+  } else {
+    isExpanded.value = false;
+    emit("updateDeliveryAddress", deliveryAddress.value);
+  }
 };
 
 const viewAddress = () =>
@@ -156,11 +165,23 @@ const onReset = () => {
 
 const fetchDepartments = async () => {
   try {
-    const response = await axios.get("https://api-colombia.com/api/v1/Department");
+    const response = await axios.get(
+      "https://api-colombia.com/api/v1/Department"
+    );
     departments.value = response.data;
     filteredDepartments.value = response.data;
   } catch (error) {
     console.error("Error al obtener los departamentos:", error);
+  }
+};
+
+const updateDepartment = (val) => {
+  const department = filteredDepartments.value.find(
+    (dept) => dept.id === val.id
+  );
+  if (department) {
+    deliveryAddress.value.department = department.name;
+    fetchCities(department.id);
   }
 };
 
@@ -173,6 +194,13 @@ const fetchCities = async (departmentId) => {
     filteredCities.value = response.data;
   } catch (error) {
     console.error("Error al obtener las ciudades:", error);
+  }
+};
+
+const updateCity = (val) => {
+  const city = filteredCities.value.find((city) => city.id === val.id);
+  if (city) {
+    deliveryAddress.value.city = city.name;
   }
 };
 
@@ -189,7 +217,9 @@ const filterDepartments = (val, update) => {
     const filtered = departments.value.filter(
       (v) => v.name.toLowerCase().indexOf(needle) > -1
     );
-    filteredDepartments.value = filtered.length ? filtered : [{ name: "No encontrado" }];
+    filteredDepartments.value = filtered.length
+      ? filtered
+      : [{ name: "No encontrado" }];
   });
 };
 
@@ -206,18 +236,24 @@ const filterCities = (val, update) => {
     const filtered = cities.value.filter(
       (v) => v.name.toLowerCase().indexOf(needle) > -1
     );
-    filteredCities.value = filtered.length ? filtered : [{ name: "No encontrado" }];
+    filteredCities.value = filtered.length
+      ? filtered
+      : [{ name: "No encontrado" }];
   });
 };
 
-watch(
-  () => deliveryAddress.value.department,
-  (newDepartment) => {
-    if (newDepartment) {
-      fetchCities(newDepartment.id);
-    }
-  }
-);
+// watch(
+//   () => deliveryAddress.value.department,
+//   () => {
+//     if (deliveryAddress.value.department) {
+//       const departmentId = filteredDepartments.value.find(
+//         (dept) => dept.name === deliveryAddress.value.department
+//       );
+
+//       fetchCities(departmentId.id);
+//     }
+//   }
+// );
 
 onMounted(fetchDepartments);
 </script>

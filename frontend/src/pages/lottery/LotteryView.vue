@@ -81,7 +81,6 @@ const showRandomGifts = async () => {
           : `${gift.participantName} ha ganado un cupon.`,
         progress: true,
         textColor: "white",
-        position: "top-right",
       });
     }, index * 5000);
     timeoutIds.value.push(timeoutId);
@@ -107,7 +106,6 @@ const saveCompetitor = async (competitor) => {
       type: 'negative',
       message: response.message,
       textColor: "white",
-      position: "top",
     });
     return;
   }

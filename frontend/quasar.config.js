@@ -127,6 +127,10 @@ module.exports = configure(function (/* ctx */) {
       // extendPackageJson (json) {},
 
       pwa: false,
+      prodPort: 3000,
+      middlewares: [
+        "render", // keep this as last one
+      ],
 
       // manualStoreHydration: true,
       // manualPostHydrationTrigger: true,
@@ -142,15 +146,57 @@ module.exports = configure(function (/* ctx */) {
     // https://v2.quasar.dev/quasar-cli-vite/developing-pwa/configuring-pwa
     pwa: {
       workboxMode: "generateSW", // or 'injectManifest'
-      injectPwaMetaTags: true,
+      injectPwaMetaTags: false,
       swFilename: "sw.js",
       manifestFilename: "manifest.json",
       useCredentialsForManifestTag: false,
+      manifest: {
+        name: `Zybizo Bazar`,
+        short_name: `ZyBo`,
+        description: `Tienda en línea de productos de belleza y cuidado personal`,
+        display: "standalone",
+        start_url: "/",
+        theme_color: "#1976d2",
+        background_color: "#ffffff",
+        icons: [
+          {
+            src: "icons/android-chrome-128x128.png",
+            sizes: "128x128",
+            type: "image/png",
+          },
+          {
+            src: "icons/android-chrome-192x192.png",
+            sizes: "192x192",
+            type: "image/png",
+          },
+          {
+            src: "icons/android-chrome-256x256.png",
+            sizes: "256x256",
+            type: "image/png",
+          },
+          {
+            src: "icons/android-chrome-384x384.png",
+            sizes: "384x384",
+            type: "image/png",
+          },
+          {
+            src: "icons/android-chrome-512x512.png",
+            sizes: "512x512",
+            type: "image/png",
+          },
+        ],
+      },
       // useFilenameHashes: true,
-      // extendGenerateSWOptions (cfg) {}
-      // extendInjectManifestOptions (cfg) {},
-      // extendManifestJson (json) {}
-      // extendPWACustomSWConf (esbuildConf) {}
+      extendGenerateSWOptions(cfg) {},
+      extendInjectManifestOptions(cfg) {},
+      extendManifestJson(json) {},
+      extendPWACustomSWConf(esbuildConf) {},
+    },
+
+    sourceFiles: {
+      pwaRegisterServiceWorker: "src-pwa/register-service-worker",
+      pwaServiceWorker: "src-pwa/custom-service-worker",
+      pwaManifestFile: "src-pwa/manifest.json",
     },
 
     // Full list of options: https://v2.quasar.dev/quasar-cli-vite/developing-cordova-apps/configuring-cordova

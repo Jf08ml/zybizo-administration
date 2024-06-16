@@ -156,7 +156,6 @@ const buyItem = () => {
       message: "Debes seleccionar las referencias",
       progress: true,
       textColor: "white",
-      position: "top-right",
     });
     return;
   }
@@ -196,7 +195,6 @@ const addCar = () => {
       message: "Debes seleccionar las referencias",
       progress: true,
       textColor: "white",
-      position: "top-right",
     });
     return;
   }
@@ -225,7 +223,6 @@ const addCar = () => {
     message: "Añadido a la cesta.",
     progress: true,
     textColor: "white",
-    position: "top-right",
   });
 };
 
