@@ -2,7 +2,6 @@
   <router-view />
   <SpeedInsights />
   <loading />
-  <InstallBanner />
 
   <q-fab
     v-model="fabActions"
@@ -53,7 +52,6 @@ import { ref, onMounted } from "vue";
 import { SpeedInsights } from "@vercel/speed-insights/vue";
 import { inject } from "@vercel/analytics";
 import Loading from "./components/LoadingView.vue";
-import InstallBanner from "./components/InstallBanner.vue"
 import EventBus from "./utils/eventBus";
 import { useAuthStore } from "./stores/auth.js";
 import { useRoute } from "vue-router";

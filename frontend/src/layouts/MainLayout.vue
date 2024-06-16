@@ -1,6 +1,7 @@
 <template>
   <q-layout view="hHh Lpr lff">
     <q-header elevated>
+      <InstallBanner />
       <q-toolbar class="bg-black text-white">
         <q-btn
           flat
@@ -85,6 +86,7 @@ import { useRouter } from "vue-router";
 import { useAuthStore } from "src/stores/auth";
 import { useCarStore } from "src/stores/car.js";
 import EssentialLink from "components/EssentialLink.vue";
+import InstallBanner from "components/InstallBanner.vue";
 import { useQuasar } from "quasar";
 
 const $router = useRouter();
