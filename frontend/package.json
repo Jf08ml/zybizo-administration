@@ -22,6 +22,7 @@
     "quasar": "^2.6.0",
     "tiny-emitter": "^2.1.0",
     "vue": "^3.0.0",
+    "vue-gtag-next": "^1.14.0",
     "vue-router": "^4.0.0"
   },
   "devDependencies": {
