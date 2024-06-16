@@ -40,21 +40,31 @@
               </div>
 
               <div>
-                <q-input
-                  class="col-12 col-md-6 full-width text-capitalize"
+                <q-select
+                  class="col-12 col-md-6 full-width"
                   dense
                   filled
                   v-model="deliveryAddress.department"
+                  :options="filteredDepartments"
+                  option-label="name"
+                  option-value="id"
                   label="Departamento"
+                  use-input
                   required
+                  @filter="filterDepartments"
                 />
-                <q-input
-                  class="col-12 col-md-6 full-width text-capitalize"
+                <q-select
+                  class="col-12 col-md-6 full-width"
                   dense
                   filled
                   v-model="deliveryAddress.city"
+                  :options="filteredCities"
+                  option-label="name"
+                  option-value="id"
                   label="Ciudad"
+                  use-input
                   required
+                  @filter="filterCities"
                 />
               </div>
 
@@ -105,7 +115,8 @@
 </template>
 
 <script setup>
-import { ref } from "vue";
+import { ref, onMounted, watch } from "vue";
+import axios from "axios";
 
 const isExpanded = ref(true);
 
@@ -118,6 +129,11 @@ const deliveryAddress = ref({
   address: "",
   indications: "",
 });
+
+const departments = ref([]);
+const filteredDepartments = ref([]);
+const cities = ref([]);
+const filteredCities = ref([]);
 
 const emit = defineEmits(["updateDeliveryAddress"]);
 
@@ -134,5 +150,74 @@ const onReset = () => {
   Object.keys(deliveryAddress.value).forEach((key) => {
     deliveryAddress.value[key] = key === "phoneContact" ? 0 : "";
   });
+  filteredDepartments.value = departments.value;
+  filteredCities.value = cities.value;
 };
+
+const fetchDepartments = async () => {
+  try {
+    const response = await axios.get("https://api-colombia.com/api/v1/Department");
+    departments.value = response.data;
+    filteredDepartments.value = response.data;
+  } catch (error) {
+    console.error("Error al obtener los departamentos:", error);
+  }
+};
+
+const fetchCities = async (departmentId) => {
+  try {
+    const response = await axios.get(
+      `https://api-colombia.com/api/v1/Department/${departmentId}/cities`
+    );
+    cities.value = response.data;
+    filteredCities.value = response.data;
+  } catch (error) {
+    console.error("Error al obtener las ciudades:", error);
+  }
+};
+
+const filterDepartments = (val, update) => {
+  if (val === "") {
+    update(() => {
+      filteredDepartments.value = departments.value;
+    });
+    return;
+  }
+
+  update(() => {
+    const needle = val.toLowerCase();
+    const filtered = departments.value.filter(
+      (v) => v.name.toLowerCase().indexOf(needle) > -1
+    );
+    filteredDepartments.value = filtered.length ? filtered : [{ name: "No encontrado" }];
+  });
+};
+
+const filterCities = (val, update) => {
+  if (val === "") {
+    update(() => {
+      filteredCities.value = cities.value;
+    });
+    return;
+  }
+
+  update(() => {
+    const needle = val.toLowerCase();
+    const filtered = cities.value.filter(
+      (v) => v.name.toLowerCase().indexOf(needle) > -1
+    );
+    filteredCities.value = filtered.length ? filtered : [{ name: "No encontrado" }];
+  });
+};
+
+watch(
+  () => deliveryAddress.value.department,
+  (newDepartment) => {
+    if (newDepartment) {
+      fetchCities(newDepartment.id);
+    }
+  }
+);
+
+onMounted(fetchDepartments);
 </script>
