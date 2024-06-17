@@ -74,7 +74,7 @@
             <span class="text-h5 text-pink">{{ formatPrice(totalPrice) }}</span>
           </q-chip>
         </div>
-        <div v-if="product.isWholesaleMix">
+        <!-- <div v-if="product.isWholesaleMix">
           <q-toggle
             v-model="buyWholesale"
             color="green"
@@ -87,6 +87,18 @@
               product.wholesaleQuantity
             }}</span>
             o más cajas de pestañas de diferente referencia obtienes el precio mayorista.
+          </p>
+        </div> -->
+        <div v-if="product.isWholesaleMix" style="width: 85%">
+          <p class="text-caption">
+            <span class="text-pink text-weight-bold">Promo de junio:</span> Al
+            hacer el pedido desde la web obtienes el precio
+            <span class="text-pink text-weight-bold">MAYORISTA</span> para
+            pedidos superiores a
+            <span class="text-pink text-weight-bold">$100.000 pesos.</span>
+          </p>
+          <p class="text-caption">
+            <span class="text-pink text-weight-bold">Nota:</span> El precio mayorista se ajusta en la sección de carrito de compras.
           </p>
         </div>
       </div>
@@ -108,7 +120,7 @@ const emit = defineEmits([
   "add-car",
   "update-reference-option",
   "update-quantity",
-  "update-buy-wholesale"
+  "update-buy-wholesale",
 ]);
 
 const quantity = ref(1);

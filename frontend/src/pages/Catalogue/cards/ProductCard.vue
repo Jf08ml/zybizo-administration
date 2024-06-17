@@ -5,13 +5,15 @@
   >
     <div
       v-if="product.isOffer"
-      :class="['bg-pink-5 opacity-25', getMessageClass('offer')]"
+      :class="['bg-pink-5', getMessageClass('offer')]"
+      style="border-radius: 3px; box-shadow: 0 0 2px black"
     >
-      ¡Precios bajos!
+      ¡En oferta!
     </div>
     <div
       v-if="product.wholesalePrice != 0"
       :class="['bg-pink-5', getMessageClass('wholesale')]"
+      style="border-radius: 3px; box-shadow: 0 0 2px black"
     >
       Por mayor y detal
     </div>
@@ -116,7 +118,6 @@ const getMessageClass = (type) => {
   border-radius: 5px;
   box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
   z-index: 1;
-  transform: rotate(-10deg);
 }
 
 .offer-message-multiple {
@@ -124,7 +125,7 @@ const getMessageClass = (type) => {
 }
 
 .wholesale-message-multiple {
-  top: 30px;
+  top: 35px;
 }
 
 .card-section {
