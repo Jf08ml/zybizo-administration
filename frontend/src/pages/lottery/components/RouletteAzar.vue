@@ -79,20 +79,19 @@ import CardWinOrLose from "../cards/WinOrLose.vue";
 const props = defineProps({
   competitorData: Object,
 });
-console.log(props.competitorData);
 
 const emit = defineEmits(["save-reward", "save-cupon"]);
 
 const symbols = ref([
   "¡Te llevas el premio mayor!",
-  "¡Te llevas una caja!",
-  "¡Bono de $10.000!",
-  "Descuento del 10%",
-  "Descuento del 20%",
-  "Descuento del 30%",
-  "Descuento del 40%",
-  "Descuento del 50%",
-  "Descuento del 60%",
+  "¡Te llevas una caja de pestañas!",
+  "¡Descuento de $10.000!",
+  "¡Descuento del 10%!",
+  "¡Descuento del 15%!",
+  "¡Descuento del 20%!",
+  "¡Descuento del 25%!",
+  "¡Descuento del 30%!",
+  "¡Descuento del 35%!",
   "¡Buena suerte la próxima vez!",
 ]);
 const currentSymbolIndex = ref(0);

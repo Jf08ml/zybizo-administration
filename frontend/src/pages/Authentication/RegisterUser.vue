@@ -53,7 +53,6 @@
   const onSubmit = async () => {
     try {
       const response = await signup(registerInfo.value);
-      console.log(response);
       if (response.status === "success") {
         $router.push({ name: "Catalogue" });
       }

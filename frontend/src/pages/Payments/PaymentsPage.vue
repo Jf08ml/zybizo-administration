@@ -76,7 +76,7 @@
                 v-model="deliveryType"
                 :options="optionsDeliveryType"
                 label="Seleccione tipo de domicilio"
-                 class="q-px-md"
+                class="q-px-md"
               />
             </div>
 
@@ -310,27 +310,49 @@ const removeItem = (index) => {
 };
 
 const reCalculate = () => {
+  const totalPrice = getTotalProducts();
+  const itemsMix = listItems.value
+    .filter((item) => item.isWholesaleMix)
+    .reduce((acumulator, item) => acumulator + item.quantity, 0);
+
   const updatedItems = listItems.value.map((item) => {
-    let newPrice = 0;
+    let newPrice = item.priceUnit * item.quantity;
 
-    if (item.buyWholesale && item.isWholesaleMix) {
-      const itemsMix = listItems.value
-        .filter((item) => item.isWholesaleMix)
-        .reduce((acumulator, item) => acumulator + item.quantity, 0);
-
-      if (itemsMix >= item.wholesaleQuantity) {
-        newPrice = item.wholesalePrice * parseInt(item.quantity);
-      } else {
-        newPrice = item.priceUnit * item.quantity;
+    if (
+      (item.isWholesaleMix && itemsMix >= item.wholesaleQuantity) ||
+      totalPrice >= 100000
+    ) {
+      if (item.wholesalePrice > 0) {
+        newPrice = item.wholesalePrice * item.quantity;
       }
-    } else {
-      newPrice = item.priceUnit * item.quantity;
     }
 
     return { ...item, totalPrice: newPrice };
   });
 
-  listItems.value = updatedItems;
+  // Recalcular totalPrice después de actualizar los precios
+  const newTotalPrice = updatedItems.reduce(
+    (acc, item) => acc + item.totalPrice,
+    0
+  );
+
+  // Verificar si el nuevo totalPrice requiere una actualización de los precios mayoristas
+  const finalItems = updatedItems.map((item) => {
+    let newPrice = item.priceUnit * item.quantity;
+
+    if (
+      (item.isWholesaleMix && itemsMix >= item.wholesaleQuantity) ||
+      newTotalPrice >= 100000
+    ) {
+      if (item.wholesalePrice > 0) {
+        newPrice = item.wholesalePrice * item.quantity;
+      }
+    }
+
+    return { ...item, totalPrice: newPrice };
+  });
+
+  listItems.value = finalItems;
 };
 
 onMounted(() => {
@@ -355,8 +377,23 @@ const asignItemOrder = () => {
       (acumulator, item) => acumulator + item.quantity,
       0
     );
+    const totalPrice = items.reduce(
+      (acumulator, item) => acumulator + item.totalPrice,
+      0
+    );
 
-    if (itemsMixTotal >= itemsMixFilter[0]?.wholesaleQuantity) {
+    if (
+      itemsMixTotal >= itemsMixFilter[0]?.wholesaleQuantity ||
+      totalPrice >= 100000
+    ) {
+      items = items.map((item) => ({
+        ...item,
+        totalPrice:
+          item.wholesalePrice > 0
+            ? item.wholesalePrice * item.quantity
+            : item.priceUnit * item.quantity,
+      }));
+
       listItems.value = items;
     } else {
       items = items.map((item) => ({

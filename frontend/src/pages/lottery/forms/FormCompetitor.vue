@@ -32,8 +32,9 @@
           required
         />
         <q-btn
+          rounded
           color="pink"
-          class="q-mt-md rounded-borders"
+          class="q-mt-md"
           label="Confirmar"
           type="submit"
         />
