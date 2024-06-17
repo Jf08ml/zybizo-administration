@@ -134,7 +134,6 @@ const handleDrawerChange = (newState) => {
 };
 
 const handleGoToPay = () => {
-  console.log("Clic");
   emit("go-to-pay");
 };
 

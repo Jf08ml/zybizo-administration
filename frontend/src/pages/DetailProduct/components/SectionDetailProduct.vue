@@ -124,18 +124,6 @@ const changeQuantity = (increment) => {
   }
 };
 
-const updatedWholesalePrice = () => {
-  console.log("Hola");
-};
-
-const buyItem = () => {
-  emit("buy-item");
-};
-
-const addCar = () => {
-  emit("add-car");
-};
-
 const updateReferenceOption = (referenceIndex, selectedOption) => {
   emit("update-reference-option", { referenceIndex, selectedOption });
 };

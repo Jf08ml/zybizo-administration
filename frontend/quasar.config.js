@@ -152,7 +152,7 @@ module.exports = configure(function (/* ctx */) {
       useCredentialsForManifestTag: false,
       manifest: {
         name: `Zybizo Bazar`,
-        short_name: `ZyBa`,
+        short_name: `Zybizo`,
         description: `Tienda en línea de productos de belleza y cuidado personal`,
         display: "standalone",
         start_url: "/",

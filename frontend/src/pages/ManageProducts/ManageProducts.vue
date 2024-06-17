@@ -391,7 +391,6 @@ const resetProductCatalog = () => {
 };
 
 function addReference() {
-  console.log(productOfCatalog.value);
   productOfCatalog.value.references.push({
     name: "",
     options: [{ label: "", value: "" }],

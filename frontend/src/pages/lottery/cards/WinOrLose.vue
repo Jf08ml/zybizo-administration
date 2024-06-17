@@ -14,13 +14,15 @@
     <q-card-actions align="right">
       <q-btn
         v-if="winningSymbol === '¡Buena suerte la próxima vez!'"
-        color="primary"
+        color="pink"
+        rounded
         label="Seguir jugando"
         v-close-popup
       />
       <q-btn
         v-else
-        color="primary"
+        rounded
+        color="pink"
         label="Añadir a la lista"
         v-close-popup
         @click="añadirPremio()"

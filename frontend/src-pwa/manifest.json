@@ -1,6 +1,6 @@
 {
   "name": "Zybizo Bazar",
-  "short_name": "ZyBa",
+  "short_name": "Zybizo",
   "description": "Tienda online Zybizo Bazar",
   "display": "standalone",
   "start_url": "/",

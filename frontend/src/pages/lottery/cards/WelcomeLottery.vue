@@ -1,5 +1,5 @@
 <template>
-  <q-card class="my-card q-pa-sm full-width">
+  <q-card class="my-card q-pa-sm full-width" style="margin: auto;">
     <q-card-section class="bg-light text-dark" align="center">
       <div class="text-h5 text-center text-pink q-pb-md">
         ¡Bienvenido al sorteo de ofertas y artículos!
