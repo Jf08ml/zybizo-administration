@@ -462,6 +462,7 @@ const sendOrder = async () => {
     deliveryAddress: deliveryAddress.value,
     items: listItems.value,
     totalToPay: totalPayment.value,
+    deliveryType: deliveryType.value,
   });
   if (response.data.status === "success") {
     $router.push({ name: "OrderSend" });

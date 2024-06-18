@@ -29,7 +29,7 @@
 <script setup>
 import { ref, onMounted } from "vue";
 
-const showBanner = ref(true);
+const showBanner = ref(false);
 let deferredPrompt = null;
 
 const installApp = () => {
