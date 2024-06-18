@@ -13,6 +13,11 @@ const orderSchema = new Schema({
     type: Array,
     required: true,
   },
+  deliveryType: {
+    type: String,
+    required: false,
+    default: "Normal"
+  },
   totalToPay: {
     type: Number,
     required: true,
