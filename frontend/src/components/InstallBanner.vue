@@ -1,8 +1,8 @@
 <template>
   <q-banner v-if="showBanner" dense class="bg-primary text-white">
-    <div align="center">
-      ¡Puedes instalar la tienda como una aplicación en tu teléfono móvil para
-      mejorar tu experiencia!
+    <div align="center" style="font-size: 0.8rem;">
+      ¡Puedes añadir la tienda como una aplicación en tu teléfono móvil para
+      mejorar tu experiencia!  !Sin descargas! 📱
     </div>
     <template v-slot:action>
       <div style="width: 100%" align="center">
@@ -29,7 +29,7 @@
 <script setup>
 import { ref, onMounted } from "vue";
 
-const showBanner = ref(false);
+const showBanner = ref(true);
 let deferredPrompt = null;
 
 const installApp = () => {
