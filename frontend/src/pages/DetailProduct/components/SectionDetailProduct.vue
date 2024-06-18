@@ -74,6 +74,24 @@
             <span class="text-h5 text-pink">{{ formatPrice(totalPrice) }}</span>
           </q-chip>
         </div>
+        <div class="flex full-width align-center justify-center q-my-md">
+            <q-btn
+              rounded
+              color="pink"
+              label="Comprar"
+              class="q-mx-xs"
+              @click="buyItem"
+            />
+            <q-btn
+              outline
+              rounded
+              color="black"
+              label="Añadir a la cesta"
+              class="q-mx-xs"
+              @click="addCar"
+            />
+          </div>
+
         <!-- <div v-if="product.isWholesaleMix">
           <q-toggle
             v-model="buyWholesale"
@@ -125,6 +143,14 @@ const emit = defineEmits([
 
 const quantity = ref(1);
 const buyWholesale = ref(false);
+
+const buyItem = () => {
+  emit("buy-item", { quantity: quantity.value, buyWholesale });
+};
+
+const addCar = () => {
+  emit("add-car", { quantity: quantity.value, buyWholesale });
+};
 
 const changeQuantity = (increment) => {
   if (increment === 1) {

@@ -21,7 +21,7 @@
         <div class="col-xs-12 col-md-5 col-lg-5 q-mt-md">
           <CarouselDetailItem :product="product" />
 
-          <div class="flex full-width align-center justify-center q-mt-md">
+          <!-- <div class="flex full-width align-center justify-center q-mt-md">
             <q-btn
               rounded
               color="pink"
@@ -37,7 +37,7 @@
               class="q-mx-xs"
               @click="addCar"
             />
-          </div>
+          </div> -->
         </div>
 
         <div class="col-xs-12 col-md-7 col-lg-7 q-my-md q-px-md">

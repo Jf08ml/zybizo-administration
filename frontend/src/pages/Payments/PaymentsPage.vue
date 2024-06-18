@@ -282,7 +282,7 @@ const listItems = ref([]);
 const deliveryType = ref(null);
 const optionsDeliveryType = [
   "Entrega normal (1 día habil sin costo)",
-  "Entrega inmediata (costo según domicilio)",
+  "Entrega inmediata ( 10 a 30 mins, costo según domicilio)",
 ];
 
 const disableSendOrder = computed(() => {
@@ -363,6 +363,7 @@ onMounted(() => {
 
 const updateDeliveryAddress = (newAddress) => {
   deliveryAddress.value = { ...newAddress };
+  showSummaryDetails.value = true;
 };
 
 const asignItemOrder = () => {
