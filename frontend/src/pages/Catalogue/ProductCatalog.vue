@@ -37,7 +37,7 @@
       <q-card-section class="q-pt-none text-body2 text-center q-ma-xs">
         <p>
           ¡Haz <span class="text-weight-bold">clic en el producto</span> y
-          <span class="text-weight-bold">añade a la cesta</span>!
+          <span class="text-weight-bold">añade al carrito</span>!
         </p>
 
         <q-img src="https://i.ibb.co/NrmnyZx/boton-contra-entrega-1.webp" />

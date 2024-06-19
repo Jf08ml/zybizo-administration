@@ -34,8 +34,9 @@
           @click="goToPay"
           class="q-pa-xs q-ma-xs rounded-borders shadow-2 icon-container cursor-pointer"
         >
+          <span style="text-decoration: underline;">Ver carrito</span>
           <span class="icon-number">{{ itemsCar }}</span>
-          <q-icon name="bi-cart3" size="md" />
+          <q-icon name="bi-cart3" size="sm" />
         </div>
 
         <div v-if="isAuthenticated" class="q-pa-xs rounded-borders shadow-2">
@@ -97,7 +98,7 @@ const $q = useQuasar();
 
 const reSize = computed(() => {
   if ($q.screen.lt.sm) {
-    return "sm";
+    return "xs";
   } else {
     return "md";
   }
@@ -234,16 +235,16 @@ const fullTitle = computed(() => {
 .icon-number {
   position: absolute;
   top: 28px;
-  right: 30px;
+  right: 32px;
   background-color: red;
   color: white;
   border-radius: 50%;
-  width: 20px;
-  height: 20px;
+  width: 22px;
+  height: 22px;
   display: flex;
   justify-content: center;
   align-items: center;
-  font-size: 12px;
+  font-size: 15px;
   z-index: 1;
 }
 </style>

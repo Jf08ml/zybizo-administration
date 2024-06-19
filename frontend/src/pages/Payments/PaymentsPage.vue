@@ -122,6 +122,49 @@
             </div>
           </q-card-section>
           <q-card-actions>
+            <div
+              style="
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                align-content: center;
+                width: 100%;
+              "
+            >
+              <div>
+                <q-icon
+                  :name="
+                    showSummaryDetails
+                      ? 'bi-check2-circle'
+                      : 'bi-exclamation-circle'
+                  "
+                  :color="showSummaryDetails ? 'green' : 'red'"
+                  @click="showSummaryDetails = !showSummaryDetails"
+                />
+                <span class="q-ml-xs">{{
+                  showSummaryDetails
+                    ? "Dirección ingresada"
+                    : "Ingresa tu dirección"
+                }}</span>
+              </div>
+              <div
+                v-if="deliveryAddress.city.toLowerCase() === 'neiva'"
+                class="q-ml-md"
+              >
+                <q-icon
+                  :name="
+                    deliveryType ? 'bi-check2-circle' : 'bi-exclamation-circle'
+                  "
+                  :color="deliveryType ? 'green' : 'red'"
+                  @click="deliveryType = !showSummaryDetails"
+                />
+                <span class="q-ml-xs">{{
+                    deliveryType
+                      ? "Domicilio seleccionado"
+                      : "Ingresa el tipo de domicilio"
+                  }}</span>
+              </div>
+            </div>
             <q-btn
               :disable="disableSendOrder"
               @click="sendOrder()"
@@ -230,6 +273,51 @@
                 />
                 {{ formatPrice(totalPayment) }}
               </span>
+              <div
+                style="
+                  display: flex;
+                  justify-content: center;
+                  align-items: center;
+                  align-content: center;
+                  width: 100%;
+                "
+              >
+                <div style="margin: auto">
+                  <q-icon
+                    :name="
+                      showSummaryDetails
+                        ? 'bi-check2-circle'
+                        : 'bi-exclamation-circle'
+                    "
+                    :color="showSummaryDetails ? 'green' : 'red'"
+                    @click="showSummaryDetails = !showSummaryDetails"
+                  />
+                  <span class="q-ml-xs">{{
+                    showSummaryDetails
+                      ? "Dirección ingresada"
+                      : "Ingresa tu dirección"
+                  }}</span>
+                </div>
+                <div
+                  v-if="deliveryAddress.city.toLowerCase() === 'neiva'"
+                  class="q-ml-md"
+                >
+                  <q-icon
+                    :name="
+                      deliveryType
+                        ? 'bi-check2-circle'
+                        : 'bi-exclamation-circle'
+                    "
+                    :color="deliveryType ? 'green' : 'red'"
+                    @click="deliveryType = !showSummaryDetails"
+                  />
+                  <span class="q-ml-xs">{{
+                    deliveryType
+                      ? "Domicilio seleccionado"
+                      : "Ingresa el tipo de domicilio"
+                  }}</span>
+                </div>
+              </div>
               <q-btn
                 :disable="disableSendOrder"
                 @click="sendOrder()"
