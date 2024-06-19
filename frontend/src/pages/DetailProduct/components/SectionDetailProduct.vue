@@ -80,14 +80,16 @@
               color="pink"
               label="Comprar"
               class="q-mx-xs"
+              style="text-transform: none;"
               @click="buyItem"
             />
             <q-btn
               outline
               rounded
               color="black"
-              label="Añadir a la cesta"
+              label="Añadir al carrito"
               class="q-mx-xs"
+              style="text-transform: none;"
               @click="addCar"
             />
           </div>
