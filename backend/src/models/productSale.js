@@ -24,6 +24,10 @@ const productSchema = new Schema({
     default: 0,
     required: true,
   },
+  selectedReferences: {
+    type: Object,
+    required: true,
+  },
   status: {
     type: String,
     enum: ["Done", "Refund"],

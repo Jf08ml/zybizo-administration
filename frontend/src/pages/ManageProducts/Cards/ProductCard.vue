@@ -1,7 +1,7 @@
 <template>
-  <q-card style="width: 300px">
+  <q-card style="width: 300px;">
     <q-card-section>
-      <div class="text-h6">
+      <div class="text-body1">
         {{ product.name }}
         <q-icon :color="product.stock > 0 ? 'green' : 'red'"
           :name="product.stock > 0 ? 'check_circle' : 'new_releases'" />
@@ -12,7 +12,6 @@
       <div class="text-caption text-weight-bold">
         Disponible: {{ product.stock }}
       </div>
-      <div class="text-caption">Lote: {{ product.batch }}</div>
       <q-separator />
       <div class="text-caption">
         Precio base: {{ formatPrice(product.basePrice) }}
@@ -24,6 +23,19 @@
         Precio al por mayor: {{ formatPrice(product.wholesalePrice) }}
       </div>
       <q-separator />
+
+      <!-- Añadir referencias y opciones como expansiones -->
+      <q-expansion-item
+        v-for="reference in product.references"
+        :key="reference.name"
+        :label="reference.name"
+        expand-separator
+        dense
+      >
+        <div v-for="option in reference.options" :key="option.value" class="text-caption">
+          {{ option.label }}: {{ option.stocks }} unidades
+        </div>
+      </q-expansion-item>
     </q-card-section>
 
     <q-card-actions align="center" class="q-gutter-sm">

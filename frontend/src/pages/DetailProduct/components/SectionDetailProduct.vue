@@ -25,7 +25,13 @@
               v-model="reference.selectedOption"
               @update:model-value="updateReferenceOption(index, $event)"
               toggle-color="black"
-              :options="reference.options"
+              :options="
+                reference.options.map((option) => ({
+                  ...option,
+                  disable: option.stocks === 0,
+                  style: option.stocks === 0 ? 'color: gray;' : ''
+                }))
+              "
             />
           </div>
         </div>
@@ -75,24 +81,24 @@
           </q-chip>
         </div>
         <div class="flex full-width align-center justify-center q-my-md">
-            <q-btn
-              rounded
-              color="pink"
-              label="Comprar"
-              class="q-mx-xs"
-              style="text-transform: none;"
-              @click="buyItem"
-            />
-            <q-btn
-              outline
-              rounded
-              color="black"
-              label="Añadir al carrito"
-              class="q-mx-xs"
-              style="text-transform: none;"
-              @click="addCar"
-            />
-          </div>
+          <q-btn
+            rounded
+            color="pink"
+            label="Comprar"
+            class="q-mx-xs"
+            style="text-transform: none"
+            @click="buyItem"
+          />
+          <q-btn
+            outline
+            rounded
+            color="black"
+            label="Añadir al carrito"
+            class="q-mx-xs"
+            style="text-transform: none"
+            @click="addCar"
+          />
+        </div>
 
         <!-- <div v-if="product.isWholesaleMix">
           <q-toggle
@@ -111,14 +117,15 @@
         </div> -->
         <div v-if="product.isWholesaleMix" style="width: 85%">
           <p class="text-caption">
-            <span class="text-pink text-weight-bold">Promo de junio:</span> Al
-            hacer el pedido desde la web obtienes el precio
+            <span class="text-pink text-weight-bold">Promoción:</span> Al hacer
+            el pedido desde la web obtienes el precio
             <span class="text-pink text-weight-bold">MAYORISTA</span> para
             pedidos superiores a
             <span class="text-pink text-weight-bold">$100.000 pesos.</span>
           </p>
           <p class="text-caption">
-            <span class="text-pink text-weight-bold">Nota:</span> El precio mayorista se ajusta en la sección de carrito de compras.
+            <span class="text-pink text-weight-bold">Nota:</span> El precio
+            mayorista se ajusta en la sección de carrito de compras.
           </p>
         </div>
       </div>

@@ -1,7 +1,7 @@
 <template>
   <q-card
     @click="redirectDetailProduct"
-    class="bg-grey-1 full-width full-height"
+    class="bg-grey-1 full-width full-height card-container"
   >
     <div
       v-if="product.isOffer"
@@ -18,7 +18,8 @@
       Por mayor y detal
     </div>
 
-    <q-carousel
+    <q-card-section class="card-section-carousel">
+      <q-carousel
       v-model="fullScreenSlide"
       swipeable
       animated
@@ -34,48 +35,51 @@
         :img-src="image"
       />
     </q-carousel>
+    </q-card-section>
 
     <q-card-section class="card-section">
       <span class="product-name">{{ product.namePublic }}</span>
     </q-card-section>
 
-    <q-card-section v-if="product.stock > 0" class="card-section">
-      <div class="row items-center">
-        <div class="col-12">
-          <q-chip size="xs" class="text-pink text-weight-bolder">
-            <q-avatar icon="sell" color="pink" text-color="white" />
-            <span class="sale-price">{{ formatPrice(product.salePrice) }}</span>
-          </q-chip>
-          <q-chip size="xs" class="sold-quantity">
-            {{ product.quantitiesSold }} vendidos
-          </q-chip>
+    <div class="price-section-wrapper">
+      <q-card-section v-if="product.stock > 0" class="card-section">
+        <div class="row items-center">
+          <div class="col-12">
+            <q-chip size="xs" class="text-pink text-weight-bolder">
+              <q-avatar icon="sell" color="pink" text-color="white" />
+              <span class="sale-price">{{ formatPrice(product.salePrice) }}</span>
+            </q-chip>
+            <q-chip size="xs" class="sold-quantity">
+              {{ product.quantitiesSold }} vendidos
+            </q-chip>
+          </div>
+          <div class="col-12 flex justify-center">
+            <q-rating
+              v-model="product.rating"
+              max="5"
+              size="1rem"
+              color="grey"
+              icon="star_border"
+              icon-selected="star"
+              icon-half="star_half"
+              no-dimming
+              readonly
+            />
+          </div>
         </div>
-        <div class="col-12 flex justify-center">
-          <q-rating
-            v-model="product.rating"
-            max="5"
-            size="1rem"
-            color="grey"
-            icon="star_border"
-            icon-selected="star"
-            icon-half="star_half"
-            no-dimming
-            readonly
-          />
-        </div>
-      </div>
-    </q-card-section>
+      </q-card-section>
 
-    <q-card-section v-else>
-      <q-chat-message
-        avatar="https://i.ibb.co/njBrkRL/logo.png"
-        text-color="white"
-        :text="['Lo sentimos, el producto se encuentra agotado.']"
-        stamp="Disponible pronto..."
-        sent
-        bg-color="red-5"
-      />
-    </q-card-section>
+      <q-card-section v-else class="card-section price-section">
+        <q-chat-message
+          :style="{fontSize: '0.7rem'}"
+          avatar="icons/android-chrome-512x512.png"
+          text-color="white"
+          :text="['Disponible pronto.']"
+          sent
+          bg-color="red-5"
+        />
+      </q-card-section>
+    </div>
   </q-card>
 </template>
 
@@ -128,15 +132,29 @@ const getMessageClass = (type) => {
   top: 35px;
 }
 
+.card-container {
+  display: flex;
+  flex-direction: column;
+}
+
 .card-section {
   width: 100%;
   padding: 4px;
+}
+
+.card-section-carousel {
+  width: 100%;
+  padding: 0px;
 }
 
 .product-name {
   font-size: 0.8rem;
   width: 100%;
   font-weight: bold;
+}
+
+.price-section-wrapper {
+  margin-top: auto;
 }
 
 .sale-price {

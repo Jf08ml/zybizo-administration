@@ -3,6 +3,7 @@ import CustomErrors from "../errors/CustomErrors.js";
 import sendResponse from "../utils/response";
 import { generatePaymentEmailTemplate } from "../services/emailTemplate.service.js";
 import { sendEmail } from "../services/email.service.js";
+import emailSendingService from "../services/emailSending.service.js";
 import { sendMessageSuccessPayment } from "../services/whatsapp.service.js";
 
 const { NotFoundError, ValidationError } = CustomErrors;
@@ -10,23 +11,36 @@ const { NotFoundError, ValidationError } = CustomErrors;
 export const createOrder = async (req, res, next) => {
   try {
     const newOrder = await OrderService.createOrder(req.body.order);
-
     const htmlBody = generatePaymentEmailTemplate(newOrder);
 
-    // Intento enviar el correo
     try {
-      await sendEmail({
-        to: "lassojuanfe@gmail.com",
-        subject: "Nuevo pedido",
-        htmlBody,
+      await emailSendingService.sendEmail({
+        to: newOrder.deliveryAddress.email,
+        subject: "Pedido Zybizo Bazar",
+        htmlContent: htmlBody,
+        fromName: "Zybizo Bazar",
       });
-      console.log(`Correo enviado exitosamente a lassojuanfe@gmail.com`);
     } catch (emailError) {
       console.error(
-        `Error al enviar correo a lassojuanfe@gmail.com:`,
+        `Error al enviar correo a ${newOrder.deliveryAddress.email}:`,
         emailError
       );
     }
+
+    // Intento enviar el correo amazon
+    // try {
+    //   await sendEmail({
+    //     to: "lassojuanfe@gmail.com",
+    //     subject: "Nuevo pedido",
+    //     htmlBody,
+    //   });
+    //   console.log(`Correo enviado exitosamente a lassojuanfe@gmail.com`);
+    // } catch (emailError) {
+    //   console.error(
+    //     `Error al enviar correo a lassojuanfe@gmail.com:`,
+    //     emailError
+    //   );
+    // }
 
     // Intento enviar el mensaje a WhatsApp
     // try {
