@@ -159,10 +159,14 @@
                   @click="deliveryType = !showSummaryDetails"
                 />
                 <span class="q-ml-xs">{{
-                    deliveryType
-                      ? "Domicilio seleccionado"
-                      : "Ingresa el tipo de domicilio"
-                  }}</span>
+                  deliveryType
+                    ? "Domicilio seleccionado"
+                    : "Ingresa el tipo de domicilio"
+                }}</span>
+              </div>
+              <div v-if="listItems.length === 0" class="q-ml-md">
+                <q-icon name="bi-exclamation-circle" color="red" />
+                <span class="q-ml-xs">No tienes productos en la cesta</span>
               </div>
             </div>
             <q-btn
@@ -280,6 +284,7 @@
                   align-items: center;
                   align-content: center;
                   width: 100%;
+                  font-size: 12px;
                 "
               >
                 <div style="margin: auto">
@@ -316,6 +321,10 @@
                       ? "Domicilio seleccionado"
                       : "Ingresa el tipo de domicilio"
                   }}</span>
+                </div>
+                <div v-if="listItems.length === 0" class="q-ml-md">
+                  <q-icon name="bi-exclamation-circle" color="red" />
+                  <span class="q-ml-xs">No tienes productos en la cesta</span>
                 </div>
               </div>
               <q-btn
@@ -374,10 +383,12 @@ const optionsDeliveryType = [
 ];
 
 const disableSendOrder = computed(() => {
+  listItems.value.length;
   if (
     deliveryAddress.value.address === "" ||
     (deliveryAddress.value.city.toLowerCase() === "neiva" &&
-      deliveryType.value === null)
+      deliveryType.value === null) ||
+    listItems.value.length === 0
   ) {
     return true;
   } else {
@@ -546,15 +557,16 @@ const aplicarDescuento = async () => {
 };
 
 const sendOrder = async () => {
-  const response = await createOrder({
-    deliveryAddress: deliveryAddress.value,
-    items: listItems.value,
-    totalToPay: totalPayment.value,
-    deliveryType: deliveryType.value,
-  });
-  if (response.data.status === "success") {
-    $router.push({ name: "OrderSend" });
-  }
+  console.log(listItems.value.length);
+  // const response = await createOrder({
+  //   deliveryAddress: deliveryAddress.value,
+  //   items: listItems.value,
+  //   totalToPay: totalPayment.value,
+  //   deliveryType: deliveryType.value,
+  // });
+  // if (response.data.status === "success") {
+  //   $router.push({ name: "OrderSend" });
+  // }
 };
 
 watch(

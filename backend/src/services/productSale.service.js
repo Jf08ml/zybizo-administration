@@ -15,13 +15,42 @@ class ProductSaleService {
         throw new NotFoundError("Producto no encontrado.");
       }
 
-      product.quantitiesSold += parseInt(productSaleData.quantity);
-      product.stock -= productSaleData.quantity;
-      await product.save();
+      for (const selected of newProductSale.selectedReferences) {
+        const { reference, option } = selected;
+
+        const productReference = product.references.find(
+          (ref) => ref.name === reference
+        );
+        if (!productReference) {
+          throw new Error(
+            `Referencia ${reference} no encontrada en el producto.`
+          );
+        }
+
+        const opt = productReference.options.find(
+          (opt) => opt.value === option
+        );
+        if (!opt) {
+          throw new Error(
+            `Opción ${option} no encontrada en la referencia ${reference}.`
+          );
+        }
+
+        // Decrementar el stock
+        opt.stocks -= parseInt(productSaleData.quantity, 10);
+      }
+
+      // Actualizar cantidades y stock del producto
+      product.quantitiesSold += parseInt(productSaleData.quantity, 10);
+      product.stock -= parseInt(productSaleData.quantity, 10);
+
+      // Actualizar el producto completo en la base de datos
+      await Product.findByIdAndUpdate(product._id, product, { new: true });
 
       return newProductSale;
     } catch (error) {
-      throw new DatabaseError("Ha ocurrido un error al crear la venta.");
+      console.error("Error al crear la venta de producto:", error);
+      throw new Error("No se pudo crear la venta de producto.");
     }
   }
 

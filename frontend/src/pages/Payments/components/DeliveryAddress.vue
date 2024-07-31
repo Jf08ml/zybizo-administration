@@ -28,6 +28,14 @@
                   required
                 />
                 <q-input
+                  class="col-12 col-md-6 full-width text-normal-case"
+                  dense
+                  filled
+                  v-model="deliveryAddress.email"
+                  label="Correo eléctronico"
+                  required
+                />
+                <q-input
                   class="col-12 col-md-6 full-width"
                   dense
                   filled
@@ -123,6 +131,7 @@ const isExpanded = ref(true);
 
 const deliveryAddress = ref({
   contactName: "",
+  email:"",
   phoneContact: "",
   department: "",
   city: "",

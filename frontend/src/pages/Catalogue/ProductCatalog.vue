@@ -108,8 +108,3 @@ const getAllProducts = async () => {
 };
 
 </script>
-
-<style scoped>
-
-
-</style>
