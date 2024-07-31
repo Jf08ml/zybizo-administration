@@ -85,7 +85,7 @@ import {
 import { createProductSale } from "../../services/productSaleService.js";
 import { uploadImagesFile } from "../../services/uploadImages";
 import SaleDialog from "./dialogs/SaleDialog.vue";
-import ProductCard from "./cards/ProductCard.vue";
+import ProductCard from "./Cards/ProductCard.vue";
 import AddNewProductStepper from "./forms/AddNewProductStepper.vue";
 
 const productSale = ref({
