@@ -25,6 +25,7 @@
       animated
       infinite
       arrows
+      autoplay
       width="100%"
       height="180px"
     >
