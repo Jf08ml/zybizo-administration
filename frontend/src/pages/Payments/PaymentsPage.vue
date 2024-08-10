@@ -557,16 +557,15 @@ const aplicarDescuento = async () => {
 };
 
 const sendOrder = async () => {
-  console.log(listItems.value.length);
-  // const response = await createOrder({
-  //   deliveryAddress: deliveryAddress.value,
-  //   items: listItems.value,
-  //   totalToPay: totalPayment.value,
-  //   deliveryType: deliveryType.value,
-  // });
-  // if (response.data.status === "success") {
-  //   $router.push({ name: "OrderSend" });
-  // }
+  const response = await createOrder({
+    deliveryAddress: deliveryAddress.value,
+    items: listItems.value,
+    totalToPay: totalPayment.value,
+    deliveryType: deliveryType.value,
+  });
+  if (response.data.status === "success") {
+    $router.push({ name: "OrderSend" });
+  }
 };
 
 watch(

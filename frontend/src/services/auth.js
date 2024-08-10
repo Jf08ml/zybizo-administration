@@ -45,7 +45,6 @@ export async function signup(registerInfo) {
         },
       }
     );
-    console.log(response);
     localStorage.setItem("accessToken", response.data.data.accessToken.token);
     localStorage.setItem(
       "refreshToken",

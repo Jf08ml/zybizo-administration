@@ -18,7 +18,7 @@
           <div>
             <q-img
               alt="Zybizo Bazar"
-              src="https://i.ibb.co/Qcw6sfF/logo.png"
+              src="icons/android-chrome-512x512.png"
               class="my-picture rounded-borders"
             />
             <p class="text-subtitle2">

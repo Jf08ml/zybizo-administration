@@ -252,7 +252,6 @@ const product = ref({
 });
 
 const handleAddProduct = () => {
-  console.log("Guardando");
   emit("add-product", product.value);
   // resetProduct();
 };

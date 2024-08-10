@@ -13,6 +13,7 @@ export const createOrder = async (req, res, next) => {
     const newOrder = await OrderService.createOrder(req.body.order);
     const htmlBody = generatePaymentEmailTemplate(newOrder);
 
+    // Envía correo al usuario
     try {
       await emailSendingService.sendEmail({
         to: newOrder.deliveryAddress.email,
@@ -23,6 +24,22 @@ export const createOrder = async (req, res, next) => {
     } catch (emailError) {
       console.error(
         `Error al enviar correo a ${newOrder.deliveryAddress.email}:`,
+        emailError
+      );
+    }
+
+    // Envía correo al administrador
+    try {
+      await emailSendingService.sendEmail({
+        to: "lassojuanfe@gmail.com",
+        subject: "Nuevo pedido recibido",
+        htmlContent: htmlBody,
+        fromName: "Zybizo Bazar",
+      });
+      console.log(`Correo enviado exitosamente a lassojuanfe@gmail.com`);
+    } catch (emailError) {
+      console.error(
+        `Error al enviar correo a lassojuanfe@gmail.com:`,
         emailError
       );
     }
