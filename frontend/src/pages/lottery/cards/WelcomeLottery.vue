@@ -11,7 +11,7 @@
         </p>
         <q-img
           alt="Zybizo Bazar"
-          src="https://i.ibb.co/8X54Wy3/imagen-2024-04-20-121915809.png"
+          src="https://ik.imagekit.io/6cx9tc1kx/Productos/1.webp?updatedAt=1726326925710"
           class="img-lottery shadow-23 q-ma-md"
         />
       </div>
