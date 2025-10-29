@@ -6,10 +6,10 @@
       <h3>Política de Privacidad</h3>
       <p class="text-body1">Última actualización: 12/04/2024</p>
       <p class="text-body1">
-        En Zybizo Bazar, accesible desde <a href="privacypolicy" target="_blank">www.zybizobazar.com/privacypolicy</a>, una de nuestras
+        En Galaxia Glamour, accesible desde <a href="privacypolicy" target="_blank">www.zybizobazar.com/privacypolicy</a>, una de nuestras
         prioridades principales es la privacidad de nuestros visitantes. Esta
         Política de Privacidad contiene tipos de información que son recogidos y
-        registrados por Zybizo Bazar y cómo la usamos.
+        registrados por Galaxia Glamour y cómo la usamos.
       </p>
       <p class="text-body1">
         Si tienes preguntas adicionales o requieres más información sobre
@@ -58,7 +58,7 @@
       </ul>
       <h4>Log Files</h4>
       <p class="text-body1">
-        Zybizo Bazar sigue un procedimiento estándar de uso de archivos log.
+        Galaxia Glamour sigue un procedimiento estándar de uso de archivos log.
         Estos archivos registran a los visitantes cuando visitan sitios web.
         Todas las compañías de hosting hacen esto y una parte de los servicios
         de hosting analytics. La información recopilada por archivos log incluye
@@ -72,7 +72,7 @@
       </p>
       <h4>Cookies y Web Beacons</h4>
       <p class="text-body1">
-        Como cualquier otro sitio web, Zybizo Bazar utiliza 'cookies'. Estas
+        Como cualquier otro sitio web, Galaxia Glamour utiliza 'cookies'. Estas
         cookies se utilizan para almacenar información incluyendo las
         preferencias de los visitantes, y las páginas en el sitio web que el
         visitante accedió o visitó. La información se utiliza para optimizar la
@@ -86,7 +86,7 @@
       </p>
       <h4>Políticas de Privacidad de Terceros</h4>
       <p class="text-body1">
-        La Política de Privacidad de Zybizo Bazar no se aplica a otros
+        La Política de Privacidad de Galaxia Glamour no se aplica a otros
         anunciantes o sitios web. Por lo tanto, te aconsejamos que consultes las
         respectivas Políticas de Privacidad de estos terceros servidores de
         anuncios para obtener información más detallada. Puede incluir sus

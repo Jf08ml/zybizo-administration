@@ -85,16 +85,16 @@ async function refreshTokens(req, res) {
           .json({ error: "RefreshTokenError", message: err.name });
       }
 
-      const user = await User.findById(decoded.id);
+      const user = await User.findById(decoded.id).populate("role");
       if (!user) {
         return res.status(401).json({ message: "Unauthorized" });
       }
 
-      const token = jwt.sign({ id: user._id, role: user.role }, JWT_SECRET, {
+      const token = jwt.sign({ id: user._id, role: user.role._id }, JWT_SECRET, {
         expiresIn: "1h",
       });
       const newRefreshToken = jwt.sign(
-        { id: user._id, role: user.role },
+        { id: user._id, role: user.role._id },
         JWT_REFRESH_SECRET,
         {
           expiresIn: "24h",
@@ -213,12 +213,12 @@ async function userRole(req, res) {
 
 // Funciones auxiliares
 function configurarTokens(user) {
-  const token = jwt.sign({ id: user._id, role: user.role.name }, JWT_SECRET, {
+  const token = jwt.sign({ id: user._id, role: user.role._id || user.role }, JWT_SECRET, {
     expiresIn: "1h",
   });
 
   const refreshToken = jwt.sign(
-    { id: user._id, role: user.role.name },
+    { id: user._id, role: user.role._id || user.role },
     JWT_REFRESH_SECRET,
     {
       expiresIn: "24h",

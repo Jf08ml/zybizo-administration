@@ -12,6 +12,20 @@ const createAxiosInstance = (baseURL) => {
     baseURL,
   });
 
+  // Interceptor para agregar token de autorización
+  api.interceptors.request.use(
+    (config) => {
+      const token = localStorage.getItem("accessToken");
+      if (token && token !== "null" && token !== "undefined") {
+        config.headers.Authorization = token;
+      }
+      return config;
+    },
+    (error) => {
+      return Promise.reject(error);
+    }
+  );
+
   api.interceptors.response.use(
     (response) => response,
     async (error) => {
@@ -42,7 +56,10 @@ const apiProductSale = createAxiosInstance(`${API_BASE_URL}/api/productSale`);
 const apiExpense = createAxiosInstance(`${API_BASE_URL}/api/expense`);
 const apiRewards = createAxiosInstance(`${API_BASE_URL}/api/rewards`);
 const apiOrder = createAxiosInstance(`${API_BASE_URL}/api/orders`);
+const apiImages = createAxiosInstance(`${API_BASE_URL}/api/images`);
+const api = createAxiosInstance(`${API_BASE_URL}/api`);
 
+export default api;
 export {
   apiAuth,
   apiProduct,
@@ -50,4 +67,6 @@ export {
   apiExpense,
   apiRewards,
   apiOrder,
+  apiImages,
+  api
 };

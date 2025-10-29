@@ -1,29 +1,41 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="es-CO">
 
 <head>
-  <title>Zybizo Bazar - Tienda online</title>
+  <meta charset="utf-8" />
+  <title>Galaxia Glamour Store — Insumos para pestañas y belleza profesional</title>
 
-  <meta charset="utf-8">
+  <!-- Meta SEO -->
   <meta name="description"
-    content="Descubre Zybizo Bazar: la variedad más amplia en tecnología y belleza. Encuentra insumos para pestañas, para ti lashista profesional.">
+    content="Galaxia Glamour Store: insumos para pestañas pelo a pelo, adhesivos, parches de hidrogel, microbrush, y más. Envíos en Colombia para lashistas profesionales." />
   <meta name="keywords"
-    content="Zybizo Bazar, Zybizo tienda, Zybizobazar, productos de calidad, compras online, bazar online, Zybizo oferta, Zibizo, Zybyzo, Zybiso, Zibyzo, Sybizo, Zybizo, Zybizzo, Zyvizoo, Zyvizo, Zybiso, Zybeezo, Zibiso, Sybiso, Zibizo, Sibyso, Zybzio, sibiso, sybiso">
-  <meta name="robots" content="index,follow">
-  <meta name="format-detection" content="telephone=no">
-  <meta name="msapplication-tap-highlight" content="no">
+    content="Galaxia Glamour Store, insumos pestañas, pestañas pelo a pelo, adhesivo pestañas, parches hidrogel, microbrush, lashista, belleza Colombia" />
+  <meta name="robots" content="index,follow" />
   <meta name="viewport"
-    content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="theme-color" content="#027be3">
+    content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="format-detection" content="telephone=no" />
+  <meta name="msapplication-tap-highlight" content="no" />
+  <meta name="theme-color" content="#027be3" />
+
+  <!-- Canonical (ajusta el dominio si es diferente) -->
+  <link rel="canonical" href="https://galaxiaglamour.store/" />
 
   <!-- Open Graph / Facebook -->
-  <meta property="og:type" content="website">
-  <meta property="og:url" content="https://www.zybizobazar.com/">
-  <meta property="og:title" content="Zybizo Bazar - Tienda online">
+  <meta property="og:type" content="website" />
+  <meta property="og:site_name" content="Galaxia Glamour Store" />
+  <meta property="og:url" content="https://galaxiaglamour.store/" />
+  <meta property="og:title" content="Galaxia Glamour Store — Insumos para pestañas y belleza profesional" />
   <meta property="og:description"
-    content="Zybizo Bazar es tu destino para las mejores ofertas en electrónica y belleza. Compra con seguridad, testeamos nuestros productos antes de comercializarlos.">
-  <meta property="og:image" content="https://i.ibb.co/Qcw6sfF/logo.png">
+    content="Compra insumos para pestañas: clásicas, YY, 3Dw, adhesivos, parches de hidrogel y más. Calidad para lashistas en Colombia." />
+  <meta property="og:image" content="https://i.ibb.co/Qcw6sfF/logo.png" />
+  <meta property="og:locale" content="es_CO" />
+
+  <!-- Twitter -->
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Galaxia Glamour Store — Insumos para pestañas y belleza profesional" />
+  <meta name="twitter:description" content="Insumos para pestañas, adhesivos y más, con envíos en Colombia." />
+  <meta name="twitter:image" content="https://i.ibb.co/Qcw6sfF/logo.png" />
 
   <% if (ctx.mode.pwa) { %>
     <meta name="theme-color" content="<%= pwaManifest.theme_color %>">
@@ -40,24 +52,47 @@
     <% } %>
 
       <!-- Favicon -->
-      <link rel="icon" type="image/x-icon" href="/favicon.ico">
-</head>
+      <link rel="icon" type="image/x-icon" href="/favicon.ico" />
 
-<!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-7VW8DTFWVX"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag() { dataLayer.push(arguments); }
-  gtag('js', new Date());
+      <!-- Íconos usados por Quasar -->
+      <link href="https://cdn.jsdelivr.net/npm/@quasar/extras@1.16.7/material-icons/material-icons.css"
+        rel="stylesheet" />
+      <link href="https://cdn.jsdelivr.net/npm/@quasar/extras@1.16.7/mdi-v7/mdi-v7.css" rel="stylesheet" />
+      <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet" />
 
-  // Verifica si no estás en un entorno local antes de configurar Google Analytics
-  if (window.location.hostname !== 'localhost') {
-    gtag('config', 'G-7VW8DTFWVX');
+      <!-- JSON-LD: negocio de belleza (ajusta datos reales: teléfono, dirección, horarios, URL) -->
+      <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Store",
+    "name": "Galaxia Glamour Store",
+    "url": "https://galaxiaglamour.store/",
+    "logo": "https://i.ibb.co/Qcw6sfF/logo.png",
+    "image": "https://i.ibb.co/Qcw6sfF/logo.png",
+    "description": "Tienda de insumos para pestañas y belleza profesional en Colombia.",
+    "telephone": "+57 000 000 0000",
+    "address": {
+      "@type": "PostalAddress",
+      "addressCountry": "CO"
+    },
+    "sameAs": []
   }
-</script>
+  </script>
+</head>
 
 <body>
   <!-- quasar:entry-point -->
+
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-7VW8DTFWVX"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag() { dataLayer.push(arguments); }
+    gtag('js', new Date());
+    if (window.location.hostname !== 'localhost') {
+      gtag('config', 'G-7VW8DTFWVX');
+    }
+  </script>
 </body>
 
 </html>

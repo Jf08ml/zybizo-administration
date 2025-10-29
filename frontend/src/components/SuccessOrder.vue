@@ -17,7 +17,7 @@
           </p>
           <div>
             <q-img
-              alt="Zybizo Bazar"
+              alt="Galaxia Glamour"
               src="icons/android-chrome-512x512.png"
               class="my-picture rounded-borders"
             />

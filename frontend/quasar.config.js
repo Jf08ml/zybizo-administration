@@ -151,8 +151,8 @@ module.exports = configure(function (/* ctx */) {
       manifestFilename: "manifest.json",
       useCredentialsForManifestTag: false,
       manifest: {
-        name: `Zybizo Bazar`,
-        short_name: `Zybizo`,
+        name: `Glaxia Glamour Store`,
+        short_name: `Glaxia Store`,
         description: `Tienda en línea de productos de belleza y cuidado personal`,
         display: "standalone",
         start_url: "/",

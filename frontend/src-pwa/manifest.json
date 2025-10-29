@@ -1,7 +1,7 @@
 {
-  "name": "Zybizo Bazar",
-  "short_name": "Zybizo",
-  "description": "Tienda online Zybizo Bazar",
+  "name": "Galaxia Glamour Store",
+  "short_name": "Galaxia Store",
+  "description": "Tienda online Galaxia Glamour",
   "display": "standalone",
   "start_url": "/",
   "theme_color": "#1976d2",

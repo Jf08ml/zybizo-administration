@@ -1,112 +1,276 @@
 <template>
-  <q-stepper v-model="step" ref="stepper" color="pink" animated>
+  <q-stepper v-model="step" ref="stepper" :color="isEditMode ? 'orange' : 'pink'" animated>
     <q-step :name="1" title="Info. Básica" icon="info" :done="step > 1">
-      <div class="row justify-center">
-        <div class="col-md-6 col-sm-12">
+      <div class="row q-gutter-md">
+        <!-- Información básica -->
+        <div class="col-12 col-md-5">
+          <div class="text-h6 q-mb-md">Información del producto</div>
+
           <q-input
             outlined
             dense
             required
             v-model="product.name"
-            label="Nombre"
-            class="q-pa-xs"
+            label="Nombre del producto *"
+            class="q-mb-md"
+            hint="Nombre interno para gestión"
           />
+
           <q-input
             outlined
             dense
-            required
-            v-model="product.quantity"
-            type="number"
-            label="Cantidad"
-            class="q-pa-xs"
+            v-model="product.namePublic"
+            label="Nombre público"
+            class="q-mb-md"
+            hint="Nombre que verán los clientes (opcional)"
           />
+
           <q-input
             outlined
             dense
-            required
-            v-model="product.batch"
-            type="number"
-            label="Lote"
-            class="q-pa-xs"
+            v-model="product.description"
+            label="Descripción"
+            type="textarea"
+            rows="3"
+            class="q-mb-md"
+            hint="Descripción detallada del producto"
           />
+
+          <q-select
+            outlined
+            dense
+            v-model="product.category"
+            :options="categoryStore.categories"
+            option-value="_id"
+            option-label="name"
+            emit-value
+            map-options
+            label="Categoría"
+            class="q-mb-md"
+            hint="Selecciona una categoría"
+            clearable
+          >
+            <template v-slot:option="scope">
+              <q-item v-bind="scope.itemProps">
+                <q-item-section avatar>
+                  <q-icon :name="scope.opt.icon || 'category'" />
+                </q-item-section>
+                <q-item-section>
+                  <q-item-label>{{ scope.opt.name }}</q-item-label>
+                  <q-item-label caption>Nivel {{ scope.opt.level || 0 }}</q-item-label>
+                </q-item-section>
+              </q-item>
+            </template>
+          </q-select>
         </div>
 
-        <div class="col-md-6 col-sm-12">
+        <!-- Inventario y precios -->
+        <div class="col-12 col-md-5">
+          <div class="text-h6 q-mb-md">Inventario y precios</div>
+
+          <div class="row q-gutter-sm q-mb-md">
+            <div class="col">
+              <q-input
+                outlined
+                dense
+                v-model="product.sku"
+                label="SKU (opcional)"
+                hint="Se genera automáticamente si está vacío"
+              />
+            </div>
+            <div class="col">
+              <q-input
+                outlined
+                dense
+                v-model="product.batch"
+                label="Lote"
+                hint="Número de lote o batch"
+              />
+            </div>
+          </div>
+
+          <div class="row q-gutter-sm q-mb-md">
+            <div class="col">
+              <q-input
+                outlined
+                dense
+                required
+                v-model.number="product.stock"
+                type="number"
+                min="0"
+                label="Stock inicial *"
+              />
+            </div>
+            <div class="col">
+              <q-input
+                outlined
+                dense
+                v-model.number="product.minStock"
+                type="number"
+                min="0"
+                label="Stock mínimo"
+                hint="Alerta cuando llegue a este nivel"
+              />
+            </div>
+          </div>
+
           <q-input
             outlined
             dense
             required
-            v-model="product.basePrice"
+            v-model.number="product.basePrice"
             type="number"
-            label="Precio base"
-            class="q-pa-xs"
+            min="0"
+            step="0.01"
+            label="Precio base *"
+            class="q-mb-md"
+            hint="Precio de compra o costo"
           />
+
           <q-input
             outlined
             dense
             required
-            v-model="product.salePrice"
+            v-model.number="product.salePrice"
             type="number"
-            label="Precio de venta"
-            class="q-pa-xs"
+            min="0"
+            step="0.01"
+            label="Precio de venta *"
+            class="q-mb-md"
           />
-          <q-input
-            outlined
-            dense
-            required
-            v-model="product.wholesalePrice"
-            type="number"
-            label="Precio al por mayor"
-            class="q-pa-xs"
-          />
+
+          <div class="row q-gutter-sm">
+            <div class="col">
+              <q-input
+                outlined
+                dense
+                v-model.number="product.wholesalePrice"
+                type="number"
+                min="0"
+                step="0.01"
+                label="Precio mayoreo"
+              />
+            </div>
+            <div class="col">
+              <q-input
+                outlined
+                dense
+                v-model.number="product.wholesaleQuantity"
+                type="number"
+                min="1"
+                label="Cantidad mínima mayoreo"
+              />
+            </div>
+          </div>
         </div>
       </div>
     </q-step>
 
-    <q-step :name="2" title="Info. Catálogo" icon="list" :done="step > 2">
-      <div class="row justify-center">
-        <div class="col-md-6 col-sm-12">
-          <q-input
-            outlined
-            dense
-            required
-            v-model="product.namePublic"
-            label="Nombre en el catálogo *"
-            class="q-mb-xs"
-          />
+    <q-step :name="2" title="Multimedia y configuración" icon="image" :done="step > 2">
+      <div class="row q-gutter-md">
+        <!-- Multimedia -->
+        <div class="col-12 col-md-5">
+          <div class="text-h6 q-mb-md">Imágenes y contenido</div>
+
           <q-input
             type="textarea"
             outlined
-            required
             v-model="product.characteristics"
-            label="Características y descripción *"
+            label="Características y descripción"
             autogrow
-            class="q-mb-xs"
+            rows="4"
+            class="q-mb-md"
+            hint="Características detalladas para mostrar al cliente"
           />
+
           <q-file
             outlined
             multiple
-            label="Cargar imágenes *"
+            label="Cargar imágenes"
             v-model="product.images"
-            required
             :rules="[
               (val) =>
                 !val || val.length <= 5 || 'Puede cargar hasta 5 imágenes',
             ]"
             :max-files="5"
             use-chips
-            class="q-mb-xs"
+            class="q-mb-md"
+            hint="Hasta 5 imágenes del producto"
           />
+
+          <q-input
+            outlined
+            dense
+            v-model="tagsInput"
+            label="Etiquetas (separadas por comas)"
+            class="q-mb-md"
+            hint="Ej: nuevo, promoción, destacado"
+            @update:model-value="updateTags"
+          />
+        </div>
+
+        <!-- Configuración -->
+        <div class="col-12 col-md-5">
+          <div class="text-h6 q-mb-md">Configuración</div>
+
+          <div class="q-gutter-md">
+            <q-toggle
+              v-model="product.isActive"
+              label="Producto activo"
+              color="positive"
+              class="q-mb-sm"
+            />
+            <div class="text-caption text-grey-6 q-mb-md">
+              Los productos inactivos no aparecerán en el sistema
+            </div>
+
+            <q-toggle
+              v-model="product.isActiveInCatalog"
+              label="Visible en catálogo público"
+              color="primary"
+              class="q-mb-sm"
+            />
+            <div class="text-caption text-grey-6 q-mb-md">
+              Activar para que aparezca en la tienda online
+            </div>
+
+            <q-toggle
+              v-model="product.isOffer"
+              label="Producto en oferta"
+              color="orange"
+              class="q-mb-sm"
+            />
+            <div class="text-caption text-grey-6 q-mb-md">
+              Marcar si tiene precio especial
+            </div>
+
+            <q-toggle
+              v-model="product.isWholesaleMix"
+              label="Permitir mezcla en mayoreo"
+              color="purple"
+              class="q-mb-sm"
+            />
+            <div class="text-caption text-grey-6">
+              Permitir combinar con otros productos para precio mayoreo
+            </div>
+          </div>
         </div>
       </div>
     </q-step>
 
-    <q-step :name="3" title="Referencias" icon="view_cozy">
+    <q-step :name="3" title="Variantes (opcional)" icon="tune">
       <div class="row">
+        <div class="col-12">
+          <div class="text-h6 q-mb-md">Referencias y variantes del producto</div>
+          <div class="text-caption text-grey-6 q-mb-md">
+            Añade variantes como colores, tallas, materiales, etc. Solo si el producto las tiene.
+          </div>
+        </div>
+
         <div
           v-for="(reference, indexReference) in product.references"
           :key="indexReference"
-          class="col-6"
+          class="col-12 col-md-6"
         >
           <div
             class="q-ma-xs flex column content-center"
@@ -223,37 +387,114 @@
         <q-btn
           @click="step === 3 ? handleAddProduct() : $refs.stepper.next()"
           color="primary"
-          :label="step === 3 ? 'Guardar' : 'Continuar'"
+          :label="step === 3 ? (isEditMode ? 'Actualizar' : 'Guardar') : 'Continuar'"
         />
       </q-stepper-navigation>
     </template>
   </q-stepper>
 </template>
 <script setup>
-import { ref } from "vue";
+import { ref, onMounted } from "vue";
 import { formatPrice } from "src/utils/utilsFunctions";
+import { useCategoryStore } from "src/stores/categories";
+
+const props = defineProps({
+  initialProduct: {
+    type: Object,
+    default: null
+  },
+  isEditMode: {
+    type: Boolean,
+    default: false
+  }
+});
 
 const emit = defineEmits(["add-product"]);
+const categoryStore = useCategoryStore();
 
 const step = ref(1);
+const tagsInput = ref("");
+
+// Cargar categorías y producto inicial al montar el componente
+onMounted(async () => {
+  if (!categoryStore.categories.length) {
+    await categoryStore.fetchCategories();
+  }
+
+  // Si estamos en modo edición, cargar el producto
+  if (props.isEditMode && props.initialProduct) {
+    product.value = { ...props.initialProduct };
+
+    // Cargar tags si existen
+    if (product.value.tags && Array.isArray(product.value.tags)) {
+      tagsInput.value = product.value.tags.join(', ');
+    }
+
+    // Si no hay referencias, inicializar con estructura por defecto
+    if (!product.value.references || product.value.references.length === 0) {
+      product.value.references = [{ name: "", options: [{ label: "", value: "", stocks: 0 }] }];
+    }
+
+    // Asegurar que las imágenes sean un array
+    if (!product.value.images) {
+      product.value.images = [];
+    }
+  }
+});
 
 const product = ref({
+  // Información básica
   name: "",
+  namePublic: "",
+  description: "",
+  characteristics: "",
+
+  // Categorización
+  category: null,
+  tags: [],
+
+  // Identificación
+  sku: "",
+  batch: "",
+
+  // Inventario
   quantity: 0,
-  batch: 0,
+  stock: 0,
+  minStock: 5,
+
+  // Precios
   basePrice: 0,
   salePrice: 0,
   wholesalePrice: 0,
-  namePublic: "",
-  characteristics: "",
+  wholesaleQuantity: 1,
+
+  // Multimedia
   images: [],
+
+  // Referencias/Variantes
   references: [{ name: "", options: [{ label: "", value: "", stocks: 0 }] }],
-  variants: [],
+
+  // Estado y configuración
+  isActiveInCatalog: false,
+  isActive: true,
+  isWholesaleMix: false,
+  isOffer: false
 });
 
 const handleAddProduct = () => {
+  // Sincronizar quantity con stock
+  product.value.quantity = product.value.stock;
+
   emit("add-product", product.value);
   // resetProduct();
+};
+
+const updateTags = (value) => {
+  if (value) {
+    product.value.tags = value.split(',').map(tag => tag.trim()).filter(tag => tag.length > 0);
+  } else {
+    product.value.tags = [];
+  }
 };
 
 const addReference = () => {

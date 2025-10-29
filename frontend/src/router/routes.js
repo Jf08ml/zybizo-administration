@@ -1,7 +1,7 @@
 const routes = [
   {
     path: "/",
-    redirect: "/catalogozybizo",
+    redirect: "/catalogo",
     component: () => import("layouts/MainLayout.vue"),
     children: [
       {
@@ -47,11 +47,28 @@ const routes = [
         }
       },
       {
+        name: "CategoryManagement",
+        path: "categories",
+        component: () =>
+          import("pages/CategoryManagement/CategoryManagement.vue"),
+        meta: {
+          title: 'Gestión de Categorías'
+        }
+      },
+      {
+        name: "POS",
+        path: "pos",
+        component: () => import("pages/POS/POSPage.vue"),
+        meta: {
+          title: 'Punto de Venta'
+        }
+      },
+      {
         name: "Catalogue",
-        path: "catalogozybizo",
+        path: "catalogo",
         component: () => import("pages/Catalogue/ProductCatalog.vue"),
         meta: {
-          title: 'Zybizo - Catálogo'
+          title: 'Galaxia Glamour Store - Catálogo'
         }
       },
       {
@@ -59,7 +76,7 @@ const routes = [
         path: "sorteozybizo",
         component: () => import("pages/lottery/LotteryView.vue"),
         meta: {
-          title: 'Sorteo Zybizo Bazar'
+          title: 'Sorteo Galaxia Glamour'
         }
       },
       {
@@ -67,7 +84,7 @@ const routes = [
         path: "login",
         component: () => import("pages/Authentication/LoginUsers.vue"),
         meta: {
-          title: 'Iniciar sesión en Zybizo Bazar'
+          title: 'Iniciar sesión en Galaxia Glamour'
         }
       },
       {
@@ -75,7 +92,7 @@ const routes = [
         path: "register",
         component: () => import("pages/Authentication/RegisterUser.vue"),
         meta: {
-          title: 'Registarse en Zybizo Bazar'
+          title: 'Registarse en Galaxia Glamour'
         }
       },
       {

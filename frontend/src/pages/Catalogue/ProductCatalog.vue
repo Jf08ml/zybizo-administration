@@ -1,77 +1,252 @@
 <template>
-  <q-page padding>
-    <div class="q-my-md row justify-center">
-      <q-input
-        rounded
-        dense
-        standout
-        v-model="searchTerm"
-        class="col-8 col-xs-11"
-        label="Busca aquí el producto que deseas"
-      >
-        <template v-slot:append>
-          <q-icon name="search" />
-        </template>
-      </q-input>
-    </div>
-
-    <div class="row q-col-gutter-md" align="center">
-      <div
-        class="col-xs-6 col-sm-3 col-md-2 col-lg-2"
-        v-for="product in filteredProducts"
-        :key="product._id"
-      >
-        <ProductCard :product="product" />
-      </div>
-    </div>
-  </q-page>
-
-  <q-dialog v-model="showPopup">
-    <q-card style="width: 300px; height: auto">
-      <q-card-section>
-        <div class="text-subtitle1 text-pink text-weight-bolder">
-          Información para hacer un pedido
-        </div>
-      </q-card-section>
-      <q-separator />
-      <q-card-section class="q-pt-none text-body2 text-center q-ma-xs">
-        <p>
-          ¡Haz <span class="text-weight-bold">clic en el producto</span> y
-          <span class="text-weight-bold">añade al carrito</span>!
+  <q-page class="catalog-page">
+    <!-- Header Section -->
+    <section class="catalog-header">
+      <div class="header-content">
+        <h1 class="catalog-title">
+          Catálogo <span class="brand-accent">Galaxia Glamour</span>
+        </h1>
+        <p class="catalog-subtitle">
+          Descubre nuestra colección completa de pestañas profesionales e insumos especializados
         </p>
+      </div>
+    </section>
 
-        <q-img src="https://i.ibb.co/NrmnyZx/boton-contra-entrega-1.webp" />
-      </q-card-section>
-      <q-card-section
-        class="q-pt-none text-body2 text-primary text-justify q-ma-xs"
-      >
-        Para mayor información y precios al por mayor, comunícate con nosotros.
-        En nuestras redes sociales.
-      </q-card-section>
-      <q-separator />
-      <q-card-actions align="right" class="bg-white text-primary">
-        <q-btn color="pink" label="Entiendo" rounded v-close-popup />
-      </q-card-actions>
-    </q-card>
-  </q-dialog>
+    <!-- Search and Filters Section -->
+    <section class="search-section">
+      <div class="search-container">
+        <div class="search-wrapper">
+          <q-input
+            v-model="searchTerm"
+            rounded
+            outlined
+            placeholder="Buscar productos..."
+            class="search-input"
+            clearable
+          >
+            <template v-slot:prepend>
+              <q-icon name="search" color="grey-6" />
+            </template>
+          </q-input>
+        </div>
+
+        <!-- Filter Chips -->
+        <div class="filter-chips">
+          <q-chip
+            v-for="category in categories"
+            :key="category.value"
+            :selected="selectedCategory === category.value"
+            @click="toggleCategory(category.value)"
+            :color="selectedCategory === category.value ? 'black' : 'grey-3'"
+            :text-color="selectedCategory === category.value ? 'white' : 'grey-8'"
+            clickable
+            class="filter-chip"
+          >
+            <q-icon :name="category.icon" size="18px" class="q-mr-xs" />
+            {{ category.label }}
+          </q-chip>
+        </div>
+      </div>
+    </section>
+
+    <!-- Results Info -->
+    <section class="results-info">
+      <div class="results-container">
+        <p class="results-text">
+          <span class="results-count">{{ filteredProducts.length }}</span>
+          producto{{ filteredProducts.length !== 1 ? 's' : '' }} encontrado{{ filteredProducts.length !== 1 ? 's' : '' }}
+        </p>
+        <q-btn
+          v-if="selectedCategory"
+          flat
+          dense
+          @click="clearFilters"
+          color="grey-8"
+          icon="clear"
+          label="Limpiar filtros"
+          class="clear-btn"
+        />
+      </div>
+    </section>
+
+    <!-- Products Grid -->
+    <section class="products-section">
+      <!-- Loading State -->
+      <div v-if="loading" class="loading-state">
+        <q-spinner-gears size="60px" color="black" />
+        <p class="loading-text">Cargando productos...</p>
+      </div>
+
+      <!-- Products Grid -->
+      <div v-else-if="filteredProducts.length > 0" class="products-grid">
+        <div
+          v-for="product in filteredProducts"
+          :key="product._id"
+          class="product-item"
+        >
+          <ProductCard :product="product" class="product-card-enhanced" />
+        </div>
+      </div>
+
+      <!-- Empty State -->
+      <div v-else class="empty-state">
+        <q-icon name="search_off" size="64px" color="grey-5" />
+        <h3 class="empty-title">No se encontraron productos</h3>
+        <p class="empty-subtitle">
+          Intenta con otros términos de búsqueda o cambia los filtros
+        </p>
+        <q-btn
+          v-if="searchTerm || selectedCategory"
+          rounded
+          unelevated
+          color="black"
+          label="Ver todos los productos"
+          @click="clearAllFilters"
+          class="q-mt-md"
+        />
+      </div>
+    </section>
+
+    <!-- Info Dialog -->
+    <q-dialog v-model="showPopup" persistent>
+      <q-card class="info-dialog">
+        <q-card-section class="dialog-header">
+          <div class="dialog-icon">
+            <q-icon name="info" size="32px" color="white" />
+          </div>
+          <h3 class="dialog-title">¡Bienvenida a Galaxia Glamour!</h3>
+          <p class="dialog-subtitle">Tu distribuidora de confianza</p>
+        </q-card-section>
+
+        <q-card-section class="dialog-content">
+          <div class="info-steps">
+            <div class="step-item">
+              <div class="step-number">1</div>
+              <div class="step-content">
+                <h4>Explora nuestros productos</h4>
+                <p>Navega por nuestro catálogo especializado</p>
+              </div>
+            </div>
+            <div class="step-item">
+              <div class="step-number">2</div>
+              <div class="step-content">
+                <h4>Añade al carrito</h4>
+                <p>Selecciona los productos que necesitas</p>
+              </div>
+            </div>
+            <div class="step-item">
+              <div class="step-number">3</div>
+              <div class="step-content">
+                <h4>Realiza tu pedido</h4>
+                <p>Finaliza tu compra de forma segura</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="payment-info">
+            <q-img
+              src="https://i.ibb.co/NrmnyZx/boton-contra-entrega-1.webp"
+              class="payment-img"
+              ratio="16/9"
+            />
+          </div>
+
+          <div class="contact-info">
+            <p class="contact-text">
+              <strong>¿Necesitas asesoría profesional?</strong><br>
+              Contáctanos para precios al por mayor y soporte técnico
+            </p>
+          </div>
+        </q-card-section>
+
+        <q-card-actions class="dialog-actions">
+          <q-btn
+            unelevated
+            rounded
+            color="black"
+            text-color="white"
+            label="¡Entendido, empecemos!"
+            @click="showPopup = false"
+            class="dialog-btn"
+          />
+        </q-card-actions>
+      </q-card>
+    </q-dialog>
+  </q-page>
 </template>
 
 <script setup>
 import { ref, onBeforeMount, onMounted, onUnmounted, computed } from "vue";
 import { getProductsCatalog } from "../../services/productService.js";
+import { useCategoryStore } from "../../stores/categories";
 import ProductCard from "./cards/ProductCard.vue";
 
+// Stores
+const categoryStore = useCategoryStore();
+
+// Estado reactivo
 const products = ref([]);
 const searchTerm = ref("");
 const showPopup = ref(false);
+const selectedCategory = ref("");
+const loading = ref(false);
 
-const filteredProducts = computed(() => {
-  return products.value.filter((product) =>
-    product.namePublic.toLowerCase().includes(searchTerm.value.toLowerCase())
-  );
+// Categorías computadas desde el store
+const categories = computed(() => {
+  const allCategories = [
+    { value: "", label: "Todos", icon: "apps" }
+  ];
+
+  // Agregar categorías del store con sus íconos
+  categoryStore.categories.forEach(cat => {
+    allCategories.push({
+      value: cat._id,
+      label: cat.name,
+      icon: cat.icon || "category"
+    });
+  });
+
+  return allCategories;
 });
 
+// Computed properties
+const filteredProducts = computed(() => {
+  let filtered = products.value;
+
+  // Filtrar por búsqueda
+  if (searchTerm.value) {
+    const searchLower = searchTerm.value.toLowerCase();
+    filtered = filtered.filter((product) =>
+      product.name?.toLowerCase().includes(searchLower) ||
+      product.namePublic?.toLowerCase().includes(searchLower) ||
+      product.description?.toLowerCase().includes(searchLower) ||
+      product.characteristics?.toLowerCase().includes(searchLower) ||
+      product.sku?.toLowerCase().includes(searchLower)
+    );
+  }
+
+  // Filtrar por categoría usando el _id de la categoría
+  if (selectedCategory.value) {
+    filtered = filtered.filter((product) => {
+      // Si el producto tiene categoría poblada
+      if (product.category && typeof product.category === 'object') {
+        return product.category._id === selectedCategory.value;
+      }
+      // Si la categoría es solo el ID
+      return product.category === selectedCategory.value;
+    });
+  }
+
+  return filtered;
+});
+
+// Lifecycle hooks
 onBeforeMount(async () => {
+  // Cargar categorías primero
+  if (!categoryStore.categories.length) {
+    await categoryStore.fetchCategories();
+  }
+  // Luego cargar productos
   await getAllProducts();
 });
 
@@ -84,27 +259,451 @@ onUnmounted(() => {
   window.removeEventListener("beforeunload", clearLocalStorage);
 });
 
+// Métodos
 const checkFirstVisit = () => {
-  if (!localStorage.getItem("hasVisited")) {
+  if (!localStorage.getItem("catalogVisited")) {
     showPopup.value = true;
-    localStorage.setItem("hasVisited", "true");
+    localStorage.setItem("catalogVisited", "true");
   }
 };
 
 const clearLocalStorage = () => {
-  localStorage.removeItem("hasVisited");
+  localStorage.removeItem("catalogVisited");
 };
 
 const getAllProducts = async () => {
+  loading.value = true;
   try {
     const response = await getProductsCatalog();
-    products.value = response.data.map((product) => ({
+    console.log("Productos del catálogo:", response);
+
+    // La API puede devolver con o sin paginación
+    const productsData = response.data?.data || response.data || [];
+
+    products.value = productsData.map((product) => ({
       ...product,
       slideIndex: 0,
+      // Asegurar que tengamos el rating inicializado
+      rating: product.rating || 4.5
     }));
+
+    console.log("Productos cargados:", products.value.length);
   } catch (error) {
-    console.error(error);
+    console.error("Error al cargar productos del catálogo:", error);
+    products.value = [];
+  } finally {
+    loading.value = false;
   }
 };
 
+const toggleCategory = (category) => {
+  selectedCategory.value = selectedCategory.value === category ? "" : category;
+};
+
+const clearFilters = () => {
+  selectedCategory.value = "";
+};
+
+const clearAllFilters = () => {
+  searchTerm.value = "";
+  selectedCategory.value = "";
+};
 </script>
+
+<style scoped>
+/* Page Layout */
+.catalog-page {
+  background: linear-gradient(180deg, #fafafa 0%, #ffffff 100%);
+  min-height: 100vh;
+}
+
+/* Header Section */
+.catalog-header {
+  background: linear-gradient(135deg, #000000 0%, #1a1a1a 100%);
+  color: white;
+  padding: 60px 20px 40px;
+  margin-bottom: 40px;
+}
+
+.header-content {
+  max-width: 1200px;
+  margin: 0 auto;
+  text-align: center;
+}
+
+.catalog-title {
+  font-size: 2.5rem;
+  font-weight: 700;
+  margin: 0 0 16px;
+  line-height: 1.2;
+}
+
+.brand-accent {
+  background: linear-gradient(135deg, #ffffff 0%, #f0f0f0 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.catalog-subtitle {
+  font-size: 1.125rem;
+  opacity: 0.9;
+  margin: 0;
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+/* Search Section */
+.search-section {
+  padding: 0 20px 32px;
+}
+
+.search-container {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.search-wrapper {
+  margin-bottom: 24px;
+}
+
+.search-input {
+  max-width: 600px;
+  margin: 0 auto;
+  font-size: 16px;
+}
+
+.search-input :deep(.q-field__control) {
+  border-radius: 50px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
+  border: 2px solid #e0e0e0;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  background: white;
+  min-height: 52px;
+}
+
+.search-input :deep(.q-field__control):hover {
+  border-color: #999;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.12);
+}
+
+.search-input :deep(.q-field--focused .q-field__control) {
+  border-color: #000000;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+}
+
+.search-input :deep(.q-field__native) {
+  font-weight: 500;
+}
+
+/* Filter Chips */
+.filter-chips {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.filter-chip {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  font-weight: 600;
+  font-size: 13px;
+  border-radius: 20px;
+  padding: 8px 16px;
+}
+
+.filter-chip:not(.q-chip--selected) {
+  background: white !important;
+  border: 1.5px solid #e0e0e0;
+}
+
+.filter-chip:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.12);
+  border-color: #000;
+}
+
+.filter-chip.q-chip--selected {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.25);
+}
+
+/* Results Info */
+.results-info {
+  padding: 0 20px 24px;
+}
+
+.results-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.results-text {
+  font-size: 0.95rem;
+  color: #666;
+  margin: 0;
+}
+
+.results-count {
+  font-weight: 600;
+  color: #000;
+}
+
+.clear-btn {
+  font-size: 0.875rem;
+}
+
+/* Products Grid */
+.products-section {
+  padding: 0 20px 60px;
+  min-height: 400px;
+}
+
+.loading-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 80px 20px;
+  gap: 20px;
+}
+
+.loading-text {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: #333;
+  margin: 0;
+}
+
+.products-grid {
+  max-width: 1400px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 20px;
+}
+
+.product-item {
+  display: flex;
+}
+
+.product-card-enhanced {
+  width: 100%;
+}
+
+/* Empty State */
+.empty-state {
+  text-align: center;
+  padding: 80px 20px;
+  max-width: 400px;
+  margin: 0 auto;
+}
+
+.empty-title {
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: #333;
+  margin: 16px 0 8px;
+}
+
+.empty-subtitle {
+  color: #666;
+  margin: 0 0 24px;
+}
+
+/* Info Dialog */
+.info-dialog {
+  max-width: 500px;
+  margin: 20px;
+  border-radius: 20px;
+  overflow: hidden;
+}
+
+.dialog-header {
+  background: linear-gradient(135deg, #000000 0%, #1a1a1a 100%);
+  color: white;
+  text-align: center;
+  padding: 32px 24px;
+}
+
+.dialog-icon {
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 50%;
+  width: 64px;
+  height: 64px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 16px;
+}
+
+.dialog-title {
+  font-size: 1.5rem;
+  font-weight: 700;
+  margin: 0 0 8px;
+}
+
+.dialog-subtitle {
+  opacity: 0.9;
+  margin: 0;
+}
+
+.dialog-content {
+  padding: 32px 24px;
+}
+
+.info-steps {
+  margin-bottom: 24px;
+}
+
+.step-item {
+  display: flex;
+  align-items: flex-start;
+  margin-bottom: 20px;
+}
+
+.step-number {
+  background: #000000;
+  color: white;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 600;
+  margin-right: 16px;
+  flex-shrink: 0;
+}
+
+.step-content h4 {
+  margin: 0 0 4px;
+  font-weight: 600;
+  color: #333;
+}
+
+.step-content p {
+  margin: 0;
+  color: #666;
+  font-size: 0.9rem;
+}
+
+.payment-info {
+  background: #f8f9fa;
+  border-radius: 12px;
+  padding: 16px;
+  margin-bottom: 24px;
+}
+
+.payment-img {
+  border-radius: 8px;
+}
+
+.contact-info {
+  background: linear-gradient(135deg, #f0f0f0 0%, #e8e8e8 100%);
+  border-radius: 12px;
+  padding: 20px;
+  text-align: center;
+}
+
+.contact-text {
+  margin: 0;
+  color: #333;
+}
+
+.dialog-actions {
+  padding: 24px;
+  justify-content: center;
+}
+
+.dialog-btn {
+  padding: 12px 32px;
+  font-weight: 600;
+  transition: all 0.3s ease;
+}
+
+.dialog-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .catalog-title {
+    font-size: 2rem;
+  }
+
+  .catalog-subtitle {
+    font-size: 1rem;
+  }
+
+  .products-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 16px;
+  }
+
+  .filter-chips {
+    gap: 8px;
+  }
+
+  .results-container {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 12px;
+  }
+
+  .search-section {
+    padding: 0 16px 24px;
+  }
+
+  .results-info {
+    padding: 0 16px 20px;
+  }
+
+  .products-section {
+    padding: 0 16px 40px;
+  }
+}
+
+@media (max-width: 480px) {
+  .catalog-header {
+    padding: 40px 12px 32px;
+  }
+
+  .catalog-title {
+    font-size: 1.75rem;
+  }
+
+  .products-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
+  }
+
+  .filter-chips {
+    justify-content: flex-start;
+  }
+
+  .dialog-content {
+    padding: 24px 20px;
+  }
+
+  .search-input {
+    max-width: 100%;
+  }
+
+  .search-section {
+    padding: 0 12px 20px;
+  }
+
+  .results-info {
+    padding: 0 12px 16px;
+  }
+
+  .products-section {
+    padding: 0 12px 32px;
+  }
+}
+</style>

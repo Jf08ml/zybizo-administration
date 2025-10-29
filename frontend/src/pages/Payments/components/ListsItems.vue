@@ -86,7 +86,7 @@
           align="center"
         >
           ¡No has agregado productos, revisa el
-          <a href="/catalogozybizo">cátalogo</a>!
+          <a href="/catalogo">cátalogo</a>!
         </div>
       </div>
     </q-card-section>
