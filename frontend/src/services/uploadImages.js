@@ -1,4 +1,4 @@
-import axios from "axios";
+import { apiImages } from "./api.js";
 import { showLoading, hideLoading } from "../stores/loadingStore.js";
 
 async function base64ToBlob(base64) {
@@ -9,40 +9,52 @@ async function base64ToBlob(base64) {
 
 export async function uploadImagesBase64(base64String) {
   try {
+    showLoading();
+
     // Convierte la cadena base64 en un objeto blob
     const blob = await base64ToBlob(base64String);
 
     // Usa FormData para enviar el archivo
     const formData = new FormData();
-    formData.append("image", blob, "image.png");
-    formData.append("key", "70ab458cc599c4e941b44dc5aa63c282");
+    formData.append("file", blob, "image.png");
+    formData.append("fileName", "image.png");
 
-    const response = await axios.post(
-      "https://api.imgbb.com/1/upload",
-      formData
-    );
+    const folder = import.meta.env.VITE_FOLDER_IMAGES || "products";
 
-    return response.data.data.url;
+    const response = await apiImages.post(`/image/upload/${folder}`, formData, {
+      headers: {
+        "Content-Type": "multipart/form-data",
+      },
+    });
+
+    return response.data.imageUrl;
   } catch (error) {
     return await Promise.reject(error.response ? error.response.data : error);
+  } finally {
+    hideLoading();
   }
 }
 
 export async function uploadImagesFile(file) {
   try {
-    showLoading()
+    showLoading();
 
     const formData = new FormData();
-    formData.append("image", file);
-    formData.append("key", "70ab458cc599c4e941b44dc5aa63c282");
-    const response = await axios.post(
-      "https://api.imgbb.com/1/upload",
-      formData
-    );
-    return response.data.data.url;
+    formData.append("file", file);
+    formData.append("fileName", file.name);
+
+    const folder = import.meta.env.VITE_FOLDER_IMAGES || "products";
+
+    const response = await apiImages.post(`/image/upload/${folder}`, formData, {
+      headers: {
+        "Content-Type": "multipart/form-data",
+      },
+    });
+
+    return response.data.imageUrl;
   } catch (error) {
     return await Promise.reject(error.response ? error.response.data : error);
   } finally {
-    hideLoading()
+    hideLoading();
   }
 }

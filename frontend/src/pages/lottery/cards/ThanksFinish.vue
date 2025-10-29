@@ -14,7 +14,7 @@
           productos y servicios.
         </p>
         <div>
-          <q-img alt="Zybizo Bazar" src="/icons/android-chrome-512x512.png" class="my-picture" />
+          <q-img alt="Galaxia Glamour Store" src="/icons/android-chrome-512x512.png" class="my-picture" />
           <p class="text-justify"><span class="text-body1 text-red text-weight-bolder">Nota: </span>Recuerda que para reclamar tu premio deberás escribirnos, tener a la mano el
             número de teléfono y nombre de
             usuario de Instagram que registraste en el formulario inicial para poder recibir tu recompensa.</p>

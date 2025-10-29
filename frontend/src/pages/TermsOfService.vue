@@ -9,9 +9,9 @@
         Por favor, lee estas condiciones del servicio ("condiciones",
         "condiciones del servicio") cuidadosamente antes de usar el sitio web
         <a href="termservice" target="_blank"
-          >www.zybizobazar.com/termservice</a
+          >www.store.galaxiaglamour.com/termservice</a
         >
-        (el "servicio") operado por Zybizo Bazar ("nosotros", "nuestro").
+        (el "servicio") operado por Galaxia Glamour ("nosotros", "nuestro").
       </p>
       <p class="text-body1">
         Tu acceso y uso del servicio está condicionado a tu aceptación y

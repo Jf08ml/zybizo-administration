@@ -1,57 +1,108 @@
 <template>
   <q-layout view="hHh Lpr lff">
-    <q-header elevated>
+    <q-header elevated class="header-gradient">
       <InstallBanner />
-      <q-toolbar class="bg-black text-white">
+      <q-toolbar class="q-px-md q-px-lg-xl">
         <q-btn
           flat
           dense
           round
           icon="menu"
           aria-label="Menu"
+          class="q-mr-sm"
           @click="toggleLeftDrawer"
-        />
-
-        <q-toolbar-title> {{ fullTitle }}</q-toolbar-title>
-        <q-btn
-          v-if="!isAuthenticated"
-          :size="reSize"
-          outline
-          class="text-no-wrap"
-          label="Iniciar sesión"
-          @click="redirectToLogin"
-        />
-        <q-btn
-          v-if="!isAuthenticated"
-          :size="reSize"
-          outline
-          class="q-mx-sm"
-          label="Registrarse"
-          @click="redirectToRegister"
-        />
-
-        <div
-          @click="goToPay"
-          class="q-pa-xs q-ma-xs rounded-borders shadow-2 icon-container cursor-pointer"
         >
-          <span style="text-decoration: underline;">Ver carrito</span>
-          <span class="icon-number">{{ itemsCar }}</span>
-          <q-icon name="bi-cart3" size="sm" />
+          <q-tooltip class="bg-primary">Menú</q-tooltip>
+        </q-btn>
+
+        <q-toolbar-title class="text-weight-medium">
+          {{ fullTitle || "Galaxia Glamour Store" }}
+        </q-toolbar-title>
+
+        <!-- Spacer for better layout -->
+        <q-space />
+
+        <!-- Authentication buttons for non-authenticated users -->
+        <div v-if="!isAuthenticated" class="auth-buttons q-gutter-sm">
+          <q-btn
+            :size="reSize"
+            outline
+            rounded
+            no-caps
+            class="text-no-wrap login-btn"
+            label="Iniciar sesión"
+            @click="redirectToLogin"
+          >
+            <q-icon name="login" left />
+          </q-btn>
+          <q-btn
+            :size="reSize"
+            unelevated
+            rounded
+            no-caps
+            color="primary"
+            class="register-btn"
+            label="Registrarse"
+            @click="redirectToRegister"
+          >
+            <q-icon name="person_add" left />
+          </q-btn>
         </div>
 
-        <div v-if="isAuthenticated" class="q-pa-xs rounded-borders shadow-2">
-          <q-icon
-            name="bi-box-arrow-in-left"
-            size="sm"
-            class="q-px-sm cursor-pointer"
-            @click="logout"
+        <!-- Shopping cart button -->
+        <q-btn flat round class="cart-btn q-mx-sm" @click="goToPay">
+          <q-icon name="shopping_cart" size="md" />
+          <q-badge
+            v-if="itemsCar > 0"
+            floating
+            rounded
+            color="red"
+            :label="itemsCar"
+            class="cart-badge"
           />
-          <q-avatar size="md" class="shadow-2 cursor-pointer">
-            <img
-              src="https://i.ibb.co/r6SG6Fh/avatar.webp"
-              alt="avatar-zybizo"
-            />
-          </q-avatar>
+          <q-tooltip class="bg-primary"
+            >Ver carrito ({{ itemsCar }} items)</q-tooltip
+          >
+        </q-btn>
+
+        <!-- User menu for authenticated users -->
+        <div v-if="isAuthenticated" class="user-menu">
+          <q-btn-dropdown flat rounded no-caps class="user-dropdown">
+            <template v-slot:label>
+              <q-avatar size="32px" class="q-mr-sm">
+                <img
+                  src="https://ik.imagekit.io/6cx9tc1kx/galaxia/zoomed_rounded_image_dSaieoj4-.png?updatedAt=1753479123734"
+                  alt="avatar-galaxia"
+                />
+              </q-avatar>
+              <span class="gt-xs">Mi cuenta</span>
+            </template>
+
+            <q-list>
+              <q-item clickable v-close-popup @click="$router.push('/profile')">
+                <q-item-section avatar>
+                  <q-icon name="person" />
+                </q-item-section>
+                <q-item-section>Perfil</q-item-section>
+              </q-item>
+
+              <q-item clickable v-close-popup @click="$router.push('/orders')">
+                <q-item-section avatar>
+                  <q-icon name="receipt_long" />
+                </q-item-section>
+                <q-item-section>Mis pedidos</q-item-section>
+              </q-item>
+
+              <q-separator />
+
+              <q-item clickable v-close-popup @click="logout">
+                <q-item-section avatar>
+                  <q-icon name="logout" />
+                </q-item-section>
+                <q-item-section>Cerrar sesión</q-item-section>
+              </q-item>
+            </q-list>
+          </q-btn-dropdown>
         </div>
       </q-toolbar>
     </q-header>
@@ -60,19 +111,39 @@
       v-model="leftDrawerOpen"
       overlay
       bordered
-      :width="250"
+      :width="280"
       :breakpoint="500"
+      class="drawer-custom"
     >
-      <q-list>
-        <q-item-label header> Menú </q-item-label>
+      <div class="drawer-header q-pa-md text-center">
+        <q-avatar size="60px" class="q-mb-sm">
+          <img
+            src="https://ik.imagekit.io/6cx9tc1kx/galaxia/zoomed_rounded_image_dSaieoj4-.png?updatedAt=1753479123734"
+            alt="Galaxia Logo"
+          />
+        </q-avatar>
+        <div class="text-h6 text-weight-medium">Galaxia Glamour Store</div>
+        <div class="text-caption text-grey-6">Distribuidora oficial</div>
+      </div>
+
+      <q-separator />
+
+      <q-list class="q-pt-md">
+        <q-item-label header class="text-weight-medium q-px-md">
+          <q-icon name="menu" class="q-mr-sm" />
+          Navegación
+        </q-item-label>
 
         <EssentialLink
           v-for="link in filteredLinksList"
           :key="link.title"
           v-bind="link"
           @click="leftDrawerOpen = false"
+          class="link-item"
         />
       </q-list>
+
+      <q-separator class="q-mt-md" />
     </q-drawer>
 
     <q-page-container>
@@ -134,7 +205,7 @@ const linksList = [
     title: "Catálogo",
     caption: "",
     icon: "bi-cart-check",
-    link: "/catalogozybizo",
+    link: "/catalogo",
   },
   {
     title: "Sorteo de descuentos",
@@ -147,6 +218,13 @@ const linksList = [
     caption: "",
     icon: "bi-card-checklist",
     link: "/products",
+    role: "Administrator",
+  },
+  {
+    title: "Punto de Venta (POS)",
+    caption: "",
+    icon: "bi-cash-coin",
+    link: "/pos",
     role: "Administrator",
   },
   {
@@ -171,6 +249,13 @@ const linksList = [
     role: "Administrator",
   },
   {
+    title: "Categorías",
+    caption: "",
+    icon: "bi-tags",
+    link: "/categories",
+    role: "Administrator",
+  },
+  {
     title: "Facebook",
     caption: "/zybizo.bazar",
     icon: "bi-facebook",
@@ -192,7 +277,7 @@ const linksList = [
     title: "Zybizo page",
     caption: "Page official",
     icon: "bi-globe-americas",
-    link: "https://www.zybizobazar.com/catalogozybizo",
+    link: "https://www.zybizobazar.com/catalogo",
   },
 ];
 
@@ -227,24 +312,194 @@ const fullTitle = computed(() => {
 </script>
 
 <style scoped>
-.icon-container {
-  position: relative;
-  display: inline-block;
+/* Header gradient background */
+.header-gradient {
+  background: linear-gradient(135deg, #000000 0%, #1a1a1a 100%);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.3);
 }
 
-.icon-number {
-  position: absolute;
-  top: 28px;
-  right: 32px;
-  background-color: red;
-  color: white;
-  border-radius: 50%;
-  width: 22px;
-  height: 22px;
+/* Authentication buttons styling */
+.auth-buttons {
   display: flex;
-  justify-content: center;
   align-items: center;
-  font-size: 15px;
-  z-index: 1;
+}
+
+.login-btn {
+  border: 2px solid rgba(255, 255, 255, 0.7);
+  color: white;
+  transition: all 0.3s ease;
+  background: rgba(255, 255, 255, 0.05);
+}
+
+.login-btn:hover {
+  background: rgba(255, 255, 255, 0.1);
+  border-color: white;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 15px rgba(255, 255, 255, 0.1);
+}
+
+.register-btn {
+  transition: all 0.3s ease;
+  background: #333333;
+  border: 2px solid #333333;
+  color: white;
+}
+
+.register-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(51, 51, 51, 0.4);
+  background: #444444;
+  border-color: #444444;
+}
+
+/* Shopping cart button */
+.cart-btn {
+  position: relative;
+  padding: 8px;
+  border-radius: 50%;
+  transition: all 0.3s ease;
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.cart-btn:hover {
+  background: rgba(255, 255, 255, 0.2);
+  color: white;
+  transform: scale(1.1);
+  box-shadow: 0 4px 15px rgba(255, 255, 255, 0.1);
+}
+
+.cart-badge {
+  font-size: 10px;
+  min-width: 18px;
+  height: 18px;
+  background: #000000;
+  border: 2px solid white;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+  color: white;
+}
+
+/* User dropdown menu */
+.user-menu .user-dropdown {
+  padding: 4px 8px;
+  border-radius: 20px;
+  transition: all 0.3s ease;
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.user-menu .user-dropdown:hover {
+  background: rgba(255, 255, 255, 0.2);
+  color: white;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 15px rgba(255, 255, 255, 0.1);
+}
+
+/* Drawer custom styling */
+.drawer-custom {
+  background: linear-gradient(180deg, #f8f9fa 0%, #ffffff 100%);
+  box-shadow: 2px 0 15px rgba(0, 0, 0, 0.1);
+}
+
+.drawer-header {
+  background: linear-gradient(135deg, #000000 0%, #1a1a1a 100%);
+  color: white;
+  margin: -1px -1px 0 -1px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+}
+
+
+/* Link items styling */
+.link-item {
+  margin: 2px 8px;
+  border-radius: 12px;
+  transition: all 0.3s ease;
+  border-left: 3px solid transparent;
+}
+
+.link-item:hover {
+  background: linear-gradient(135deg, rgba(0, 0, 0, 0.05) 0%, rgba(0, 0, 0, 0.1) 100%);
+  transform: translateX(6px);
+  border-left-color: #000000;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Responsive adjustments */
+@media (max-width: 599px) {
+  .auth-buttons {
+    flex-direction: column;
+    gap: 4px;
+  }
+
+  .auth-buttons .q-btn {
+    min-width: 120px;
+    font-size: 12px;
+  }
+}
+
+@media (max-width: 479px) {
+  .q-toolbar {
+    padding-left: 8px;
+    padding-right: 8px;
+  }
+
+  .cart-btn {
+    padding: 6px;
+  }
+}
+
+/* Animation for drawer */
+.q-drawer {
+  transition: transform 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+}
+
+/* Improved tooltips */
+.q-tooltip {
+  background: linear-gradient(135deg, #000000 0%, #333333 100%);
+  font-size: 12px;
+  padding: 6px 12px;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+  color: white;
+}
+
+/* Better focus states for accessibility */
+.q-btn:focus {
+  outline: 2px solid #666666;
+  outline-offset: 2px;
+  box-shadow: 0 0 0 4px rgba(102, 102, 102, 0.2);
+}
+
+/* Loading states */
+.q-btn.loading {
+  pointer-events: none;
+  opacity: 0.7;
+}
+
+/* Additional color enhancements */
+.q-toolbar-title {
+  color: white;
+  font-weight: 600;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+/* Menu button enhancement */
+.q-btn[aria-label="Menu"] {
+  background: rgba(255, 255, 255, 0.1);
+  transition: all 0.3s ease;
+}
+
+.q-btn[aria-label="Menu"]:hover {
+  background: rgba(255, 255, 255, 0.2);
+  transform: rotate(90deg);
+}
+
+/* Tooltip styling */
+.q-tooltip {
+  background: linear-gradient(135deg, #000000 0%, #333333 100%);
+  font-size: 12px;
+  padding: 6px 12px;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+  color: white;
 }
 </style>

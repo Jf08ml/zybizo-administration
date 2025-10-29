@@ -10,7 +10,7 @@
           Premio mayor: <span class="text-primary">Kit de insumos.</span>
         </p>
         <q-img
-          alt="Zybizo Bazar"
+          alt="Galaxia Glamour Store"
           src="https://ik.imagekit.io/6cx9tc1kx/Productos/1.webp?updatedAt=1726326925710"
           class="img-lottery shadow-23 q-ma-md"
         />

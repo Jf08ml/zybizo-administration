@@ -1,83 +1,116 @@
 <template>
-  <q-page
-    class="flex flex-center column items-center justify-space-between full-width"
-  >
-    <div class="flex flex-start full-width q-my-sm">
-      <q-btn
-        flat
-        rounded
-        no-caps
-        size="md"
-        icon="arrow_back_ios"
-        label="Volver al catálogo"
-        @click="$router.push('/catalogozybizo')"
-      />
-    </div>
-    <q-card>
-      <div
-        class="row full-width custom-padding"
-        :class="{ dimmed: showDrawer }"
-      >
-        <div class="col-xs-12 col-md-5 col-lg-5 q-mt-md">
-          <CarouselDetailItem :product="product" />
-
-          <!-- <div class="flex full-width align-center justify-center q-mt-md">
-            <q-btn
-              rounded
-              color="pink"
-              label="Comprar"
-              class="q-mx-xs"
-              @click="buyItem"
-            />
-            <q-btn
-              outline
-              rounded
-              color="black"
-              label="Añadir a la cesta"
-              class="q-mx-xs"
-              @click="addCar"
-            />
-          </div> -->
-        </div>
-
-        <div class="col-xs-12 col-md-7 col-lg-7 q-my-md q-px-md">
-          <SectionDetailProduct
-            :product="product"
-            :totalPrice="totalPrice"
-            :buyWholesale="buyWholesale"
-            @buy-item="buyItem"
-            @add-car="addCar"
-            @update-reference-option="updateReferenceOption"
-            @update-quantity="updateQuantity"
-            @update-buy-wholesale="updateBuyWholesale"
-          />
-        </div>
+  <q-page class="product-detail-page">
+    <!-- Header con breadcrumb -->
+    <div class="page-header">
+      <div class="container">
+        <q-btn
+          flat
+          dense
+          no-caps
+          icon="arrow_back"
+          label="Volver al catálogo"
+          class="back-btn"
+          @click="$router.push('/catalogo')"
+        />
       </div>
+    </div>
 
-      <div class="row full-width custom-padding q-mt-md">
-        <span class="col-12 text-h5 q-mb-md">Detalles de envió</span>
-        <div class="col-12 text-justify q-mb-lg">
-          <div>
-            <p class="text-body2 text-pink">
-              El envió para la ciudad de Neiva es gratis según disponibilidad y
-              para entrega inmediata tiene un costo adicional.
-            </p>
-            <p>
-              Para otras ciudades tiene un costo apróximado entre $10.000 a
-              $20.000.
-            </p>
+    <!-- Contenido principal -->
+    <div class="container q-py-lg">
+      <div class="row q-col-gutter-xl">
+        <!-- Columna de imágenes -->
+        <div class="col-12 col-md-6">
+          <div class="image-section">
+            <CarouselDetailItem :product="product" />
+          </div>
+        </div>
+
+        <!-- Columna de información -->
+        <div class="col-12 col-md-6">
+          <div class="info-section">
+            <SectionDetailProduct
+              :product="product"
+              :totalPrice="totalPrice"
+              :buyWholesale="buyWholesale"
+              @buy-item="buyItem"
+              @add-car="addCar"
+              @update-reference-option="updateReferenceOption"
+              @update-quantity="updateQuantity"
+              @update-buy-wholesale="updateBuyWholesale"
+            />
           </div>
         </div>
       </div>
 
-      <div class="row full-width custom-padding">
-        <span class="col-12 text-h5 q-mb-md">Detalles del producto</span>
-        <div class="col-12 text-justify q-mb-lg">
-          <p class="text-body2">{{ product.characteristics }}</p>
-        </div>
-      </div>
-    </q-card>
+      <!-- Sección de detalles -->
+      <div class="details-section q-mt-xl">
+        <q-card flat bordered class="details-card">
+          <q-tabs
+            v-model="activeTab"
+            dense
+            class="text-grey-8"
+            active-color="black"
+            indicator-color="black"
+            align="left"
+          >
+            <q-tab name="description" label="Descripción" icon="description" />
+            <q-tab name="shipping" label="Envío" icon="local_shipping" />
+          </q-tabs>
 
+          <q-separator />
+
+          <q-tab-panels v-model="activeTab" animated>
+            <!-- Panel de descripción -->
+            <q-tab-panel name="description">
+              <div class="text-body1 text-grey-8">
+                <div v-if="product.characteristics" class="q-mb-md">
+                  <p style="white-space: pre-line;">{{ product.characteristics }}</p>
+                </div>
+                <div v-else class="text-grey-6 text-center q-py-lg">
+                  <q-icon name="info" size="3rem" class="q-mb-md" />
+                  <div>No hay características disponibles para este producto</div>
+                </div>
+              </div>
+            </q-tab-panel>
+
+            <!-- Panel de envío -->
+            <q-tab-panel name="shipping">
+              <div class="shipping-info">
+                <q-card flat bordered class="q-mb-md shipping-card-local">
+                  <q-card-section>
+                    <div class="row items-center">
+                      <q-icon name="local_shipping" size="2rem" color="black" class="q-mr-md" />
+                      <div>
+                        <div class="text-subtitle1 text-weight-bold">Envío Local - Neiva</div>
+                        <div class="text-body2 text-grey-7">
+                          Envío gratis según disponibilidad. Entrega inmediata con costo adicional.
+                        </div>
+                      </div>
+                    </div>
+                  </q-card-section>
+                </q-card>
+
+                <q-card flat bordered class="shipping-card-national">
+                  <q-card-section>
+                    <div class="row items-center">
+                      <q-icon name="public" size="2rem" color="grey-8" class="q-mr-md" />
+                      <div>
+                        <div class="text-subtitle1 text-weight-bold">Envío Nacional</div>
+                        <div class="text-body2 text-grey-7">
+                          Costo aproximado entre $10.000 - $20.000 según destino.
+                        </div>
+                      </div>
+                    </div>
+                  </q-card-section>
+                </q-card>
+              </div>
+            </q-tab-panel>
+          </q-tab-panels>
+        </q-card>
+      </div>
+    </div>
+
+    <!-- Drawer de resumen -->
     <ResumeItemDrawer
       :model-value="showDrawer"
       :product="product"
@@ -109,6 +142,7 @@ const quantity = ref(1);
 const itemToBuy = ref(null);
 const showDrawer = ref(false);
 const buyWholesale = ref(false);
+const activeTab = ref("description");
 
 onMounted(async () => {
   productId.value = $route.params.productId;
@@ -240,16 +274,160 @@ const updateQuantity = (newVal) => {
 };
 </script>
 
-<style scoped>
-.custom-padding {
-  padding: 0 80px;
+<style lang="scss" scoped>
+.product-detail-page {
+  background: linear-gradient(180deg, #f8f9fa 0%, #ffffff 100%);
+  min-height: 100vh;
 }
-@media (max-width: 599px) {
-  .full-height-on-mobile {
-    height: 100%;
+
+.page-header {
+  background: white;
+  border-bottom: 1px solid #e0e0e0;
+  padding: 16px 0;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+.container {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 0 24px;
+}
+
+.back-btn {
+  transition: all 0.3s ease;
+
+  &:hover {
+    transform: translateX(-4px);
   }
-  .custom-padding {
-    padding: 0 20px;
+}
+
+.image-section {
+  position: sticky;
+  top: 100px;
+}
+
+.info-section {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.details-section {
+  .details-card {
+    border-radius: 12px;
+    overflow: hidden;
+  }
+}
+
+.shipping-info {
+  .q-card {
+    border-radius: 8px;
+    transition: transform 0.2s ease;
+
+    &:hover {
+      transform: translateY(-2px);
+    }
+  }
+
+  .shipping-card-local {
+    background: #f5f5f5;
+    border: 1px solid #e0e0e0;
+  }
+
+  .shipping-card-national {
+    background: #fafafa;
+    border: 1px solid #e0e0e0;
+  }
+}
+
+.reviews-section {
+  .q-rating {
+    font-size: 2rem;
+  }
+}
+
+// Responsive
+@media (max-width: 1023px) {
+  .container {
+    padding: 0 16px;
+  }
+
+  .image-section {
+    position: static;
+    margin-bottom: 24px;
+  }
+
+  .q-col-gutter-xl > * {
+    padding: 0 12px;
+  }
+
+  .details-section {
+    margin-top: 40px !important;
+  }
+}
+
+@media (max-width: 599px) {
+  .product-detail-page {
+    background: white;
+  }
+
+  .container {
+    padding: 0;
+  }
+
+  .page-header {
+    padding: 12px 0;
+
+    .container {
+      padding: 0 12px;
+    }
+  }
+
+  .back-btn {
+    font-size: 0.875rem;
+    padding: 8px 12px;
+  }
+
+  .q-py-lg {
+    padding-top: 16px !important;
+    padding-bottom: 16px !important;
+  }
+
+  .row.q-col-gutter-xl {
+    margin: 0;
+
+    > div {
+      padding: 0;
+    }
+  }
+
+  .image-section {
+    margin-bottom: 16px;
+    padding: 0 12px;
+  }
+
+  .info-section {
+    padding: 0 12px;
+  }
+
+  .details-section {
+    margin-top: 24px !important;
+    padding: 0 12px;
+
+    .details-card {
+      border-radius: 8px;
+    }
+  }
+
+  .shipping-info {
+    .q-card {
+      &:hover {
+        transform: none;
+      }
+    }
   }
 }
 </style>

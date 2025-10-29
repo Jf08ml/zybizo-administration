@@ -20,7 +20,7 @@
       />
       <q-card-actions align="center">
         <q-btn color="primary" @click="saveCupon"
-          >Enviar cupón a Zybizo Bazar</q-btn
+          >Enviar cupón a Galaxia Glamour Bazar</q-btn
         >
       </q-card-actions>
     </q-card-section>

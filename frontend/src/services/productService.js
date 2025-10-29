@@ -20,11 +20,12 @@ export async function createProduct(product) {
   }
 }
 
-export async function getProducts() {
+export async function getProducts(params = {}) {
   try {
     showLoading();
     const response = await apiProduct.get("/products", {
       headers: { "Cache-Control": "no-cache" },
+      params
     });
 
     return response.data;
@@ -50,11 +51,12 @@ export async function getProduct(id) {
   }
 }
 
-export async function getProductsCatalog() {
+export async function getProductsCatalog(params = {}) {
   try {
     showLoading();
     const response = await apiProduct.get("/productsCatalog", {
       headers: { "Cache-Control": "no-cache" },
+      params
     });
 
     return response.data;
@@ -83,6 +85,22 @@ export async function deleteProduct(id) {
     showLoading();
 
     const response = await apiProduct.delete(`/productRemove/${id}`);
+
+    return response.data;
+  } catch (error) {
+    return await Promise.reject(error.response.data);
+  } finally {
+    hideLoading();
+  }
+}
+
+export async function getProductsByCategory(categoryId, params = {}) {
+  try {
+    showLoading();
+    const response = await apiProduct.get(`/products/category/${categoryId}`, {
+      headers: { "Cache-Control": "no-cache" },
+      params
+    });
 
     return response.data;
   } catch (error) {
