@@ -10,7 +10,6 @@ import {
   reorderCategories,
   getCategoryStats
 } from "../controllers/categoryController.js";
-import { authenticateToken } from "../middleware/auth.js";
 
 const router = Router();
 
