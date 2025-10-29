@@ -1,11 +1,11 @@
 import { Router } from "express";
 import customerController from "../controllers/customerController.js";
-import { authenticateToken } from "../middleware/auth.js";
+// import { authenticateToken } from "../middleware/auth.js";
 
 const router = Router();
 
 // Todas las rutas requieren autenticación
-router.use(authenticateToken);
+// router.use(authenticateToken);
 
 // Buscar cliente por identificador
 router.get('/find/:identifier', customerController.findByIdentifier);
