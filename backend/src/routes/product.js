@@ -11,7 +11,6 @@ import {
   getLowStockProducts,
   getProductsByCategory,
 } from "../controllers/productController.js";
-import verifyToken from "../middleware/auth.js";
 
 const router = Router();
 
