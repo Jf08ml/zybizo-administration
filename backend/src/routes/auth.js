@@ -8,7 +8,7 @@ import {
   updateUser,
   updatePassword,
   userRole,
-} from "../controllers/userController";
+} from "../controllers/userController.js";
 
 router.post("/signup", signup);
 router.post("/login", login);

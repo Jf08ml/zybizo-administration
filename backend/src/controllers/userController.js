@@ -1,9 +1,9 @@
 import jwt from "jsonwebtoken";
-import UserService from "../services/user.service";
-import RoleService from "../services/role.service";
-import sendResponse from "../utils/response";
-import User from "../models/users";
-import Role from "../models/roles";
+import UserService from "../services/user.service.js";
+import RoleService from "../services/role.service.js";
+import sendResponse from "../utils/response.js";
+import User from "../models/users.js";
+import Role from "../models/roles.js";
 import CustomErrors from "../errors/CustomErrors.js";
 
 const { NotFoundError, DuplicateKeyError } = CustomErrors;

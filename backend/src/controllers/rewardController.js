@@ -1,6 +1,6 @@
-import RewardService from "../services/reward.service";
+import RewardService from "../services/reward.service.js";
 import CustomErrors from "../errors/CustomErrors.js";
-import sendResponse from "../utils/response";
+import sendResponse from "../utils/response.js";
 
 const { NotFoundError, ValidationError } = CustomErrors;
 

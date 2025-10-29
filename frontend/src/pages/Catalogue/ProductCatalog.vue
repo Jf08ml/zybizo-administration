@@ -4,10 +4,11 @@
     <section class="catalog-header">
       <div class="header-content">
         <h1 class="catalog-title">
-          Catálogo <span class="brand-accent">Galaxia Glamour</span>
+          Catálogo <span class="brand-accent">Galaxia Glamour Store</span>
         </h1>
         <p class="catalog-subtitle">
-          Descubre nuestra colección completa de pestañas profesionales e insumos especializados
+          Descubre nuestra colección completa de pestañas profesionales e
+          insumos especializados
         </p>
       </div>
     </section>
@@ -38,7 +39,9 @@
             :selected="selectedCategory === category.value"
             @click="toggleCategory(category.value)"
             :color="selectedCategory === category.value ? 'black' : 'grey-3'"
-            :text-color="selectedCategory === category.value ? 'white' : 'grey-8'"
+            :text-color="
+              selectedCategory === category.value ? 'white' : 'grey-8'
+            "
             clickable
             class="filter-chip"
           >
@@ -54,7 +57,9 @@
       <div class="results-container">
         <p class="results-text">
           <span class="results-count">{{ filteredProducts.length }}</span>
-          producto{{ filteredProducts.length !== 1 ? 's' : '' }} encontrado{{ filteredProducts.length !== 1 ? 's' : '' }}
+          producto{{ filteredProducts.length !== 1 ? "s" : "" }} encontrado{{
+            filteredProducts.length !== 1 ? "s" : ""
+          }}
         </p>
         <q-btn
           v-if="selectedCategory"
@@ -108,17 +113,34 @@
     </section>
 
     <!-- Info Dialog -->
-    <q-dialog v-model="showPopup" persistent>
+    <q-dialog v-model="showPopup">
       <q-card class="info-dialog">
+        <!-- Close Button -->
+        <q-btn
+          flat
+          round
+          dense
+          icon="close"
+          class="close-dialog-btn"
+          @click="showPopup = false"
+        />
+
         <q-card-section class="dialog-header">
           <div class="dialog-icon">
             <q-icon name="info" size="32px" color="white" />
           </div>
-          <h3 class="dialog-title">¡Bienvenida a Galaxia Glamour!</h3>
+          <h3 class="dialog-title">¡Bienvenida a Galaxia Glamour Store!</h3>
           <p class="dialog-subtitle">Tu distribuidora de confianza</p>
         </q-card-section>
 
         <q-card-section class="dialog-content">
+          <div class="payment-info">
+            <img
+              src="https://ik.imagekit.io/6cx9tc1kx/galaxia-store/pago-contraentrega?updatedAt=1761766493364"
+              class="payment-img"
+              ratio="16/9"
+            />
+          </div>
           <div class="info-steps">
             <div class="step-item">
               <div class="step-number">1</div>
@@ -143,17 +165,9 @@
             </div>
           </div>
 
-          <div class="payment-info">
-            <q-img
-              src="https://i.ibb.co/NrmnyZx/boton-contra-entrega-1.webp"
-              class="payment-img"
-              ratio="16/9"
-            />
-          </div>
-
           <div class="contact-info">
             <p class="contact-text">
-              <strong>¿Necesitas asesoría profesional?</strong><br>
+              <strong>¿Necesitas asesoría profesional?</strong><br />
               Contáctanos para precios al por mayor y soporte técnico
             </p>
           </div>
@@ -168,6 +182,7 @@
             label="¡Entendido, empecemos!"
             @click="showPopup = false"
             class="dialog-btn"
+            size="md"
           />
         </q-card-actions>
       </q-card>
@@ -193,16 +208,14 @@ const loading = ref(false);
 
 // Categorías computadas desde el store
 const categories = computed(() => {
-  const allCategories = [
-    { value: "", label: "Todos", icon: "apps" }
-  ];
+  const allCategories = [{ value: "", label: "Todos", icon: "apps" }];
 
   // Agregar categorías del store con sus íconos
-  categoryStore.categories.forEach(cat => {
+  categoryStore.categories.forEach((cat) => {
     allCategories.push({
       value: cat._id,
       label: cat.name,
-      icon: cat.icon || "category"
+      icon: cat.icon || "category",
     });
   });
 
@@ -216,12 +229,13 @@ const filteredProducts = computed(() => {
   // Filtrar por búsqueda
   if (searchTerm.value) {
     const searchLower = searchTerm.value.toLowerCase();
-    filtered = filtered.filter((product) =>
-      product.name?.toLowerCase().includes(searchLower) ||
-      product.namePublic?.toLowerCase().includes(searchLower) ||
-      product.description?.toLowerCase().includes(searchLower) ||
-      product.characteristics?.toLowerCase().includes(searchLower) ||
-      product.sku?.toLowerCase().includes(searchLower)
+    filtered = filtered.filter(
+      (product) =>
+        product.name?.toLowerCase().includes(searchLower) ||
+        product.namePublic?.toLowerCase().includes(searchLower) ||
+        product.description?.toLowerCase().includes(searchLower) ||
+        product.characteristics?.toLowerCase().includes(searchLower) ||
+        product.sku?.toLowerCase().includes(searchLower)
     );
   }
 
@@ -229,7 +243,7 @@ const filteredProducts = computed(() => {
   if (selectedCategory.value) {
     filtered = filtered.filter((product) => {
       // Si el producto tiene categoría poblada
-      if (product.category && typeof product.category === 'object') {
+      if (product.category && typeof product.category === "object") {
         return product.category._id === selectedCategory.value;
       }
       // Si la categoría es solo el ID
@@ -284,7 +298,7 @@ const getAllProducts = async () => {
       ...product,
       slideIndex: 0,
       // Asegurar que tengamos el rating inicializado
-      rating: product.rating || 4.5
+      rating: product.rating || 4.5,
     }));
 
     console.log("Productos cargados:", products.value.length);
@@ -516,17 +530,35 @@ const clearAllFilters = () => {
 
 /* Info Dialog */
 .info-dialog {
-  max-width: 500px;
-  margin: 20px;
-  border-radius: 20px;
+  max-width: 520px;
+  width: 100%;
+  border-radius: 24px;
   overflow: hidden;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+  position: relative;
+}
+
+.close-dialog-btn {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  z-index: 10;
+  color: white;
+  background: rgba(255, 255, 255, 0.2);
+  transition: all 0.3s ease;
+}
+
+.close-dialog-btn:hover {
+  background: rgba(255, 255, 255, 0.3);
+  transform: rotate(90deg);
 }
 
 .dialog-header {
   background: linear-gradient(135deg, #000000 0%, #1a1a1a 100%);
   color: white;
   text-align: center;
-  padding: 32px 24px;
+  padding: 40px 24px 32px;
+  position: relative;
 }
 
 .dialog-icon {
@@ -538,21 +570,26 @@ const clearAllFilters = () => {
   align-items: center;
   justify-content: center;
   margin: 0 auto 16px;
+  backdrop-filter: blur(10px);
 }
 
 .dialog-title {
   font-size: 1.5rem;
   font-weight: 700;
   margin: 0 0 8px;
+  line-height: 1.3;
 }
 
 .dialog-subtitle {
   opacity: 0.9;
   margin: 0;
+  font-size: 1rem;
 }
 
 .dialog-content {
   padding: 32px 24px;
+  max-height: 60vh;
+  overflow-y: auto;
 }
 
 .info-steps {
@@ -563,71 +600,107 @@ const clearAllFilters = () => {
   display: flex;
   align-items: flex-start;
   margin-bottom: 20px;
+  animation: fadeInUp 0.5s ease forwards;
+  opacity: 0;
+}
+
+.step-item:nth-child(1) {
+  animation-delay: 0.1s;
+}
+.step-item:nth-child(2) {
+  animation-delay: 0.2s;
+}
+.step-item:nth-child(3) {
+  animation-delay: 0.3s;
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 .step-number {
-  background: #000000;
+  background: linear-gradient(135deg, #000000 0%, #333333 100%);
   color: white;
-  width: 32px;
-  height: 32px;
+  width: 36px;
+  height: 36px;
   border-radius: 50%;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-weight: 600;
+  font-weight: 700;
+  font-size: 1.1rem;
   margin-right: 16px;
   flex-shrink: 0;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
 }
 
 .step-content h4 {
   margin: 0 0 4px;
   font-weight: 600;
   color: #333;
+  font-size: 1rem;
 }
 
 .step-content p {
   margin: 0;
   color: #666;
   font-size: 0.9rem;
+  line-height: 1.4;
 }
 
 .payment-info {
   background: #f8f9fa;
   border-radius: 12px;
-  padding: 16px;
-  margin-bottom: 24px;
+  padding: 12px;
+  margin-bottom: 20px;
+  border: 1px solid #e0e0e0;
 }
 
 .payment-img {
   border-radius: 8px;
+  width: 100%;
+  height: auto;
 }
 
 .contact-info {
-  background: linear-gradient(135deg, #f0f0f0 0%, #e8e8e8 100%);
+  background: linear-gradient(135deg, #f8f8f8 0%, #f0f0f0 100%);
   border-radius: 12px;
   padding: 20px;
   text-align: center;
+  border: 1px solid #e0e0e0;
 }
 
 .contact-text {
   margin: 0;
   color: #333;
+  font-size: 0.95rem;
+  line-height: 1.6;
 }
 
 .dialog-actions {
-  padding: 24px;
+  padding: 20px 24px 24px;
   justify-content: center;
+  background: #fafafa;
 }
 
 .dialog-btn {
   padding: 12px 32px;
   font-weight: 600;
+  font-size: 1rem;
   transition: all 0.3s ease;
+  min-width: 200px;
 }
 
 .dialog-btn:hover {
   transform: translateY(-2px);
-  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.25);
 }
 
 /* Responsive Design */
@@ -686,10 +759,6 @@ const clearAllFilters = () => {
     justify-content: flex-start;
   }
 
-  .dialog-content {
-    padding: 24px 20px;
-  }
-
   .search-input {
     max-width: 100%;
   }
@@ -704,6 +773,83 @@ const clearAllFilters = () => {
 
   .products-section {
     padding: 0 12px 32px;
+  }
+
+  /* Dialog Mobile Styles */
+  .info-dialog {
+    max-width: calc(100vw - 32px);
+    margin: 16px;
+  }
+
+  .dialog-header {
+    padding: 32px 20px 24px;
+  }
+
+  .dialog-title {
+    font-size: 1.25rem;
+  }
+
+  .dialog-subtitle {
+    font-size: 0.9rem;
+  }
+
+  .dialog-icon {
+    width: 56px;
+    height: 56px;
+  }
+
+  .dialog-icon .q-icon {
+    font-size: 28px;
+  }
+
+  .dialog-content {
+    padding: 24px 20px;
+    max-height: 50vh;
+  }
+
+  .step-item {
+    margin-bottom: 16px;
+  }
+
+  .step-number {
+    width: 32px;
+    height: 32px;
+    font-size: 1rem;
+  }
+
+  .step-content h4 {
+    font-size: 0.95rem;
+  }
+
+  .step-content p {
+    font-size: 0.85rem;
+  }
+
+  .payment-info {
+    padding: 10px;
+  }
+
+  .contact-info {
+    padding: 16px;
+  }
+
+  .contact-text {
+    font-size: 0.85rem;
+  }
+
+  .dialog-actions {
+    padding: 16px 20px 20px;
+  }
+
+  .dialog-btn {
+    min-width: 100%;
+    padding: 12px 24px;
+    font-size: 0.95rem;
+  }
+
+  .close-dialog-btn {
+    top: 8px;
+    right: 8px;
   }
 }
 </style>

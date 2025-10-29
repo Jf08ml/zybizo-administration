@@ -9,7 +9,7 @@ import {
   getRewardByField,
   updateReward,
   deleteReward,
-} from "../controllers/rewardController";
+} from "../controllers/rewardController.js";
 
 router.post("/rewards", createReward);
 router.get("/rewards/by-field", getRewardByField);

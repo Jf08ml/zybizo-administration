@@ -1,5 +1,6 @@
 import { Schema, Types, model } from "mongoose";
-import { genSalt, hash as _hash, compare } from "bcryptjs";
+import bcrypt from "bcryptjs";
+const { genSalt, hash: _hash, compare } = bcrypt;
 
 const userSchema = new Schema({
   _id: {

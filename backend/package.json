@@ -2,10 +2,12 @@
   "name": "backend",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "type": "module",
+  "main": "start.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "supervisor start.js"
+    "dev": "supervisor start.js",
+    "start": "node start.js"
   },
   "keywords": [],
   "author": "",
