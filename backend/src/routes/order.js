@@ -1,21 +1,19 @@
 import { Router } from "express";
+import orderController from "../controllers/orderController.js";
+// import { verifyToken } from "../middleware/auth.js";
 
 const router = Router();
 
-import {
-  createOrder,
-  getOrders,
-  getOrderById,
-  getOrderByField,
-  updateOrder,
-  deleteOrder,
-} from "../controllers/orderController";
+// POS Routes - Sistema de punto de venta
+router.post("/", orderController.createOrder);
+router.get("/", orderController.getOrders);
+router.get("/today", orderController.getTodaysOrders);
+router.get("/dashboard", orderController.getPOSDashboard);
+router.get("/stats", orderController.getSalesStats);
+router.get("/:id", orderController.getOrder);
 
-router.post("/order", createOrder);
-router.get("/order/by-field", getOrderByField);
-router.get("/order/:id", getOrderById);
-router.get("/order", getOrders);
-router.put("/order/:id", updateOrder);
-router.delete("/order/:id", deleteOrder);
+// Order Management
+router.patch("/:id/status", orderController.updateOrderStatus);
+router.patch("/:id/cancel", orderController.cancelOrder);
 
 export default router;

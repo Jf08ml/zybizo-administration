@@ -116,7 +116,7 @@ function generatePaymentEmailTemplate(newOrder) {
         </div>
         <div class="footer">
             <p>${new Date().getFullYear()} © Tienda Online</p>
-            <p>Zybizo Bazar</p>
+            <p>Galaxia Glamour</p>
         </div>
       </div>
     </body>

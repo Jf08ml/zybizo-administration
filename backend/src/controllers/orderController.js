@@ -1,158 +1,254 @@
-import OrderService from "../services/order.service.js";
-import CustomErrors from "../errors/CustomErrors.js";
-import sendResponse from "../utils/response";
-import { generatePaymentEmailTemplate } from "../services/emailTemplate.service.js";
-import { sendEmail } from "../services/email.service.js";
-import emailSendingService from "../services/emailSending.service.js";
-import { sendMessageSuccessPayment } from "../services/whatsapp.service.js";
+import orderService from "../services/order.service.js";
+import { response } from "../utils/response.js";
 
-const { NotFoundError, ValidationError } = CustomErrors;
-
-export const createOrder = async (req, res, next) => {
-  try {
-    const newOrder = await OrderService.createOrder(req.body.order);
-    const htmlBody = generatePaymentEmailTemplate(newOrder);
-
-    // Envía correo al usuario
+class OrderController {
+  // Crear nueva orden (POS)
+  async createOrder(req, res) {
     try {
-      await emailSendingService.sendEmail({
-        to: newOrder.deliveryAddress.email,
-        subject: "Pedido Zybizo Bazar",
-        htmlContent: htmlBody,
-        fromName: "Zybizo Bazar",
+      console.log('OrderController: Creating order with data:', req.body);
+      
+      const order = await orderService.createOrder(req.body);
+      
+      response(res, {
+        status: 201,
+        success: true,
+        message: "Orden creada exitosamente.",
+        data: order
       });
-    } catch (emailError) {
-      console.error(
-        `Error al enviar correo a ${newOrder.deliveryAddress.email}:`,
-        emailError
-      );
+    } catch (error) {
+      console.error("Error in createOrder:", error);
+      response(res, {
+        status: error.statusCode || 500,
+        success: false,
+        message: error.message || "Error interno del servidor.",
+        errors: error.errors || undefined
+      });
     }
+  }
 
-    // Envía correo al administrador
+  // Obtener órdenes con filtros y paginación
+  async getOrders(req, res) {
     try {
-      await emailSendingService.sendEmail({
-        to: "lassojuanfe@gmail.com",
-        subject: "Nuevo pedido recibido",
-        htmlContent: htmlBody,
-        fromName: "Zybizo Bazar",
+      const {
+        page = 1,
+        limit = 20,
+        status,
+        paymentStatus,
+        dateFrom,
+        dateTo,
+        customerEmail,
+        customerPhone,
+        orderNumber
+      } = req.query;
+
+      // Construir filtros
+      const filters = {};
+      
+      if (status) filters.status = status;
+      if (paymentStatus) filters.paymentStatus = paymentStatus;
+      if (customerEmail) filters['customer.email'] = new RegExp(customerEmail, 'i');
+      if (customerPhone) filters['customer.phone'] = new RegExp(customerPhone, 'i');
+      if (orderNumber) filters.orderNumber = new RegExp(orderNumber, 'i');
+      
+      if (dateFrom || dateTo) {
+        filters.createdAt = {};
+        if (dateFrom) filters.createdAt.$gte = new Date(dateFrom);
+        if (dateTo) filters.createdAt.$lte = new Date(dateTo);
+      }
+
+      const options = {
+        page: parseInt(page),
+        limit: parseInt(limit),
+        sort: { createdAt: -1 },
+        populate: ['items.product']
+      };
+
+      const result = await orderService.getOrders(filters, options);
+      
+      response(res, {
+        status: 200,
+        success: true,
+        message: "Órdenes obtenidas exitosamente.",
+        data: result.data,
+        pagination: result.pagination
       });
-      console.log(`Correo enviado exitosamente a lassojuanfe@gmail.com`);
-    } catch (emailError) {
-      console.error(
-        `Error al enviar correo a lassojuanfe@gmail.com:`,
-        emailError
-      );
+    } catch (error) {
+      console.error("Error in getOrders:", error);
+      response(res, {
+        status: error.statusCode || 500,
+        success: false,
+        message: error.message || "Error interno del servidor."
+      });
     }
+  }
 
-    // Intento enviar el correo amazon
-    // try {
-    //   await sendEmail({
-    //     to: "lassojuanfe@gmail.com",
-    //     subject: "Nuevo pedido",
-    //     htmlBody,
-    //   });
-    //   console.log(`Correo enviado exitosamente a lassojuanfe@gmail.com`);
-    // } catch (emailError) {
-    //   console.error(
-    //     `Error al enviar correo a lassojuanfe@gmail.com:`,
-    //     emailError
-    //   );
-    // }
-
-    // Intento enviar el mensaje a WhatsApp
-    // try {
-    //   const prefixFormated = paymentData.payer.prefix.replace(/\+/g, "");
-    //   const recipientId = prefixFormated + paymentData.payer.phone;
-    //   const templateName = "pago_exitoso_membresia";
-    //   const parameters = [
-    //     paymentData.payer.name,
-    //     paymentData.description,
-    //     paymentData.order_id,
-    //   ];
-
-    //   await sendMessageSuccessPayment(recipientId, templateName, parameters);
-    //   console.log(`Mensaje de WhatsApp enviado exitosamente a ${recipientId}`);
-    // } catch (whatsappError) {
-    //   console.error(`Error al enviar mensaje de WhatsApp a ${recipientId}:`, whatsappError);
-    // }
-
-    sendResponse(
-      res,
-      201,
-      newOrder,
-      "Pedido guardado y disponible para enviar."
-    );
-  } catch (error) {
-    if (error instanceof ValidationError) {
-      return sendResponse(res, 400, "Error", error.message);
+  // Obtener orden por ID
+  async getOrder(req, res) {
+    try {
+      const { id } = req.params;
+      const order = await orderService.getOrder(id);
+      
+      response(res, {
+        status: 200,
+        success: true,
+        message: "Orden obtenida exitosamente.",
+        data: order
+      });
+    } catch (error) {
+      console.error("Error in getOrder:", error);
+      response(res, {
+        status: error.statusCode || 500,
+        success: false,
+        message: error.message || "Error interno del servidor."
+      });
     }
-    next(error);
   }
-};
 
-export const getOrders = async (req, res, next) => {
-  try {
-    const rewards = await OrderService.getOrders();
-    sendResponse(
-      res,
-      200,
-      rewards,
-      rewards.length > 0 ? "Pedidos encontrados." : "No se encontraron pedidos."
-    );
-  } catch (error) {
-    next(error);
-  }
-};
-
-export const getOrderById = async (req, res, next) => {
-  try {
-    const order = await OrderService.getOrder(req.params.id);
-    sendResponse(res, 200, order, "Pedido encontrado.");
-  } catch (error) {
-    if (error instanceof NotFoundError) {
-      return sendResponse(res, 404, null, error.message);
+  // Actualizar estado de orden
+  async updateOrderStatus(req, res) {
+    try {
+      const { id } = req.params;
+      const { status } = req.body;
+      const updatedBy = req.user?.id;
+      
+      const order = await orderService.updateOrderStatus(id, status, updatedBy);
+      
+      response(res, {
+        status: 200,
+        success: true,
+        message: "Estado de orden actualizado exitosamente.",
+        data: order
+      });
+    } catch (error) {
+      console.error("Error in updateOrderStatus:", error);
+      response(res, {
+        status: error.statusCode || 500,
+        success: false,
+        message: error.message || "Error interno del servidor."
+      });
     }
-    next(error);
   }
-};
 
-export const getOrderByField = async (req, res, next) => {
-  try {
-    console.log(req.query);
-    const order = await OrderService.getOrderByField(req.query);
-    sendResponse(res, 200, order, "Recompensas encontradas.");
-  } catch (error) {
-    console.log(error);
-    if (error instanceof NotFoundError) {
-      return sendResponse(res, 404, null, error.message);
+  // Cancelar orden
+  async cancelOrder(req, res) {
+    try {
+      const { id } = req.params;
+      const { reason = "" } = req.body;
+      const cancelledBy = req.user?.id;
+      
+      const order = await orderService.cancelOrder(id, reason, cancelledBy);
+      
+      response(res, {
+        status: 200,
+        success: true,
+        message: "Orden cancelada exitosamente. Stock restaurado.",
+        data: order
+      });
+    } catch (error) {
+      console.error("Error in cancelOrder:", error);
+      response(res, {
+        status: error.statusCode || 500,
+        success: false,
+        message: error.message || "Error interno del servidor."
+      });
     }
-    next(error);
   }
-};
 
-export const updateOrder = async (req, res, next) => {
-  try {
-    const updatedOrder = await OrderService.updateOrder(
-      req.params.id,
-      req.body.reward
-    );
-    sendResponse(res, 200, updatedOrder, "Pedido actualizado.");
-  } catch (error) {
-    if (error instanceof NotFoundError) {
-      return sendResponse(res, 404, null, error.message);
+  // Obtener estadísticas de ventas
+  async getSalesStats(req, res) {
+    try {
+      const { dateFrom, dateTo } = req.query;
+      
+      if (!dateFrom || !dateTo) {
+        return response(res, {
+          status: 400,
+          success: false,
+          message: "Las fechas dateFrom y dateTo son requeridas."
+        });
+      }
+      
+      const stats = await orderService.getSalesStats(dateFrom, dateTo);
+      
+      response(res, {
+        status: 200,
+        success: true,
+        message: "Estadísticas obtenidas exitosamente.",
+        data: stats
+      });
+    } catch (error) {
+      console.error("Error in getSalesStats:", error);
+      response(res, {
+        status: error.statusCode || 500,
+        success: false,
+        message: error.message || "Error interno del servidor."
+      });
     }
-    next(error);
   }
-};
 
-export const deleteOrder = async (req, res, next) => {
-  try {
-    await OrderService.deleteOrder(req.params.id);
-    sendResponse(res, 200, null, "Pedido eliminado con éxito.");
-  } catch (error) {
-    if (error instanceof NotFoundError) {
-      return sendResponse(res, 404, null, error.message);
+  // Obtener órdenes de hoy
+  async getTodaysOrders(req, res) {
+    try {
+      const orders = await orderService.getTodaysOrders();
+      
+      response(res, {
+        status: 200,
+        success: true,
+        message: "Órdenes de hoy obtenidas exitosamente.",
+        data: orders
+      });
+    } catch (error) {
+      console.error("Error in getTodaysOrders:", error);
+      response(res, {
+        status: error.statusCode || 500,
+        success: false,
+        message: error.message || "Error interno del servidor."
+      });
     }
-    next(error);
   }
-};
+
+  // Dashboard rápido de POS
+  async getPOSDashboard(req, res) {
+    try {
+      const today = new Date();
+      today.setHours(0, 0, 0, 0);
+      const tomorrow = new Date(today);
+      tomorrow.setDate(tomorrow.getDate() + 1);
+      
+      // Obtener datos del día
+      const [
+        todaysOrders,
+        todaysStats
+      ] = await Promise.all([
+        orderService.getTodaysOrders(),
+        orderService.getSalesStats(today.toISOString(), tomorrow.toISOString())
+      ]);
+      
+      // Calcular métricas adicionales
+      const pendingOrders = todaysOrders.filter(order => order.status === 'pending').length;
+      const completedOrders = todaysOrders.filter(order => order.status === 'delivered').length;
+      
+      response(res, {
+        status: 200,
+        success: true,
+        message: "Dashboard POS obtenido exitosamente.",
+        data: {
+          todayStats: {
+            ...todaysStats,
+            pendingOrders,
+            completedOrders
+          },
+          recentOrders: todaysOrders.slice(0, 10) // 10 órdenes más recientes
+        }
+      });
+    } catch (error) {
+      console.error("Error in getPOSDashboard:", error);
+      response(res, {
+        status: error.statusCode || 500,
+        success: false,
+        message: error.message || "Error interno del servidor."
+      });
+    }
+  }
+}
+
+export default new OrderController();
